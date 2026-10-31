@@ -51,7 +51,7 @@ export default async function RootLayout({
   const isAr = locale === "ar";
 
   return (
-    <html lang={locale} dir={isAr ? "rtl" : "ltr"}>
+    <html lang={locale} dir={isAr ? "rtl" : "ltr"} data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
