@@ -1,0 +1,193 @@
+{
+  "nav": {
+    "about": "About",
+    "projects": "Projects",
+    "experience": "Experience",
+    "skills": "Skills",
+    "contact": "Contact",
+    "switchLang": "عربي",
+    "openCmd": "⌘K"
+  },
+  "skipRide": "Skip the ride →",
+  "depot": {
+    "stationId": "DEPOT",
+    "tag": "Full-Stack Developer · Kuwait · Amman",
+    "name": "Mohamed\nAldani",
+    "bio": "I'm a computer science graduate from Princess Sumaya University of Technology in Amman, building full-stack products and the occasional edge-AI system. I like projects where software meets the real world: a bus stop that decides whether to stop, a tool that explains why a link looks suspicious, a pharmacy system that keeps stock honest. I work across PHP/CodeIgniter, Flutter/Firebase, React and Python, I use AI coding tools as part of my workflow, and I care about shipping things that are clear, reliable and fast.",
+    "cta": "Board the line",
+    "cv": "Download CV",
+    "cmdHint": "Press ⌘K to navigate"
+  },
+  "about": {
+    "stationId": "STOP 01",
+    "title": "About",
+    "education": {
+      "label": "Education",
+      "degree": "B.S. Computer Science",
+      "school": "Princess Sumaya University of Technology",
+      "location": "Amman, Jordan",
+      "period": "Oct 2022 – Aug 2026",
+      "note": "Degree recognised by Kuwait's Ministry of Higher Education",
+      "coursework": "Data Structures & Algorithms · Database Systems · Web Design & Internet Programming · Networks · Computer Organization · OOP"
+    },
+    "activities": {
+      "label": "Activities",
+      "ieee": "IEEE Xtreme coding competition participant (Nov 2024)",
+      "sec": "Software Engineering Club at PSUT — committee member (Nov 2024 – Feb 2025); created and edited video content to promote events and workshops"
+    }
+  },
+  "projects": {
+    "stationId": "STOP 02",
+    "title": "Projects",
+    "flagship": "Flagship",
+    "viewRepo": "View on GitHub →",
+    "demo": "Live demo below",
+    "simulation": "SIMULATION",
+    "sdbs": {
+      "number": "01",
+      "title": "Smart Dynamic Bus System",
+      "subtitle": "Flutter · Firebase · Python · YOLOv8 · OpenCV",
+      "description": "An enterprise-grade transit operations platform. A 3-role Flutter app (Passenger, Driver, Admin) on a real-time Firestore backend makes STOP / SKIP / EARLY-DEPART decisions using a capacity-aware algorithm. A Python edge-AI pipeline running YOLOv8n on Raspberry Pi counts passengers in real time; an SQLite retry queue handles cellular dropouts.",
+      "demoLabel": "Edge-AI Occupancy Simulation",
+      "demoNote": "This simulates the Python edge pipeline (YOLOv8n + OpenCV). Not the real model — a browser demonstration of the detection and decision logic.",
+      "confidenceLabel": "Confidence gate",
+      "passengersLabel": "Detected passengers",
+      "capacityLabel": "Bus capacity",
+      "occupancyLabel": "Occupancy",
+      "decisionLabel": "Decision",
+      "roles": ["Passenger App", "Driver Cockpit", "Admin Control Center"],
+      "highlights": [
+        "Real-time Firestore sync across 3 user roles",
+        "QR check-in with mobile_scanner + qr_flutter",
+        "Decision engine: STOP / SKIP / EARLY-DEPART algorithm",
+        "YOLOv8n edge pipeline with offline SQLite queue",
+        "Immutable stopDecisions audit trail in Firestore",
+        "Digital transit wallet with append-only ledger"
+      ]
+    },
+    "phish": {
+      "number": "02",
+      "title": "Phish Checker",
+      "subtitle": "Python · Docker · Linux (WSL)",
+      "description": "A CLI tool that analyses URLs and assigns an explainable phishing-risk score (0–100) from heuristics. Dockerized for consistent cross-platform execution. The live demo below is a browser port of the same heuristics — pure string analysis, no network requests.",
+      "demoLabel": "Browser Port — Live Demo",
+      "demoNote": "Client-side TypeScript port of the Python CLI heuristics. Paste a URL. No network requests are made.",
+      "inputPlaceholder": "https://paypal-login.verify-account.xyz/signin",
+      "analyseBtn": "Analyse",
+      "score": "Risk Score",
+      "checks": "Checks",
+      "repoLink": "Python CLI on GitHub"
+    },
+    "pharmacy": {
+      "number": "03",
+      "title": "Pharmacy Management System",
+      "subtitle": "C++ · OOP · Data Structures & Algorithms",
+      "description": "A modular C++ application managing medicines, inventory, sales and customer records. Built on core OOP principles and DSA for efficient stock tracking, billing and data management.",
+      "highlights": [
+        "Medicine and inventory management",
+        "Sales tracking and billing",
+        "Customer records",
+        "Modular OOP structure"
+      ]
+    }
+  },
+  "experience": {
+    "stationId": "STOP 03",
+    "title": "Experience",
+    "cols": {
+      "period": "Period",
+      "role": "Role",
+      "details": "Details"
+    },
+    "roles": [
+      {
+        "period": "May – Aug 2026",
+        "role": "Full Stack Developer Intern",
+        "company": "DigiTecHouse · Amman, Jordan",
+        "bullets": [
+          "Built and maintained full-stack web features in PHP with the CodeIgniter 4 MVC framework across controllers, models and views",
+          "Built responsive mobile-first interfaces with Bootstrap 5 and JavaScript, consistent across browsers and devices",
+          "Integrated ContentBox.js for drag-and-drop, editorial-style content editing",
+          "Worked in a team with version-controlled feature delivery"
+        ]
+      },
+      {
+        "period": "Jun – Oct 2023",
+        "role": "IT Assistant",
+        "company": "Royal Pharmacy Group · Kuwait",
+        "bullets": [
+          "Hands-on server management and firewall configuration",
+          "Set up and configured new Windows devices for staff",
+          "Data management with strong Excel proficiency"
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "stationId": "STOP 04",
+    "title": "Skills",
+    "groups": [
+      {
+        "label": "Languages",
+        "lineColour": "amber",
+        "stops": ["Python", "C", "C++", "C#", "SQL", "JavaScript", "PHP", "HTML", "Dart"]
+      },
+      {
+        "label": "Frameworks & Tools",
+        "lineColour": "green",
+        "stops": ["Flutter", "Firebase", "CodeIgniter 4", "Bootstrap 5", "ContentBox.js", "React.js", "Tailwind CSS", "Docker", "OpenCV"]
+      },
+      {
+        "label": "AI Tools",
+        "lineColour": "amber",
+        "stops": ["GPT Codex", "Claude Code", "AntiGravity"]
+      },
+      {
+        "label": "Environments",
+        "lineColour": "muted",
+        "stops": ["Linux (Ubuntu)", "Windows", "WSL"]
+      }
+    ]
+  },
+  "contact": {
+    "stationId": "TERMINUS",
+    "title": "Contact",
+    "intro": "Send a message or find me at the links below.",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "your@email.com",
+    "messagePlaceholder": "What are you building?",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "sendBtn": "Send message",
+    "sending": "Sending...",
+    "success": "Message sent. I'll reply shortly.",
+    "error": "Something went wrong. Email me directly at Mohammedaldani03@gmail.com",
+    "links": {
+      "email": "Mohammedaldani03@gmail.com",
+      "github": "github.com/Aldani-MO",
+      "linkedin": "linkedin.com/in/Mohamed-Aldani"
+    }
+  },
+  "hud": {
+    "now": "NOW",
+    "next": "NEXT",
+    "state": "STATE",
+    "skipRide": "Skip the ride"
+  },
+  "cmd": {
+    "placeholder": "Go to station, switch language...",
+    "actions": {
+      "depot": "Go to DEPOT",
+      "about": "Go to STOP 01 — About",
+      "projects": "Go to STOP 02 — Projects",
+      "experience": "Go to STOP 03 — Experience",
+      "skills": "Go to STOP 04 — Skills",
+      "contact": "Go to TERMINUS — Contact",
+      "switchAr": "Switch to Arabic",
+      "switchEn": "Switch to English",
+      "downloadCv": "Download CV",
+      "copyEmail": "Copy email address"
+    }
+  }
+}

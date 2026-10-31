@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mohamed Aldani — Resume</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  @page {
+    size: A4;
+    margin: 12mm 15mm;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1a1c17;
+    background: #ffffff;
+    font-size: 9.5pt;
+    line-height: 1.45;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .header {
+    border-bottom: 2px solid #1a1c17;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .name-block h1 {
+    font-size: 20pt;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #1a1c17;
+    line-height: 1;
+  }
+
+  .name-block .title {
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #d97706;
+    margin-top: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  .contact-block {
+    text-align: right;
+    font-size: 8.5pt;
+    color: #4b5563;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.5;
+  }
+
+  .contact-block a {
+    color: #1a1c17;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .section {
+    margin-bottom: 11px;
+  }
+
+  .section-title {
+    font-size: 9pt;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #1a1c17;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 3px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .section-title::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: #d97706;
+  }
+
+  .item {
+    margin-bottom: 7px;
+  }
+
+  .item:last-child {
+    margin-bottom: 0;
+  }
+
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+
+  .item-title {
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: #111827;
+  }
+
+  .item-subtitle {
+    font-weight: 500;
+    color: #4b5563;
+    font-size: 9pt;
+  }
+
+  .item-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+    color: #6b7280;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .item-desc {
+    font-size: 8.5pt;
+    color: #374151;
+    margin-bottom: 2px;
+  }
+
+  ul.bullets {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 2px;
+  }
+
+  ul.bullets li {
+    position: relative;
+    padding-left: 12px;
+    margin-bottom: 2px;
+    font-size: 8.5pt;
+    color: #374151;
+  }
+
+  ul.bullets li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: #d97706;
+    font-weight: 700;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    row-gap: 3px;
+    font-size: 8.5pt;
+  }
+
+  .skills-category {
+    font-weight: 700;
+    color: #111827;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8pt;
+  }
+
+  .skills-list {
+    color: #374151;
+  }
+
+  .badge {
+    display: inline-block;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 7pt;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 1px 4px;
+    border-radius: 2px;
+    margin-left: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="name-block">
+    <h1>Mohamed Aldani</h1>
+    <div class="title">Full-Stack Developer & Software Engineer</div>
+  </div>
+  <div class="contact-block">
+    <div>Kuwait · Amman</div>
+    <div><a href="mailto:Mohammedaldani03@gmail.com">Mohammedaldani03@gmail.com</a></div>
+    <div><a href="https://github.com/Aldani-MO">github.com/Aldani-MO</a></div>
+    <div><a href="https://linkedin.com/in/Mohamed-Aldani">linkedin.com/in/Mohamed-Aldani</a></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Education</div>
+  <div class="item">
+    <div class="item-header">
+      <div>
+        <span class="item-title">Princess Sumaya University of Technology (PSUT)</span>
+        <span class="item-subtitle"> — B.S. in Computer Science</span>
+      </div>
+      <span class="item-date">Oct 2022 – Aug 2026</span>
+    </div>
+    <div class="item-desc">
+      Amman, Jordan · Degree recognized by Ministry of Higher Education in Kuwait.
+    </div>
+    <div class="item-desc" style="font-size: 8pt; color: #6b7280;">
+      <strong>Relevant Coursework:</strong> Data Structures & Algorithms, Database Systems, Web Development, Computer Networks, Operating Systems, OOP in C++, Computer Organization.
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Key Engineering Projects</div>
+
+  <div class="item">
+    <div class="item-header">
+      <div>
+        <span class="item-title">Smart Dynamic Bus System (SDBS)</span>
+        <span class="badge">FLAGSHIP</span>
+        <span class="item-subtitle"> | Flutter, Firebase, Python, YOLOv8n, OpenCV, Raspberry Pi</span>
+      </div>
+      <span class="item-date">github.com/Aldani-MO/smart-dynamic-bus-system</span>
+    </div>
+    <ul class="bullets">
+      <li>Architected an end-to-end municipal transit optimization platform featuring real-time synchronized Flutter mobile apps across Passenger, Driver, and Admin roles via Google Cloud Firestore.</li>
+      <li>Engineered an on-bus edge-AI vision pipeline running on Raspberry Pi using YOLOv8n & OpenCV to count waiting passenger queues in real-time, utilizing an offline SQLite transaction queue for zero data loss during network dropouts.</li>
+      <li>Formulated and deployed autonomous route decision algorithm (STOP, SKIP, EARLY-DEPART) reducing unnecessary idling and transit delays based on bus capacity thresholds.</li>
+      <li>Integrated contactless QR boarding validation and an append-only digital ticketing wallet with irreversible audit logs.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <div>
+        <span class="item-title">Phish-Checker Heuristic Analyzer</span>
+        <span class="item-subtitle"> | Python, Docker, WSL/Linux</span>
+      </div>
+      <span class="item-date">github.com/Aldani-MO/phish-Checker</span>
+    </div>
+    <ul class="bullets">
+      <li>Designed a high-throughput CLI URL risk scoring engine evaluating 9 heuristic threat indicators (homoglyphs, URL shorteners, bare IP hostnames, suspicious TLDs, and brand impersonation).</li>
+      <li>Containerized with Docker for standardized CI/CD automated analysis pipelines and zero-dependency cloud deployments.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <div>
+        <span class="item-title">Pharmacy Management System</span>
+        <span class="item-subtitle"> | C++, Object-Oriented Programming, Data Structures</span>
+      </div>
+      <span class="item-date">Academic Portfolio</span>
+    </div>
+    <ul class="bullets">
+      <li>Developed a modular desktop system implementing custom data structures to manage medical inventories, dynamic customer ledger tracking, automated billing, and low-stock alerts.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Work Experience</div>
+
+  <div class="item">
+    <div class="item-header">
+      <div>
+        <span class="item-title">DigiTecHouse</span>
+        <span class="item-subtitle"> — Full-Stack Developer Intern</span>
+      </div>
+      <span class="item-date">May 2026 – Aug 2026</span>
+    </div>
+    <div class="item-desc" style="font-size: 8pt; color: #4b5563; margin-bottom: 2px;">Amman, Jordan</div>
+    <ul class="bullets">
+      <li>Developed and maintained production web applications utilizing PHP and the CodeIgniter 4 MVC framework.</li>
+      <li>Built responsive, mobile-optimized UI interfaces using modern JavaScript, HTML5/CSS3, and Bootstrap 5.</li>
+      <li>Implemented dynamic visual content creation by integrating ContentBox.js drag-and-drop page authoring tools.</li>
+      <li>Practiced Agile engineering with structured Git version control, branch peer-reviews, and test deploys.</li>
+    </ul>
+  </div>
+
+  <div class="item">
+    <div class="item-header">
+      <div>
+        <span class="item-title">Royal Pharmacy Group</span>
+        <span class="item-subtitle"> — IT Support Specialist</span>
+      </div>
+      <span class="item-date">Jun 2023 – Oct 2023</span>
+    </div>
+    <div class="item-desc" style="font-size: 8pt; color: #4b5563; margin-bottom: 2px;">Kuwait</div>
+    <ul class="bullets">
+      <li>Managed network server infrastructure, local DNS, and hardware firewall rule enforcement.</li>
+      <li>Configured, deployed, and secured Windows desktop environments and POS terminals across retail branches.</li>
+      <li>Executed high-volume database inventory reconciliations utilizing advanced Excel macros and queries.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Technical Skills</div>
+  <div class="skills-grid">
+    <div class="skills-category">Languages:</div>
+    <div class="skills-list">Python, Dart, JavaScript/TypeScript, PHP, C++, C#, SQL, HTML5/CSS3</div>
+
+    <div class="skills-category">Frameworks:</div>
+    <div class="skills-list">Flutter, Next.js (App Router), React.js, CodeIgniter 4, Tailwind CSS, Bootstrap 5</div>
+
+    <div class="skills-category">Tools & Cloud:</div>
+    <div class="skills-list">Firebase Firestore, Docker, OpenCV, YOLOv8, Git, Linux (Ubuntu/WSL), Raspberry Pi</div>
+
+    <div class="skills-category">Spoken:</div>
+    <div class="skills-list">Arabic (Native), English (Fluent)</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Extracurricular & Leadership</div>
+  <ul class="bullets">
+    <li><strong>IEEE Xtreme 18.0 Programming Competition</strong> (Nov 2024): 24-hour virtual competitive programming marathon solving algorithmic challenges.</li>
+    <li><strong>Software Engineering Club (SEC) Committee</strong>, PSUT (Nov 2024 – Feb 2025): Spearheaded digital media production, visual promotional assets, and workshop planning for tech events.</li>
+  </ul>
+</div>
+
+</body>
+</html>

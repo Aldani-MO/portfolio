@@ -1,0 +1,973 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Martian+Mono:wght@100..800&family=Readex+Pro:wght@160..700&display=swap");
+@import "tailwindcss";
+
+/* ─── Transit Route Portfolio — Design System ───────────────────────────────
+   Concept: "The Line" — a transit route portfolio
+   See DESIGN.md for rationale, palette roles, and banned list
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* ─── CSS Custom Properties ─────────────────────────────────────────────── */
+:root {
+  /* Palette — Transit Signage */
+  --color-ground:       #1A1C17;
+  --color-surface:      #232620;
+  --color-paper:        #F5F0E8;
+  --color-ink:          #E8E3D8;
+  --color-line-amber:   #F5A623;
+  --color-line-red:     #C0392B;
+  --color-line-green:   #27AE60;
+  --color-muted:        #6B6E63;
+  --color-rule:         #2E3029;
+
+  /* Typography */
+  --font-display:  'Bricolage Grotesque', sans-serif;
+  --font-mono:     'Martian Mono', monospace;
+  --font-arabic:   'Readex Pro', sans-serif;
+
+  /* Type Scale — Major Third (1.25) */
+  --text-xs:    0.64rem;
+  --text-sm:    0.8rem;
+  --text-base:  1rem;
+  --text-md:    1.25rem;
+  --text-lg:    1.563rem;
+  --text-xl:    1.953rem;
+  --text-2xl:   2.441rem;
+  --text-3xl:   3.052rem;
+  --text-hero:  clamp(3.2rem, 7vw, 6.5rem);
+
+  /* Spacing — 8px base */
+  --space-1:    0.5rem;
+  --space-2:    1rem;
+  --space-3:    1.5rem;
+  --space-4:    2rem;
+  --space-6:    3rem;
+  --space-8:    4rem;
+  --space-12:   6rem;
+  --space-16:   8rem;
+  --space-24:  12rem;
+
+  /* Motion */
+  --ease-transit:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-depart:    cubic-bezier(0.0, 0, 0.2, 1);
+  --ease-arrive:    cubic-bezier(0.4, 0, 1, 1);
+  --duration-fast:  150ms;
+  --duration-base:  300ms;
+  --duration-slow:  600ms;
+
+  /* Layout */
+  --route-col-width: 72px;
+  --outer-margin:    clamp(1.25rem, 5vw, 5rem);
+  --max-prose:       72ch;
+}
+
+/* ─── Tailwind v4 @theme tokens ─────────────────────────────────────────── */
+@theme inline {
+  --color-ground:       var(--color-ground);
+  --color-surface:      var(--color-surface);
+  --color-paper:        var(--color-paper);
+  --color-ink:          var(--color-ink);
+  --color-amber:        var(--color-line-amber);
+  --color-danger:       var(--color-line-red);
+  --color-safe:         var(--color-line-green);
+  --color-muted:        var(--color-muted);
+  --color-rule:         var(--color-rule);
+  --font-display:       var(--font-display);
+  --font-mono:          var(--font-mono);
+  --font-arabic:        var(--font-arabic);
+}
+
+/* ─── Base Reset & Global Styles ────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html[dir="rtl"] {
+  --route-col-side: right;
+}
+
+html[dir="ltr"] {
+  --route-col-side: left;
+}
+
+body {
+  background-color: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.65;
+  min-height: 100dvh;
+  /* Timetable grid background — subtle, 4% opacity */
+  background-image:
+    linear-gradient(var(--color-rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-rule) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: center center;
+}
+
+/* Arabic locale body */
+html[lang="ar"] body {
+  font-family: var(--font-arabic);
+}
+
+/* ─── Reduced Motion ────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .bus-marker,
+  .route-line-draw,
+  .station-dot-pulse {
+    animation: none !important;
+    opacity: 1 !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
+/* ─── Typography ────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3 {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+}
+
+p {
+  max-width: var(--max-prose);
+  line-height: 1.7;
+}
+
+code, kbd, pre, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+/* Station ID label — e.g. "STOP 01" */
+.station-id {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-line-amber);
+}
+
+/* Route number badge */
+.route-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: var(--color-line-amber);
+  color: var(--color-ground);
+  padding: 0.2em 0.6em;
+  clip-path: none;
+}
+
+/* ─── Focus Ring ────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-line-amber);
+  outline-offset: 3px;
+}
+
+/* ─── Links ─────────────────────────────────────────────────────────────── */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ─── Buttons ───────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-line-amber);
+  border: 1px solid var(--color-line-amber);
+  padding: 0.6em 1.2em;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-transit),
+              color var(--duration-fast) var(--ease-transit);
+}
+
+.btn:hover {
+  background-color: var(--color-line-amber);
+  color: var(--color-ground);
+}
+
+.btn::before { content: "["; margin-inline-end: 0.25em; opacity: 0.6; }
+.btn::after  { content: "]"; margin-inline-start: 0.25em; opacity: 0.6; }
+
+.btn-ghost {
+  border-color: var(--color-rule);
+  color: var(--color-muted);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+  background: transparent;
+}
+
+/* ─── Hairline Rules ────────────────────────────────────────────────────── */
+hr, .hairline {
+  border: none;
+  border-block-start: 1px solid var(--color-rule);
+  width: 100%;
+}
+
+/* ─── Layout — Route Column + Content ──────────────────────────────────── */
+.page-grid {
+  display: grid;
+  grid-template-columns: var(--route-col-width) 1fr;
+  min-height: 100dvh;
+  position: relative;
+}
+
+/* In RTL, CSS grid track 1 is on the right, track 2 on the left.
+   Route col (child 1) gets var(--route-col-width), content col (child 2) gets 1fr.
+   Same track definition works for both LTR and RTL. */
+html[dir="rtl"] .page-grid {
+  grid-template-columns: var(--route-col-width) 1fr;
+}
+
+.route-col {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block: var(--space-6);
+  border-inline-end: 1px solid var(--color-rule);
+  z-index: 10;
+}
+
+.content-col {
+  padding-inline: var(--outer-margin);
+  overflow-x: hidden;
+}
+
+/* ─── Section Stations ──────────────────────────────────────────────────── */
+.station {
+  position: relative;
+  padding-block: var(--space-16);
+  border-block-start: 1px solid var(--color-rule);
+}
+
+.station:first-child {
+  border-block-start: none;
+}
+
+.station-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-block-end: var(--space-6);
+}
+
+.station-name {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+}
+
+/* ─── HUD (Fixed dot-matrix display) ───────────────────────────────────── */
+.hud {
+  position: fixed;
+  bottom: var(--space-4);
+  inset-inline-end: var(--space-4);
+  z-index: 100;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-rule);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-line-amber);
+  min-width: 180px;
+  user-select: none;
+  transition: opacity var(--duration-base) var(--ease-transit);
+}
+
+.hud-line {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  line-height: 1.8;
+}
+
+.hud-label {
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hud-value {
+  color: var(--color-line-amber);
+  font-weight: 700;
+}
+
+.hud-state-stop    { color: var(--color-line-green); }
+.hud-state-skip    { color: var(--color-line-red); }
+.hud-state-early   { color: var(--color-line-amber); }
+
+.hud-dots {
+  display: flex;
+  gap: 0.35em;
+  margin-block: 0.5em;
+  justify-content: center;
+}
+
+.hud-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-rule);
+  transition: background-color var(--duration-base);
+}
+
+.hud-dot.active {
+  background-color: var(--color-line-amber);
+}
+
+/* ─── Project Panels ────────────────────────────────────────────────────── */
+.project-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  padding-block: var(--space-8);
+  border-block-start: 1px solid var(--color-rule);
+}
+
+.project-panel:nth-child(even) .project-info {
+  order: 2;
+}
+
+.project-panel:nth-child(even) .project-demo {
+  order: 1;
+}
+
+.project-number {
+  font-family: var(--font-mono);
+  font-size: var(--text-3xl);
+  font-weight: 200;
+  color: var(--color-muted);
+  line-height: 1;
+  margin-block-end: var(--space-2);
+}
+
+.project-title {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  margin-block-end: var(--space-2);
+  line-height: 1.05;
+}
+
+.project-desc {
+  color: var(--color-muted);
+  font-size: var(--text-base);
+  margin-block-end: var(--space-4);
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin-block-end: var(--space-4);
+}
+
+.tech-tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  border: 1px solid var(--color-rule);
+  padding: 0.2em 0.6em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─── Timetable (Experience) ────────────────────────────────────────────── */
+.timetable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.timetable th {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  border-block-end: 1px solid var(--color-rule);
+  padding-block-end: var(--space-2);
+  text-align: start;
+  padding-inline-end: var(--space-4);
+}
+
+.timetable td {
+  padding-block: var(--space-4);
+  padding-inline-end: var(--space-4);
+  vertical-align: top;
+  border-block-end: 1px solid var(--color-rule);
+}
+
+.timetable tr:last-child td {
+  border-block-end: none;
+}
+
+.exp-period {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-line-amber);
+  white-space: nowrap;
+}
+
+.exp-role {
+  font-size: var(--text-md);
+  font-weight: 700;
+  margin-block-end: 0.25em;
+}
+
+.exp-company {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  margin-block-end: var(--space-2);
+}
+
+/* ─── Skills — Route Lines ──────────────────────────────────────────────── */
+.skill-group {
+  padding-block: var(--space-3);
+  border-block-start: 1px solid var(--color-rule);
+}
+
+.skill-group-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-block-end: var(--space-2);
+}
+
+.skill-stops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  padding-inline-start: var(--space-3);
+  border-inline-start: 2px solid var(--color-line-amber);
+}
+
+.skill-stop {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-ink);
+  padding: 0.3em 0.8em;
+  border: 1px solid var(--color-rule);
+}
+
+/* ─── Phish Checker Demo ────────────────────────────────────────────────── */
+.phish-input-wrap {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--color-rule);
+  margin-block-end: var(--space-4);
+}
+
+.phish-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  padding: var(--space-2) var(--space-3);
+  outline: none;
+}
+
+.phish-input::placeholder {
+  color: var(--color-muted);
+}
+
+.phish-submit {
+  background: var(--color-line-amber);
+  color: var(--color-ground);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  transition: background-color var(--duration-fast);
+}
+
+.phish-submit:hover {
+  background: color-mix(in oklch, var(--color-line-amber) 80%, white);
+}
+
+.risk-meter {
+  height: 4px;
+  background: var(--color-rule);
+  margin-block-end: var(--space-3);
+  position: relative;
+  overflow: hidden;
+}
+
+.risk-meter-fill {
+  height: 100%;
+  transition: width var(--duration-slow) var(--ease-arrive),
+              background-color var(--duration-base);
+}
+
+.risk-safe    { background-color: var(--color-line-green); }
+.risk-suspicious { background-color: var(--color-line-amber); }
+.risk-phish   { background-color: var(--color-line-red); }
+
+.risk-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.rule-list {
+  list-style: none;
+  margin-block-start: var(--space-3);
+}
+
+.rule-item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding-block: 0.4em;
+  border-block-start: 1px solid var(--color-rule);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.rule-item:first-child { border-block-start: none; }
+
+.rule-triggered { color: var(--color-ink); }
+.rule-clean     { color: var(--color-muted); }
+
+.rule-indicator {
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 0.15em 0.4em;
+  flex-shrink: 0;
+}
+
+.rule-indicator-hit {
+  background: var(--color-line-red);
+  color: white;
+}
+
+.rule-indicator-ok {
+  background: var(--color-rule);
+  color: var(--color-muted);
+}
+
+/* ─── Edge AI Demo (canvas section) ────────────────────────────────────── */
+.edge-demo-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-rule);
+  padding: var(--space-4);
+}
+
+.edge-canvas {
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 4 / 3;
+  display: block;
+  background: #0a0d08;
+}
+
+.decision-display {
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-block-start: var(--space-3);
+}
+
+.decision-stop  { color: var(--color-line-green); }
+.decision-skip  { color: var(--color-line-red); }
+.decision-early { color: var(--color-line-amber); }
+
+/* ─── Contact Form ──────────────────────────────────────────────────────── */
+.form-field {
+  position: relative;
+  margin-block-end: var(--space-4);
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-block-end: 0.4em;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-block-end: 1px solid var(--color-rule);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  padding-block: 0.5em;
+  outline: none;
+  transition: border-color var(--duration-fast);
+}
+
+html[lang="ar"] .form-input,
+html[lang="ar"] .form-textarea {
+  font-family: var(--font-arabic);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  border-color: var(--color-line-amber);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ─── Command Palette ───────────────────────────────────────────────────── */
+.cmd-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 12, 8, 0.85);
+  z-index: 9000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-block-start: 15vh;
+}
+
+.cmd-panel {
+  width: min(640px, calc(100vw - 2rem));
+  background: var(--color-surface);
+  border: 1px solid var(--color-line-amber);
+  max-height: 60vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cmd-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-block-end: 1px solid var(--color-rule);
+}
+
+.cmd-prompt {
+  font-family: var(--font-mono);
+  color: var(--color-line-amber);
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+}
+
+.cmd-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  outline: none;
+}
+
+.cmd-list {
+  overflow-y: auto;
+  list-style: none;
+  padding-block: var(--space-1);
+}
+
+.cmd-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  transition: background-color var(--duration-fast);
+}
+
+.cmd-item:hover,
+.cmd-item[aria-selected="true"] {
+  background: var(--color-rule);
+}
+
+.cmd-item-icon {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-line-amber);
+  width: 2em;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.cmd-item-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-ink);
+}
+
+.cmd-item-hint {
+  margin-inline-start: auto;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+
+/* ─── Nav ───────────────────────────────────────────────────────────────── */
+.site-nav {
+  position: fixed;
+  top: 0;
+  inset-inline-start: var(--route-col-width);
+  inset-inline-end: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: var(--space-2);
+  padding-inline: var(--outer-margin);
+  border-block-end: 1px solid var(--color-rule);
+  background: color-mix(in oklch, var(--color-ground) 90%, transparent);
+  backdrop-filter: none; /* No glassmorphism — uses colour mix instead */
+}
+
+.nav-logo {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-line-amber);
+  letter-spacing: 0.05em;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  list-style: none;
+}
+
+.nav-link {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  position: relative;
+  transition: color var(--duration-fast);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  inset-inline-start: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-line-amber);
+  transition: width var(--duration-base) var(--ease-transit);
+}
+
+.nav-link:hover {
+  color: var(--color-ink);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ─── Hero Section ──────────────────────────────────────────────────────── */
+.hero {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-block: var(--space-16) var(--space-8);
+  position: relative;
+}
+
+.hero-tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-block-end: var(--space-2);
+}
+
+.hero-name {
+  font-size: var(--text-hero);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+  margin-block-end: var(--space-3);
+}
+
+.hero-title {
+  font-size: var(--text-lg);
+  font-weight: 300;
+  color: var(--color-muted);
+  margin-block-end: var(--space-6);
+  font-family: var(--font-mono);
+}
+
+.hero-bio {
+  max-width: 60ch;
+  color: var(--color-muted);
+  font-size: var(--text-base);
+  border-inline-start: 2px solid var(--color-rule);
+  padding-inline-start: var(--space-3);
+  margin-block-end: var(--space-6);
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* ─── Skip the Ride ─────────────────────────────────────────────────────── */
+.skip-ride-link {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  position: absolute;
+  top: var(--space-2);
+  inset-inline-end: var(--space-2);
+}
+
+/* ─── Grain overlay (hero only, no WebGL) ──────────────────────────────── */
+.grain-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+  opacity: 0.3;
+}
+
+/* ─── Mobile ────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root {
+    --route-col-width: 0px;
+  }
+
+  .route-col {
+    display: none;
+  }
+
+  .page-grid {
+    grid-template-columns: 1fr;
+  }
+
+  html[dir="rtl"] .page-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .project-panel:nth-child(even) .project-info,
+  .project-panel:nth-child(even) .project-demo {
+    order: unset;
+  }
+
+  .hud {
+    display: none;
+  }
+
+  .site-nav {
+    inset-inline-start: 0;
+  }
+
+  /* Mobile progress indicator */
+  .mobile-route-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--color-rule);
+    z-index: 200;
+  }
+
+  .mobile-route-fill {
+    height: 100%;
+    background: var(--color-line-amber);
+    width: 0%;
+    transition: width var(--duration-base) var(--ease-arrive);
+  }
+}
+
+/* ─── Utility classes ────────────────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.colophon {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+  text-align: center;
+  padding-block: var(--space-6);
+  border-block-start: 1px solid var(--color-rule);
+  line-height: 2;
+}
