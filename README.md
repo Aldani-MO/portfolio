@@ -1,90 +1,44 @@
-# Mohamed Aldani — Transit Route Portfolio ("The Line")
+# Mohamed Aldani: The Line
 
-[![Next.js](https://img.shields.io/badge/Next.js-16_App_Router-black?logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4_@theme-38bdf8?logo=tailwind-css)](https://tailwindcss.com/)
-[![Vitest](https://img.shields.io/badge/Vitest-9_passed-6E9F18?logo=vitest)](https://vitest.dev/)
-[![Bilingual](https://img.shields.io/badge/i18n-EN_%2F_AR_(RTL)-amber)](https://next-intl.dev/)
+Bilingual EN/AR developer portfolio inspired by a transit timetable. Next.js 16, React 19, TypeScript, Tailwind CSS, next-intl and GSAP. Arabic uses locally hosted IBM Plex Sans Arabic; Latin uses Bricolage Grotesque and Martian Mono.
 
-> **A personal developer portfolio conceived as a vertical transit route where every section is a station and the page itself is the proof.**
+## Local development
 
-Scroll drives a dynamic bus marker along the route line, but structure, typography, and atmosphere do the real work. Inspired by European transit signage, departure timetables, and dot-matrix station displays.
+Install Node.js 20.9+ and the pnpm version declared in package.json.
 
----
-
-## 🚌 Live Engineering Demonstrations Built-In
-
-Rather than listing skills as passive bullet points, the site embeds interactive simulations of real projects:
-
-### 1. Smart Dynamic Bus System (SDBS) — Edge-AI Simulation
-- **Origin**: Flagship transit management platform ([github.com/Aldani-MO/smart-dynamic-bus-system](https://github.com/Aldani-MO/smart-dynamic-bus-system)) built with Flutter, Firebase Firestore, and an onboard Raspberry Pi running YOLOv8n + OpenCV with an offline SQLite transaction queue.
-- **In-Browser Demo**: An HTML5 Canvas rendering bounding boxes with fluctuating detection confidence, adjustable confidence gates, passenger occupancy sliders, and autonomous stop decisions:
-  - `0 passengers waiting` → **SKIP**
-  - `Bus at capacity (occupancy >= 50)` → **SKIP**
-  - `Waiting > available capacity` → **STOP**
-  - `Waiting >= threshold AND seats available` → **EARLY-DEPART**
-
-### 2. Phish-Checker — Heuristic Threat Engine
-- **Origin**: Heuristic URL risk analyzer CLI ([github.com/Aldani-MO/phish-Checker](https://github.com/Aldani-MO/phish-Checker)) built with Python and containerized with Docker.
-- **In-Browser Demo**: A pure TypeScript port executing client-side analysis across 9 distinct phishing detection vectors (homoglyphs, URL shorteners, bare IP hostnames, excessive subdomains, brand impersonation, suspicious TLDs, and redirection queries).
-- **Test Suite**: 9/9 automated unit tests verifying edge cases with Vitest.
-
----
-
-## 🌐 Bilingual Architecture (EN / AR) & True RTL
-
-- Seamless English (`/en`) and Arabic (`/ar`) localization powered by `next-intl`.
-- **True RTL Layout**: Complete geometric mirroring for Arabic:
-  - Route line and bus marker transition to the leading right-hand margin.
-  - CSS logical properties (`margin-inline`, `padding-inline`, `border-inline`) ensure no broken layouts.
-  - Arabic typography curated with Google Fonts **Readex Pro**, harmonized with Latin headings in **Bricolage Grotesque** and data displays in **Martian Mono**.
-
----
-
-## ⚡ Technical Stack
-
-| Layer | Technology |
-|---|---|
-| **Framework** | Next.js 16 (App Router), React 19, TypeScript (Strict) |
-| **Styling** | Tailwind CSS v4 (`@theme inline`), CSS Custom Properties |
-| **Motion** | GSAP 3, ScrollTrigger, MotionPathPlugin (`prefers-reduced-motion` guarded) |
-| **Localization** | `next-intl` (server & client providers, hreflang alternates) |
-| **Command Menu** | Custom accessible Command Palette (`⌘K` / `Ctrl+K`) |
-| **Testing** | Vitest for heuristic rule validation |
-| **SEO & Schema** | OpenGraph, Twitter Cards, JSON-LD `Person` schema, `sitemap.xml`, `robots.txt` |
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 20+
-- `pnpm` (recommended) or `npm`
-
-### Installation & Run
-
-```bash
-# Clone the repository
-git clone https://github.com/Aldani-MO/portfolio.git
-cd portfolio
-
-# Install dependencies
+```sh
 pnpm install
-
-# Start development server
-pnpm run dev
-# -> Listening on http://localhost:3000
-
-# Run automated test suite
-pnpm vitest run
-
-# Production build
-pnpm run build
+pnpm dev
+pnpm test
+pnpm build
+pnpm start
+# Against a running production server on port 3000:
+pnpm exec playwright install chromium
+pnpm test:e2e
 ```
 
----
+The tests cover URL scoring, transit decision priorities, contact failure handling, EN/AR at 375/768/1440px, both themes, reduced motion, no-JavaScript content, command search, mobile navigation and persisted themes. Browser screenshots are saved under ignored artifacts/.
 
-## 📄 License & Attribution
+## Edit content
 
-Designed and developed by **Mohamed Aldani (محمد الضاني)**.  
-Open-source under the MIT License.
+Edit matching keys in messages/en.json and messages/ar.json. PortfolioPage.tsx supplies section structure and project links. To add a project, add matching locale data, a project article and its index link. This project currently uses locale JSON rather than MDX. Do not add unverified project claims.
+
+DESIGN.md documents the visual rules. CSS tokens and responsive rules live in src/app/globals.css. Fonts and their licenses live in public/fonts; src/app/fonts.css declares the subsets. Replace public/cv.pdf with the current approved CV.
+
+## Environment variables
+
+- NEXT_PUBLIC_SITE_URL: canonical production origin, with https:// and no trailing slash. Otherwise Vercel's production URL is used, then localhost for development.
+- RESEND_API_KEY: optional email provider key, server only.
+- CONTACT_FROM_EMAIL: optional sender address verified by Resend, server only.
+
+Without both email variables, visitors get a direct email link. With them, the contact form is enabled, validates input and honeypot, blocks repeat taps, and checks provider acceptance. Never commit secrets or .env files.
+
+## Deployment
+
+Import Aldani-MO/portfolio in Vercel. Framework: Next.js; root directory: repository root (this app directory is the repository). Build: pnpm build. Add the variables above as needed. The GitHub connection enables future deployments on main. A custom domain is optional: add it in Vercel, apply the supplied DNS records, then set NEXT_PUBLIC_SITE_URL and redeploy.
+
+Share the public production URL on LinkedIn. A generated PNG social preview is exposed at /opengraph-image. The sitemap, canonical and language alternates use the configured production origin. Do not advertise an unconfigured custom domain.
+
+## Remaining content
+
+The public bus and phishing repositories were checked on 2026-11-03. The pharmacy repository was not publicly listed. No user counts, performance scores, graduation status or employment availability are invented. Replace or supplement demos with approved screenshots of real projects when available. See SLOP_AUDIT.md for verification and limits.
