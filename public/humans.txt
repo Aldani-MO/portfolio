@@ -1,0 +1,9 @@
+Mohamed Aldani
+Full-Stack Developer | Kuwait / Amman
+GitHub: https://github.com/Aldani-MO
+
+The Line: a portfolio inspired by the Smart Dynamic Bus System.
+Next.js, React, TypeScript, next-intl, Tailwind CSS, GSAP.
+Type: Bricolage Grotesque, Martian Mono, IBM Plex Sans Arabic.
+The passenger detection display is a browser simulation.
+The URL checker uses string heuristics and never visits submitted URLs.

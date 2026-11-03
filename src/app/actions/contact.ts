@@ -3,9 +3,9 @@
 import { z } from "zod";
 
 const schema = z.object({
-  name: z.string().min(1).max(100),
+  name: z.string().trim().min(1).max(100),
   email: z.string().email(),
-  message: z.string().min(10).max(2000),
+  message: z.string().trim().min(10).max(2000),
   // Honeypot — must be empty
   website: z.string().max(0),
 });
@@ -16,6 +16,7 @@ export interface ContactResult {
 }
 
 export async function sendContact(formData: FormData): Promise<ContactResult> {
+  if (formData.get("website")) return { success: true };
   const raw = {
     name:    formData.get("name"),
     email:   formData.get("email"),
@@ -36,29 +37,23 @@ export async function sendContact(formData: FormData): Promise<ContactResult> {
 
   const { name, email, message } = parsed.data;
 
-  // If RESEND_API_KEY is not set, log and return success in dev
-  if (!process.env.RESEND_API_KEY) {
-    console.log("[Contact form] RESEND_API_KEY not set. Would send:", { name, email, message });
-    return { success: true };
+  if (!process.env.RESEND_API_KEY || !process.env.CONTACT_FROM_EMAIL) {
+    return { success: false, error: "Email is unavailable. Please use the direct email link." };
   }
 
   try {
     const { Resend } = await import("resend");
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    await resend.emails.send({
-      from: "Portfolio Contact <noreply@mohamedaldani.dev>",
+    const { error } = await resend.emails.send({
+      from: process.env.CONTACT_FROM_EMAIL,
       to: "Mohammedaldani03@gmail.com",
       replyTo: email,
       subject: `Portfolio: Message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
-      html: `
-        <p><strong>From:</strong> ${name} (${email})</p>
-        <p><strong>Message:</strong></p>
-        <p style="white-space:pre-wrap">${message.replace(/</g, "&lt;")}</p>
-      `,
     });
 
+    if (error) return { success: false, error: "Email delivery failed." };
     return { success: true };
   } catch (err) {
     console.error("[Contact form] Resend error:", err);

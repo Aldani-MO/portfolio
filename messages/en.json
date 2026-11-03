@@ -8,15 +8,15 @@
     "switchLang": "عربي",
     "openCmd": "⌘K"
   },
-  "skipRide": "Skip the ride →",
+  "skipRide": "Skip The Ride →",
   "depot": {
     "stationId": "DEPOT",
     "tag": "Full-Stack Developer · Kuwait · Amman",
-    "name": "Mohamed\nAldani",
-    "bio": "I'm a computer science graduate from Princess Sumaya University of Technology in Amman, building full-stack products and the occasional edge-AI system. I like projects where software meets the real world: a bus stop that decides whether to stop, a tool that explains why a link looks suspicious, a pharmacy system that keeps stock honest. I work across PHP/CodeIgniter, Flutter/Firebase, React and Python, I use AI coding tools as part of my workflow, and I care about shipping things that are clear, reliable and fast.",
-    "cta": "Board the line",
-    "cv": "Download CV",
-    "cmdHint": "Press ⌘K to navigate"
+    "name": "MOHAMED\nALDANI",
+    "bio": "I build web applications, security tools and systems that connect software to the real world. My work spans PHP and CodeIgniter, Flutter and Firebase, React, and Python.",
+    "cta": "Explore the work",
+    "cv": "Read my CV ↗",
+    "cmdHint": "Quick navigation: Ctrl / ⌘ K"
   },
   "about": {
     "stationId": "STOP 01",
@@ -28,34 +28,38 @@
       "location": "Amman, Jordan",
       "period": "Oct 2022 – Aug 2026",
       "note": "Degree recognised by Kuwait's Ministry of Higher Education",
-      "coursework": "Data Structures & Algorithms · Database Systems · Web Design & Internet Programming · Networks · Computer Organization · OOP"
+      "coursework": "Data Structures & Algorithms · Database Systems · Web Design & Internet Programming · Computer Networks · Computer Organization · OOP"
     },
     "activities": {
-      "label": "Activities",
-      "ieee": "IEEE Xtreme coding competition participant (Nov 2024)",
-      "sec": "Software Engineering Club at PSUT — committee member (Nov 2024 – Feb 2025); created and edited video content to promote events and workshops"
+      "label": "Activities & Leadership",
+      "ieee": "IEEE Xtreme Coding Competition Participant (Nov 2024)",
+      "sec": "Software Engineering Club at PSUT: Committee Member (Nov 2024 – Feb 2025); Created and edited technical video media for events and workshops"
     }
   },
   "projects": {
     "stationId": "STOP 02",
     "title": "Projects",
-    "flagship": "Flagship",
-    "viewRepo": "View on GitHub →",
-    "demo": "Live demo below",
+    "flagship": "Flagship Project",
+    "viewRepo": "View On GitHub →",
+    "demo": "Live Demo Below",
     "simulation": "SIMULATION",
     "sdbs": {
       "number": "01",
       "title": "Smart Dynamic Bus System",
       "subtitle": "Flutter · Firebase · Python · YOLOv8 · OpenCV",
-      "description": "An enterprise-grade transit operations platform. A 3-role Flutter app (Passenger, Driver, Admin) on a real-time Firestore backend makes STOP / SKIP / EARLY-DEPART decisions using a capacity-aware algorithm. A Python edge-AI pipeline running YOLOv8n on Raspberry Pi counts passengers in real time; an SQLite retry queue handles cellular dropouts.",
+      "description": "A transit management project connecting passengers, drivers and administrators. A 3-role Flutter app (Passenger, Driver, Admin) on a real-time Firestore backend makes STOP / SKIP / EARLY-DEPART decisions using a capacity-aware algorithm. A Python edge-AI pipeline running YOLOv8n on Raspberry Pi counts passengers in real time; an SQLite retry queue handles cellular dropouts.",
       "demoLabel": "Edge-AI Occupancy Simulation",
-      "demoNote": "This simulates the Python edge pipeline (YOLOv8n + OpenCV). Not the real model — a browser demonstration of the detection and decision logic.",
-      "confidenceLabel": "Confidence gate",
-      "passengersLabel": "Detected passengers",
-      "capacityLabel": "Bus capacity",
-      "occupancyLabel": "Occupancy",
-      "decisionLabel": "Decision",
-      "roles": ["Passenger App", "Driver Cockpit", "Admin Control Center"],
+      "demoNote": "Browser simulation of passenger detection and route decisions. The YOLOv8n model runs in the original Python project.",
+      "confidenceLabel": "Confidence Gate",
+      "passengersLabel": "Detected Passengers",
+      "capacityLabel": "Bus Capacity",
+      "occupancyLabel": "Occupancy Rate",
+      "decisionLabel": "Route Decision",
+      "roles": [
+        "Passenger App",
+        "Driver Cockpit",
+        "Admin Control Center"
+      ],
       "highlights": [
         "Real-time Firestore sync across 3 user roles",
         "QR check-in with mobile_scanner + qr_flutter",
@@ -69,14 +73,14 @@
       "number": "02",
       "title": "Phish Checker",
       "subtitle": "Python · Docker · Linux (WSL)",
-      "description": "A CLI tool that analyses URLs and assigns an explainable phishing-risk score (0–100) from heuristics. Dockerized for consistent cross-platform execution. The live demo below is a browser port of the same heuristics — pure string analysis, no network requests.",
-      "demoLabel": "Browser Port — Live Demo",
-      "demoNote": "Client-side TypeScript port of the Python CLI heuristics. Paste a URL. No network requests are made.",
+      "description": "A CLI tool that analyses URLs and assigns an explainable phishing-risk score (0–100) from heuristics. Dockerized for consistent cross-platform execution. The live demo below is a browser port of the same heuristics: pure string analysis, no network requests.",
+      "demoLabel": "Live Browser Port: Heuristic Analyzer",
+      "demoNote": "Client-Side TypeScript Port of the Python CLI heuristics. Enter any URL. Zero network requests are made.",
       "inputPlaceholder": "https://paypal-login.verify-account.xyz/signin",
-      "analyseBtn": "Analyse",
-      "score": "Risk Score",
-      "checks": "Checks",
-      "repoLink": "Python CLI on GitHub"
+      "analyseBtn": "Analyze URL",
+      "score": "Phishing Risk Score",
+      "checks": "Heuristic Checks",
+      "repoLink": "View Python CLI On GitHub →"
     },
     "pharmacy": {
       "number": "03",
@@ -84,10 +88,10 @@
       "subtitle": "C++ · OOP · Data Structures & Algorithms",
       "description": "A modular C++ application managing medicines, inventory, sales and customer records. Built on core OOP principles and DSA for efficient stock tracking, billing and data management.",
       "highlights": [
-        "Medicine and inventory management",
-        "Sales tracking and billing",
-        "Customer records",
-        "Modular OOP structure"
+        "Medicine & Inventory Management",
+        "Sales Tracking & POS Billing",
+        "Customer Ledger & Records",
+        "Modular OOP Architecture"
       ]
     }
   },
@@ -96,8 +100,8 @@
     "title": "Experience",
     "cols": {
       "period": "Period",
-      "role": "Role",
-      "details": "Details"
+      "role": "Role & Organization",
+      "details": "Key Achievements"
     },
     "roles": [
       {
@@ -130,22 +134,50 @@
       {
         "label": "Languages",
         "lineColour": "amber",
-        "stops": ["Python", "C", "C++", "C#", "SQL", "JavaScript", "PHP", "HTML", "Dart"]
+        "stops": [
+          "Python",
+          "C",
+          "C++",
+          "C#",
+          "SQL",
+          "JavaScript",
+          "PHP",
+          "HTML",
+          "Dart"
+        ]
       },
       {
         "label": "Frameworks & Tools",
         "lineColour": "green",
-        "stops": ["Flutter", "Firebase", "CodeIgniter 4", "Bootstrap 5", "ContentBox.js", "React.js", "Tailwind CSS", "Docker", "OpenCV"]
+        "stops": [
+          "Flutter",
+          "Firebase",
+          "CodeIgniter 4",
+          "Bootstrap 5",
+          "ContentBox.js",
+          "React.js",
+          "Tailwind CSS",
+          "Docker",
+          "OpenCV"
+        ]
       },
       {
         "label": "AI Tools",
         "lineColour": "amber",
-        "stops": ["GPT Codex", "Claude Code", "AntiGravity"]
+        "stops": [
+          "GPT Codex",
+          "Claude Code",
+          "AntiGravity"
+        ]
       },
       {
         "label": "Environments",
         "lineColour": "muted",
-        "stops": ["Linux (Ubuntu)", "Windows", "WSL"]
+        "stops": [
+          "Linux (Ubuntu)",
+          "Windows",
+          "WSL"
+        ]
       }
     ]
   },
@@ -153,15 +185,15 @@
     "stationId": "TERMINUS",
     "title": "Contact",
     "intro": "Send a message or find me at the links below.",
-    "namePlaceholder": "Your name",
-    "emailPlaceholder": "your@email.com",
-    "messagePlaceholder": "What are you building?",
-    "nameLabel": "Name",
-    "emailLabel": "Email",
-    "messageLabel": "Message",
-    "sendBtn": "Send message",
-    "sending": "Sending...",
-    "success": "Message sent. I'll reply shortly.",
+    "namePlaceholder": "Your Full Name",
+    "emailPlaceholder": "your.email@example.com",
+    "messagePlaceholder": "Tell Me About Your Project Or Opportunity...",
+    "nameLabel": "Your Name",
+    "emailLabel": "Email Address",
+    "messageLabel": "Your Message",
+    "sendBtn": "Send Message",
+    "sending": "Sending Message...",
+    "success": "Message sent. Thank you for getting in touch.",
     "error": "Something went wrong. Email me directly at Mohammedaldani03@gmail.com",
     "links": {
       "email": "Mohammedaldani03@gmail.com",
@@ -173,21 +205,21 @@
     "now": "NOW",
     "next": "NEXT",
     "state": "STATE",
-    "skipRide": "Skip the ride"
+    "skipRide": "Skip The Ride"
   },
   "cmd": {
-    "placeholder": "Go to station, switch language...",
+    "placeholder": "Type a command or jump to station...",
     "actions": {
       "depot": "Go to DEPOT",
-      "about": "Go to STOP 01 — About",
-      "projects": "Go to STOP 02 — Projects",
-      "experience": "Go to STOP 03 — Experience",
-      "skills": "Go to STOP 04 — Skills",
-      "contact": "Go to TERMINUS — Contact",
-      "switchAr": "Switch to Arabic",
-      "switchEn": "Switch to English",
-      "downloadCv": "Download CV",
-      "copyEmail": "Copy email address"
+      "about": "Go to STOP 01: About",
+      "projects": "Go to STOP 02: Projects",
+      "experience": "Go to STOP 03: Experience",
+      "skills": "Go to STOP 04: Skills",
+      "contact": "Go to TERMINUS: Contact",
+      "switchAr": "Switch To Arabic",
+      "switchEn": "Switch To English",
+      "downloadCv": "Download CV (PDF)",
+      "copyEmail": "Copy Email Address"
     }
   }
 }

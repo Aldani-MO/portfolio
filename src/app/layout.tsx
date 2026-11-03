@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site-url";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getLocale } from "next-intl/server";
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
       "Full-stack developer based in Kuwait & Amman. Builder of transit systems, security tools, and real-world software.",
   },
   robots: { index: true, follow: true },
-  metadataBase: new URL("https://mohamedaldani.dev"),
+  metadataBase: new URL(SITE_URL),
 };
 
 export default async function RootLayout({
@@ -51,13 +52,20 @@ export default async function RootLayout({
   const isAr = locale === "ar";
 
   return (
-    <html lang={locale} dir={isAr ? "rtl" : "ltr"} data-scroll-behavior="smooth">
+    <html lang={locale} dir={isAr ? "rtl" : "ltr"} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('portfolio-theme');
+                  var theme = saved === 'light' || saved === 'dark' ? saved : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                  document.documentElement.setAttribute('data-theme', theme);
+                } catch(e) {}
+              })();
+            `,
+          }}
         />
         <script
           type="application/ld+json"
@@ -66,7 +74,7 @@ export default async function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Mohamed Aldani",
-              url: "https://mohamedaldani.dev",
+              url: SITE_URL,
               jobTitle: "Full-Stack Developer",
               alumniOf: {
                 "@type": "CollegeOrUniversity",

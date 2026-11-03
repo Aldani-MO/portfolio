@@ -7,7 +7,7 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
-const STATION_IDS = ["depot", "about", "projects", "experience", "skills", "contact"];
+
 
 export function RouteAnimation() {
   const busRef = useRef<SVGRectElement>(null);
@@ -17,7 +17,7 @@ export function RouteAnimation() {
   useEffect(() => {
     // Respect reduced motion
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) return;
+    if (prefersReduced || window.innerWidth <= 768 || document.documentElement.dataset.ride === "static") return;
 
     // Wait for DOM to be ready
     const init = () => {
@@ -40,18 +40,7 @@ export function RouteAnimation() {
       });
       tl.from(bus, { opacity: 0, duration: 0.3 }, "-=0.2");
 
-      // Hero text reveal
-      tl.from(".hero-tag", { opacity: 0, y: 10, duration: 0.4 }, "-=0.1");
-      tl.from(".hero-name", { opacity: 0, y: 20, duration: 0.6, ease: "power3.out" }, "-=0.2");
-      tl.from(".hero-title", { opacity: 0, duration: 0.4 }, "-=0.2");
-      tl.from(".hero-bio", { opacity: 0, x: -15, duration: 0.4 }, "-=0.1");
-      tl.from(".hero-actions", { opacity: 0, y: 10, duration: 0.3 }, "-=0.1");
-
-      // Station dot pulses
-      gsap.utils.toArray<Element>(".station-dot").forEach((dot) => {
-        tl.from(dot, { scale: 0, opacity: 0, duration: 0.2, transformOrigin: "center" }, "-=0.1");
-      });
-
+      // Content is always visible; only the route marker animates.
       // Scroll-driven bus travel
       ScrollTrigger.create({
         trigger: "body",
@@ -63,38 +52,13 @@ export function RouteAnimation() {
           const progress = self.progress;
           const point = line.getPointAtLength(progress * length);
           gsap.set(bus, {
-            x: point.x - 6,
-            y: point.y - 10,
+            x: point.x - 36,
+            y: point.y - 60,
           });
         },
       });
 
-      // Station section reveals
-      STATION_IDS.forEach((id) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        const header = el.querySelector(".station-header");
-        const content = el.querySelector(".station-content");
-        if (header) {
-          gsap.from(header, {
-            scrollTrigger: { trigger: el, start: "top 70%", once: true },
-            opacity: 0,
-            x: -20,
-            duration: 0.6,
-            ease: "power2.out",
-          });
-        }
-        if (content) {
-          gsap.from(content, {
-            scrollTrigger: { trigger: el, start: "top 60%", once: true },
-            opacity: 0,
-            y: 20,
-            duration: 0.8,
-            ease: "power2.out",
-            delay: 0.15,
-          });
-        }
-      });
+
     };
 
     // Small delay for DOM paint

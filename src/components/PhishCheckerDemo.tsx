@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { analyzeUrl, type PhishResult } from "@/lib/phish-scorer";
 
@@ -10,14 +10,11 @@ export function PhishCheckerDemo() {
   const isAr = locale === "ar";
   const [url, setUrl] = useState("");
   const [result, setResult] = useState<PhishResult | null>(null);
-  const [isPending, startTransition] = useTransition();
+
 
   const analyse = () => {
     if (!url.trim()) return;
-    startTransition(() => {
-      const res = analyzeUrl(url);
-      setResult(res);
-    });
+    setResult(analyzeUrl(url));
   };
 
   const riskClass =
@@ -41,7 +38,7 @@ export function PhishCheckerDemo() {
           paddingBlockEnd: "var(--space-1)",
         }}
       >
-        ⚠ {t("demoNote")}
+        {t("demoNote")}
       </p>
 
       {/* URL Input */}
@@ -50,6 +47,8 @@ export function PhishCheckerDemo() {
           id="phish-url-input"
           className="phish-input"
           type="text"
+          inputMode="url"
+          dir="ltr"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder={t("inputPlaceholder")}
@@ -61,13 +60,18 @@ export function PhishCheckerDemo() {
         <button
           className="phish-submit"
           onClick={analyse}
-          disabled={isPending || !url.trim()}
+          disabled={!url.trim()}
           aria-label="Analyse URL"
         >
-          {isPending ? "..." : t("analyseBtn")}
+          {t("analyseBtn")}
         </button>
       </div>
 
+      <div className="phish-samples" aria-label={isAr ? "أمثلة للتجربة" : "Example URLs"}>
+        <button type="button" onClick={() => { const value = "https://github.com/Aldani-MO"; setUrl(value); setResult(analyzeUrl(value)); }}>{isAr ? "رابط عادي" : "Try a regular URL"}</button>
+        <button type="button" onClick={() => { const value = "http://paypal-login.verify-account.xyz/signin"; setUrl(value); setResult(analyzeUrl(value)); }}>{isAr ? "رابط مشبوه" : "Try a suspicious URL"}</button>
+      </div>
+      {!result && <p className="demo-note">{isAr ? "اختر مثالاً أو الصق رابطاً لعرض الفحوصات. انخفاض الدرجة لا يضمن سلامة الرابط." : "Choose an example or paste a URL to see each check. A low score does not guarantee a safe link."}</p>}
       {/* Results */}
       {result && (
         <div aria-live="polite" aria-label="Analysis results">

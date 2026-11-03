@@ -22,6 +22,7 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
   const [selected, setSelected] = useState(0);
   const [copied, setCopied] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations("cmd");
@@ -47,7 +48,8 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
   );
 
   const copyEmail = useCallback(async () => {
-    await navigator.clipboard.writeText("Mohammedaldani03@gmail.com");
+    try { await navigator.clipboard.writeText("Mohammedaldani03@gmail.com"); }
+    catch { window.location.href = "mailto:Mohammedaldani03@gmail.com"; return; }
     setCopied(true);
     setOpen(false);
     setTimeout(() => setCopied(false), 2000);
@@ -63,6 +65,19 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
     ...(locale === "en"
       ? [{ id: "switch-ar", icon: "AR", label: t("actions.switchAr"), action: () => switchLocale("ar") }]
       : [{ id: "switch-en", icon: "EN", label: t("actions.switchEn"), action: () => switchLocale("en") }]),
+    {
+      id: "toggle-theme",
+      icon: "◐",
+      label: locale === "ar" ? "تبديل المظهر (داكن / فاتح)" : "Toggle Theme (Dark / Light)",
+      hint: "THEME",
+      action: () => {
+        setOpen(false);
+        const current = (document.documentElement.getAttribute("data-theme") as "dark" | "light") || "dark";
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("portfolio-theme", next); } catch {}
+      },
+    },
     { id: "download-cv",  icon: "↓", label: t("actions.downloadCv"),  hint: "PDF", action: () => { setOpen(false); window.open("/cv.pdf", "_blank"); } },
     { id: "copy-email",   icon: "@", label: copied ? "Copied!" : t("actions.copyEmail"), action: copyEmail },
   ];
@@ -85,28 +100,35 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
       if (e.key === "Escape") { setOpen(false); setQuery(""); }
       if (e.key === "ArrowDown") { e.preventDefault(); setSelected((s) => Math.min(s + 1, filtered.length - 1)); }
       if (e.key === "ArrowUp")   { e.preventDefault(); setSelected((s) => Math.max(s - 1, 0)); }
-      if (e.key === "Enter") { filtered[selected]?.action(); setQuery(""); }
+      if (e.key === "Enter") { e.preventDefault(); filtered[selected]?.action(); setQuery(""); }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [open, selected, filtered]);
 
   useEffect(() => {
-    if (open) setTimeout(() => inputRef.current?.focus(), 50);
-    else setQuery("");
+    if (open) {
+      dialogRef.current?.showModal();
+      inputRef.current?.focus();
+    } else {
+      dialogRef.current?.close();
+      setQuery("");
+    }
   }, [open]);
 
   if (!open) return null;
 
   return (
-    <div
+    <dialog
+      ref={dialogRef}
       className="cmd-overlay"
+      onCancel={() => setOpen(false)}
       onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
       role="dialog"
       aria-modal="true"
-      aria-label="Command palette"
+      aria-label={locale === "ar" ? "قائمة الأوامر" : "Command palette"}
     >
-      <div className="cmd-panel" role="listbox">
+      <div className="cmd-panel">
         <div className="cmd-input-wrap">
           <span className="cmd-prompt">{">"}</span>
           <input
@@ -118,13 +140,18 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
             aria-label={t("placeholder")}
             autoComplete="off"
             spellCheck={false}
+            role="combobox"
+            aria-expanded="true"
+            aria-controls="command-options"
+            aria-activedescendant={filtered[selected]?.id}
           />
-          <span className="cmd-item-hint">ESC</span>
+          <button className="nav-control" onClick={() => setOpen(false)} aria-label={locale === "ar" ? "إغلاق" : "Close"}>ESC</button>
         </div>
-        <ul className="cmd-list" role="listbox">
+        <ul className="cmd-list" id="command-options" role="listbox" aria-label={t("placeholder")}>
           {filtered.map((item, i) => (
             <li
               key={item.id}
+              id={item.id}
               role="option"
               aria-selected={i === selected}
               className="cmd-item"
@@ -137,8 +164,9 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
             </li>
           ))}
         </ul>
+        {filtered.length === 0 && <p className="demo-note" style={{ padding: "1rem" }}>{locale === "ar" ? "لا توجد نتائج. جرّب اسم قسم آخر." : "No matching commands. Try a section name."}</p>}
       </div>
-    </div>
+    </dialog>
   );
 }
 

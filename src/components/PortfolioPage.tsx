@@ -12,12 +12,12 @@ import { useEffect } from "react";
 
 interface PortfolioPageProps {
   locale: string;
+  contactEnabled?: boolean;
 }
 
-export function PortfolioPage({ locale }: PortfolioPageProps) {
+export function PortfolioPage({ locale, contactEnabled = false }: PortfolioPageProps) {
   const isAr = locale === "ar";
   const depot = useTranslations("depot");
-  const nav = useTranslations("nav");
   const about = useTranslations("about");
   const projects = useTranslations("projects");
   const experience = useTranslations("experience");
@@ -34,7 +34,7 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
     console.log(
       isAr
         ? "%c مطوّر متكامل · الكويت · عمّان\n%c github.com/Aldani-MO\n\nNext.js 16 · TypeScript · GSAP · Tailwind v4"
-        : "%c Full-Stack Developer · Kuwait · Amman\n%c github.com/Aldani-MO\n\nBuilt with Next.js 16 · TypeScript · GSAP · Tailwind v4\nFonts: Bricolage Grotesque · Martian Mono · Readex Pro",
+        : "%c Full-Stack Developer · Kuwait · Amman\n%c github.com/Aldani-MO\n\nBuilt with Next.js 16 · TypeScript · GSAP · Tailwind v4\nFonts: Bricolage Grotesque · Martian Mono · IBM Plex Sans Arabic",
       "font-family: monospace; color: #E8E3D8;",
       "font-family: monospace; color: #6B6E63;"
     );
@@ -46,8 +46,9 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
     if (!fill) return;
     const update = () => {
       const scrollable = document.body.scrollHeight - window.innerHeight;
-      fill.style.width = `${(window.scrollY / scrollable) * 100}%`;
+      fill.style.width = `${scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0}%`;
     };
+    update();
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
   }, []);
@@ -56,10 +57,9 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
     <>
       {/* Skip link */}
       <a
-        href="#static"
-        className="visually-hidden"
+        href="#projects" onClick={() => document.documentElement.dataset.ride = "static"}
+        className="skip-link"
         style={{ position: "fixed", top: "var(--space-2)", insetInlineStart: "var(--route-col-width)", zIndex: 9999 }}
-        onFocus={(e) => (e.currentTarget.style.clip = "unset")}
       >
         {skipRide("skipRide")}
       </a>
@@ -75,9 +75,6 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
       {/* Navigation */}
       <Nav locale={locale} />
 
-      {/* HUD */}
-      <HUD />
-
       {/* Page grid */}
       <div className="page-grid" id="static">
 
@@ -87,25 +84,13 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
         </div>
 
         {/* Content */}
-        <main className="content-col" style={{ paddingBlockStart: "calc(var(--space-8) + 48px)" }}>
+        <main className="content-col" id="main-content" tabIndex={-1}>
 
           {/* ── DEPOT — Hero ──────────────────────────────────────────── */}
           <section id="depot" className="station hero" aria-labelledby="hero-name">
-            <div className="grain-overlay" aria-hidden="true" />
 
-            <div style={{ position: "relative", zIndex: 1 }}>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "var(--space-2)",
-                  alignItems: "center",
-                  marginBlockEnd: "var(--space-2)",
-                }}
-              >
-                <span className="route-badge">LINE 01</span>
-                <span className="station-id">{depot("stationId")}</span>
-              </div>
 
+            <div className="hero-layout"><div className="hero-copy">
               <p className="hero-tag">{depot("tag")}</p>
 
               <h1 id="hero-name" className="hero-name">
@@ -116,20 +101,15 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
                 ))}
               </h1>
 
-              <p className="hero-title">Full-Stack Developer</p>
+              <p className="hero-title">
+                {isAr ? "مطوّر برمجيات متكامل" : "Full-Stack Developer"}
+              </p>
 
               <p className="hero-bio">{depot("bio")}</p>
 
               <div className="hero-actions">
-                <button
-                  className="btn"
-                  onClick={() =>
-                    document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })
-                  }
-                >
-                  {depot("cta")}
-                </button>
-                <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+                <a className="btn" href="#projects">{depot("cta")}</a>
+                <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="text-link">
                   {depot("cv")}
                 </a>
               </div>
@@ -145,6 +125,15 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
                 {depot("cmdHint")}
               </p>
             </div>
+              <aside className="route-index" aria-label={isAr ? "دليل الأعمال" : "Selected work index"}>
+                <div className="index-heading"><span>{isAr ? "مسار الأعمال" : "WORK ROUTE"}</span><span>01 / 03</span></div>
+                <p className="index-intro">{isAr ? "برمجيات تتصل بالعالم الحقيقي." : "Software that meets the real world."}</p>
+                <a href="#project-sdbs"><span className="index-number">01</span><span><strong>{isAr ? "نظام الحافلات الذكي" : "A smarter bus stop"}</strong><small>Flutter / Firebase / Python</small></span><span aria-hidden="true">↗</span></a>
+                <a href="#project-phish"><span className="index-number">02</span><span><strong>{isAr ? "كشف الروابط المشبوهة" : "Suspicious links, explained"}</strong><small>Python / TypeScript / Docker</small></span><span aria-hidden="true">↗</span></a>
+                <a href="#project-pharmacy"><span className="index-number">03</span><span><strong>{isAr ? "إدارة مخزون الصيدلية" : "Keeping stock in order"}</strong><small>C++ / OOP</small></span><span aria-hidden="true">↗</span></a>
+                <p className="index-foot">{isAr ? "جرّب المحاكاة واستكشف الكود أدناه." : "Try the demos. Follow the code."}</p>
+              </aside>
+            </div>
           </section>
 
           {/* ── STOP 01 — About ───────────────────────────────────────── */}
@@ -155,7 +144,7 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
             </div>
 
             <div className="station-content">
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-8)" }}>
+              <div className="split-layout">
 
                 {/* Education */}
                 <div>
@@ -294,7 +283,7 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
             <div className="station-content">
 
               {/* PROJECT 01 — SDBS (Flagship) */}
-              <div className="project-panel">
+              <article className="project-panel" id="project-sdbs">
                 <div className="project-info">
                   <div style={{ display: "flex", gap: "var(--space-2)", alignItems: "center", marginBlockEnd: "var(--space-1)" }}>
                     <span className="route-badge">LINE {projects("sdbs.number")}</span>
@@ -364,10 +353,10 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
                   </div>
                   <EdgeAIDemo />
                 </div>
-              </div>
+              </article>
 
               {/* PROJECT 02 — Phish Checker */}
-              <div className="project-panel">
+              <article className="project-panel" id="project-phish">
                 <div className="project-demo">
                   <div style={{ marginBlockEnd: "var(--space-2)" }}>
                     <span className="station-id">{projects("phish.demoLabel")}</span>
@@ -398,10 +387,10 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
                     {projects("viewRepo")}
                   </a>
                 </div>
-              </div>
+              </article>
 
               {/* PROJECT 03 — Pharmacy */}
-              <div className="project-panel" style={{ gridTemplateColumns: "1fr" }}>
+              <article className="project-panel project-compact" id="project-pharmacy">
                 <div className="project-info">
                   <div className="route-badge" style={{ marginBlockEnd: "var(--space-1)" }}>LINE {projects("pharmacy.number")}</div>
                   <div className="project-number" aria-hidden="true">
@@ -433,7 +422,7 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
                     ))}
                   </ul>
                 </div>
-              </div>
+              </article>
 
             </div>
           </section>
@@ -539,14 +528,14 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
             </div>
 
             <div className="station-content">
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-8)" }}>
+              <div className="split-layout">
 
                 {/* Form */}
                 <div>
                   <p style={{ color: "var(--color-muted)", marginBlockEnd: "var(--space-4)" }}>
                     {contact("intro")}
                   </p>
-                  <ContactForm />
+                  <ContactForm enabled={contactEnabled} />
                 </div>
 
                 {/* Links */}
@@ -609,13 +598,14 @@ export function PortfolioPage({ locale }: PortfolioPageProps) {
             </div>
           </section>
 
+          <HUD />
           {/* ── Colophon ──────────────────────────────────────────────── */}
           <footer className="colophon" role="contentinfo">
             <div>
               Built with Next.js 16 · React 19 · TypeScript · Tailwind v4 · GSAP
             </div>
             <div>
-              Fonts: Bricolage Grotesque · Martian Mono · Readex Pro (Google Fonts)
+              {isAr ? "الخطوط" : "Type"}: Bricolage Grotesque · Martian Mono · IBM Plex Sans Arabic
             </div>
             <div style={{ marginBlockStart: "0.5em" }}>
               <a

@@ -80,9 +80,9 @@ export function HUD() {
       : "hud-state-early";
 
   return (
-    <aside className="hud" aria-label="Route HUD" aria-live="polite">
+    <aside className="hud" aria-label="Route HUD">
       {/* Route dots */}
-      <div className="hud-dots" aria-hidden="true">
+      <div className="hud-dots" >
         {STATIONS.map((s, i) => (
           <button
             key={s.id}
@@ -110,7 +110,7 @@ export function HUD() {
 
       <div style={{ marginBlockStart: "0.5em", borderBlockStart: "1px solid var(--color-rule)", paddingBlockStart: "0.5em" }}>
         <a
-          href="#static"
+          href="#projects" onClick={() => document.documentElement.dataset.ride = "static"}
           className="hud-label"
           style={{ textDecoration: "underline", textUnderlineOffset: "2px", cursor: "pointer", fontSize: "var(--text-xs)" }}
         >

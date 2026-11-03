@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/lib/site-url";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
@@ -23,10 +24,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ? "مطوّر متكامل في الكويت وعمّان. بانٍ لأنظمة النقل وأدوات الأمن والبرمجيات الواقعية."
       : "Full-stack developer based in Kuwait & Amman. Builder of transit systems, security tools, and real-world software.",
     alternates: {
-      canonical: `https://mohamedaldani.dev/${locale}`,
+      canonical: `${SITE_URL}/${locale}`,
       languages: {
-        en: "https://mohamedaldani.dev/en",
-        ar: "https://mohamedaldani.dev/ar",
+        en: `${SITE_URL}/en`,
+        ar: `${SITE_URL}/ar`,
       },
     },
   };
