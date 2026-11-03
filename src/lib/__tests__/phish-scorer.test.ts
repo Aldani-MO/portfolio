@@ -2,6 +2,28 @@ import { describe, it, expect } from "vitest";
 import { analyzeUrl } from "../phish-scorer";
 
 describe("phish-scorer heuristic engine", () => {
+  it.each(["", "   ", "not a url", "https://", "javascript:alert(1)", "data:text/html,test", "ftp://example.com", "https://" + "x".repeat(5000)])("does not label invalid input as low risk: %s", raw => {
+    const result = analyzeUrl(raw);
+    expect(result.valid).toBe(false);
+    expect(result.riskLevel).toBe("invalid");
+  });
+  it.each(["example.com/path", "example.com:8080/path", "//example.com/path", " https://EXAMPLE.com./path "])("accepts a web address and normalizes the host: %s", raw => {
+    const result = analyzeUrl(raw);
+    expect(result.valid).toBe(true);
+    expect(result.parsedHost).toBe("example.com");
+  });
+  it("flags a brand-prefixed attacker domain", () => {
+    expect(analyzeUrl("https://paypal-login.com").rules.find(r => r.id === "brand-impersonation")?.triggered).toBe(true);
+  });
+  it("does not interpret an @ in a path as URL credentials", () => {
+    expect(analyzeUrl("https://example.com/@profile").rules.find(r => r.id === "at-sign")?.triggered).toBe(false);
+  });
+  it("recognizes an IPv6 literal", () => {
+    expect(analyzeUrl("http://[::1]/").rules.find(r => r.id === "ip-hostname")?.triggered).toBe(true);
+  });
+  it("flags an encoded IDN hostname", () => {
+    expect(analyzeUrl("https://xn--pple-43d.com").rules.find(r => r.id === "punycode")?.triggered).toBe(true);
+  });
   it("scores legitimate HTTPS domain with low score (safe)", () => {
     const result = analyzeUrl("https://github.com/Aldani-MO");
     expect(result.score).toBeLessThan(30);

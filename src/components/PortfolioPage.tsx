@@ -8,6 +8,7 @@ import { PhishCheckerDemo } from "@/components/PhishCheckerDemo";
 import { EdgeAIDemo } from "@/components/EdgeAIDemo";
 import { ContactForm } from "@/components/ContactForm";
 import { CommandPalette } from "@/components/CommandPalette";
+import { Certificates, PersonalDetails } from "@/components/ProfileDetails";
 import { useEffect } from "react";
 
 interface PortfolioPageProps {
@@ -33,8 +34,8 @@ export function PortfolioPage({ locale, contactEnabled = false }: PortfolioPageP
     );
     console.log(
       isAr
-        ? "%c مطوّر متكامل · الكويت · عمّان\n%c github.com/Aldani-MO\n\nNext.js 16 · TypeScript · GSAP · Tailwind v4"
-        : "%c Full-Stack Developer · Kuwait · Amman\n%c github.com/Aldani-MO\n\nBuilt with Next.js 16 · TypeScript · GSAP · Tailwind v4\nFonts: Bricolage Grotesque · Martian Mono · IBM Plex Sans Arabic",
+        ? "%c مهندس برمجيات · الكويت · عمّان\n%c github.com/Aldani-MO"
+        : "%c Software Engineer · Kuwait · Amman\n%c github.com/Aldani-MO",
       "font-family: monospace; color: #E8E3D8;",
       "font-family: monospace; color: #6B6E63;"
     );
@@ -102,7 +103,7 @@ export function PortfolioPage({ locale, contactEnabled = false }: PortfolioPageP
               </h1>
 
               <p className="hero-title">
-                {isAr ? "مطوّر برمجيات متكامل" : "Full-Stack Developer"}
+                {isAr ? "مهندس برمجيات" : "Software Engineer"}
               </p>
 
               <p className="hero-bio">{depot("bio")}</p>
@@ -126,12 +127,12 @@ export function PortfolioPage({ locale, contactEnabled = false }: PortfolioPageP
               </p>
             </div>
               <aside className="route-index" aria-label={isAr ? "دليل الأعمال" : "Selected work index"}>
-                <div className="index-heading"><span>{isAr ? "مسار الأعمال" : "WORK ROUTE"}</span><span>01 / 03</span></div>
-                <p className="index-intro">{isAr ? "برمجيات تتصل بالعالم الحقيقي." : "Software that meets the real world."}</p>
-                <a href="#project-sdbs"><span className="index-number">01</span><span><strong>{isAr ? "نظام الحافلات الذكي" : "A smarter bus stop"}</strong><small>Flutter / Firebase / Python</small></span><span aria-hidden="true">↗</span></a>
-                <a href="#project-phish"><span className="index-number">02</span><span><strong>{isAr ? "كشف الروابط المشبوهة" : "Suspicious links, explained"}</strong><small>Python / TypeScript / Docker</small></span><span aria-hidden="true">↗</span></a>
-                <a href="#project-pharmacy"><span className="index-number">03</span><span><strong>{isAr ? "إدارة مخزون الصيدلية" : "Keeping stock in order"}</strong><small>C++ / OOP</small></span><span aria-hidden="true">↗</span></a>
-                <p className="index-foot">{isAr ? "جرّب المحاكاة واستكشف الكود أدناه." : "Try the demos. Follow the code."}</p>
+                <div className="index-heading"><span>{isAr ? "أعمال مختارة" : "SELECTED WORK"}</span><span dir="ltr">01 / 03</span></div>
+                <p className="index-intro">{isAr ? "تطبيقات ويب، نقل، وأدوات أمنية." : "Web applications, transit and security."}</p>
+                <a href="#project-sdbs"><span className="index-number">01</span><span><strong>{isAr ? "نظام الحافلات الذكي" : "Smart Dynamic Bus System"}</strong><small dir="ltr">Flutter / Firebase / Python</small></span><span aria-hidden="true">↗</span></a>
+                <a href="#project-phish"><span className="index-number">02</span><span><strong>{isAr ? "كاشف روابط التصيّد" : "Phish Checker"}</strong><small dir="ltr">Python / TypeScript / Docker</small></span><span aria-hidden="true">↗</span></a>
+                <a href="#project-pharmacy"><span className="index-number">03</span><span><strong>{isAr ? "نظام إدارة الصيدلية" : "Pharmacy Management System"}</strong><small dir="ltr">C++ / OOP</small></span><span aria-hidden="true">↗</span></a>
+                <p className="index-foot">{isAr ? "تجارب تفاعلية وروابط الكود أدناه." : "Interactive demos and source code below."}</p>
               </aside>
             </div>
           </section>
@@ -272,6 +273,8 @@ export function PortfolioPage({ locale, contactEnabled = false }: PortfolioPageP
               </div>
             </div>
           </section>
+
+          <PersonalDetails locale={isAr ? "ar" : "en"} />
 
           {/* ── STOP 02 — Projects ────────────────────────────────────── */}
           <section id="projects" className="station" aria-labelledby="projects-heading">
@@ -488,7 +491,7 @@ export function PortfolioPage({ locale, contactEnabled = false }: PortfolioPageP
             </div>
 
             <div className="station-content">
-              {[0, 1, 2, 3].map((i) => {
+              {(skills.raw("groups") as { label: string; lineColour: string; stops: string[] }[]).map((_, i) => {
                 const groupKey = `groups.${i}` as "groups.0";
                 const stops = (skills.raw(`${groupKey}.stops`) as string[]) || [];
                 const lineColour = skills(`${groupKey}.lineColour` as "groups.0.lineColour");
@@ -519,6 +522,8 @@ export function PortfolioPage({ locale, contactEnabled = false }: PortfolioPageP
               })}
             </div>
           </section>
+
+          <Certificates locale={isAr ? "ar" : "en"} />
 
           {/* ── TERMINUS — Contact ────────────────────────────────────── */}
           <section id="contact" className="station" aria-labelledby="contact-heading">
@@ -555,18 +560,9 @@ export function PortfolioPage({ locale, contactEnabled = false }: PortfolioPageP
                       >
                         <div
                           style={{
-                            border: "1px solid var(--color-rule)",
-                            padding: "var(--space-2) var(--space-3)",
-                            transition: "border-color var(--duration-fast)",
+                            borderBlockStart: "1px solid var(--color-rule)",
+                            paddingBlock: "var(--space-2)",
                           }}
-                          onMouseEnter={(e) =>
-                            ((e.currentTarget as HTMLElement).style.borderColor =
-                              "var(--color-line-amber)")
-                          }
-                          onMouseLeave={(e) =>
-                            ((e.currentTarget as HTMLElement).style.borderColor =
-                              "var(--color-rule)")
-                          }
                         >
                           <div
                             style={{
@@ -602,7 +598,7 @@ export function PortfolioPage({ locale, contactEnabled = false }: PortfolioPageP
           {/* ── Colophon ──────────────────────────────────────────────── */}
           <footer className="colophon" role="contentinfo">
             <div>
-              Built with Next.js 16 · React 19 · TypeScript · Tailwind v4 · GSAP
+              {isAr ? "تقنيات الموقع" : "Built with"}: Next.js 16 · React 19 · TypeScript · Tailwind v4 · GSAP · next-intl
             </div>
             <div>
               {isAr ? "الخطوط" : "Type"}: Bricolage Grotesque · Martian Mono · IBM Plex Sans Arabic

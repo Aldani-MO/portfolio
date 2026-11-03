@@ -6,16 +6,17 @@
     "skills": "المهارات",
     "contact": "تواصل",
     "switchLang": "English",
-    "openCmd": "⌘K"
+    "openCmd": "⌘K",
+    "certificates": "الشهادات"
   },
   "skipRide": "← تخطّ الرحلة",
   "depot": {
     "stationId": "المحطة الرئيسية",
-    "tag": "تطوير الويب والأنظمة · الكويت · عمّان",
+    "tag": "السالمية، الكويت",
     "name": "محمد\nالضاني",
-    "bio": "أبني تطبيقات ويب وأدوات أمنية وأنظمة تربط البرمجيات بالعالم الحقيقي. أعمل باستخدام PHP وCodeIgniter وFlutter وFirebase وReact وPython.",
-    "cta": "استكشف أعمالي",
-    "cv": "اقرأ سيرتي الذاتية ↗",
+    "bio": "أعمل على تطبيقات الويب والموبايل باستخدام PHP وReact وFlutter وPython. تشمل مشاريعي نظاماً لإدارة الحافلات، وأداة لفحص الروابط، ونظاماً لإدارة الصيدلية.",
+    "cta": "عرض المشاريع",
+    "cv": "السيرة الذاتية (PDF)",
     "cmdHint": "للتنقل السريع: Ctrl / ⌘ K"
   },
   "about": {
@@ -40,7 +41,7 @@
     "stationId": "المحطة 02",
     "title": "المشاريع",
     "flagship": "المشروع الرئيسي",
-    "viewRepo": "عرض على GitHub ←",
+    "viewRepo": "الكود على GitHub ←",
     "demo": "عرض حي أدناه",
     "simulation": "محاكاة",
     "sdbs": {
@@ -75,7 +76,7 @@
       "subtitle": "Python · Docker · Linux (WSL)",
       "description": "أداة Python تفحص علامات الاشتباه في الروابط وتعرض درجة للمخاطرة من 0 إلى 100 مع تفسير كل علامة. يمكن تشغيلها داخل Docker. النسخة أدناه مكتوبة بـ TypeScript وتعمل محلياً في المتصفح، دون فتح الرابط أو إرسال أي طلب إليه.",
       "demoLabel": "جرّب فحص الروابط",
-      "demoNote": "نسخة للمتصفح من قواعد أداة Python. الصق رابطاً أو اختر مثالاً. يُحلّل النص محلياً ولا يُفتح الرابط.",
+      "demoNote": "نسخة TypeScript من قواعد أداة Python. الفحص محلي ولا يفتح الرابط.",
       "inputPlaceholder": "https://paypal-login.verify-account.xyz/signin",
       "analyseBtn": "تحليل",
       "score": "درجة المخاطرة",
@@ -101,12 +102,12 @@
     "cols": {
       "period": "الفترة",
       "role": "الدور",
-      "details": "التفاصيل"
+      "details": "المهام"
     },
     "roles": [
       {
         "period": "مايو – أغسطس 2026",
-        "role": "متدرب مطوّر متكامل",
+        "role": "متدرب في تطوير البرمجيات",
         "company": "DigiTecHouse · عمّان، الأردن",
         "bullets": [
           "بناء وصيانة ميزات الويب المتكاملة بـ PHP مع إطار CodeIgniter 4",
@@ -158,7 +159,14 @@
           "React.js",
           "Tailwind CSS",
           "Docker",
-          "OpenCV"
+          "OpenCV",
+          "Next.js",
+          "TypeScript",
+          "GSAP",
+          "next-intl",
+          "Vitest",
+          "Playwright",
+          "Vercel"
         ]
       },
       {
@@ -178,6 +186,22 @@
           "Windows",
           "WSL"
         ]
+      },
+      {
+        "label": "تقنيات هذا الموقع",
+        "lineColour": "muted",
+        "stops": [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS v4",
+          "GSAP",
+          "next-intl",
+          "Vitest",
+          "Playwright",
+          "Vercel",
+          "pnpm"
+        ]
       }
     ]
   },
@@ -187,7 +211,7 @@
     "intro": "أرسل رسالة أو تواصل معي عبر الروابط أدناه.",
     "namePlaceholder": "اسمك",
     "emailPlaceholder": "بريدك@الإلكتروني.com",
-    "messagePlaceholder": "ماذا تبني؟",
+    "messagePlaceholder": "اكتب رسالتك",
     "nameLabel": "الاسم",
     "emailLabel": "البريد الإلكتروني",
     "messageLabel": "الرسالة",
@@ -219,7 +243,8 @@
       "switchAr": "التبديل إلى العربية",
       "switchEn": "Switch to English",
       "downloadCv": "تحميل السيرة الذاتية",
-      "copyEmail": "نسخ عنوان البريد الإلكتروني"
+      "copyEmail": "نسخ عنوان البريد الإلكتروني",
+      "certificates": "انتقل إلى المحطة 05: الشهادات"
     }
   }
 }

@@ -18,8 +18,9 @@ export interface PhishRule {
 }
 
 export interface PhishResult {
+  valid: boolean;
   score: number;              // 0–100 (capped)
-  riskLevel: "safe" | "suspicious" | "likely-phish";
+  riskLevel: "safe" | "suspicious" | "likely-phish" | "invalid";
   riskLabelEn: string;
   riskLabelAr: string;
   rules: PhishRule[];
@@ -59,11 +60,15 @@ const REDIRECT_PARAMS = new Set([
 ]);
 
 function tryParseUrl(raw: string): URL | null {
-  // Try as-is
-  try { return new URL(raw); } catch {}
-  // Try with https://
-  try { return new URL("https://" + raw); } catch {}
-  return null;
+  if (!raw || raw.length > 4096 || /\s/.test(raw)) return null;
+  try {
+    const hasScheme = /^[a-z][a-z\d+.-]*:/i.test(raw) && !/^[^/?#]+:\d+(?:[/?#]|$)/.test(raw);
+    const parsed = new URL(hasScheme ? raw : raw.startsWith("//") ? `https:${raw}` : `https://${raw}`);
+    if (!["http:", "https:"].includes(parsed.protocol) || !parsed.hostname) return null;
+    const host = parsed.hostname.replace(/\.$/, "");
+    if (!host.includes(".") && !host.startsWith("[")) return null;
+    return parsed;
+  } catch { return null; }
 }
 
 function isPunycode(host: string): boolean {
@@ -85,7 +90,7 @@ function isBrandImpersonation(host: string, pathname: string): boolean {
     // If the host IS the brand (e.g. paypal.com), not impersonation
     const parts = host.toLowerCase().split(".");
     const registrable = parts.slice(-2).join(".");
-    if (registrable.startsWith(brand)) continue;
+    if (registrable === `${brand}.com` || host === `${brand}.co.uk` || host.endsWith(`.${brand}.co.uk`)) continue;
     return true;
   }
   return false;
@@ -94,7 +99,7 @@ function isBrandImpersonation(host: string, pathname: string): boolean {
 export function analyzeUrl(raw: string): PhishResult {
   const trimmed = raw.trim();
   const parsed = tryParseUrl(trimmed);
-  const host = parsed?.hostname ?? null;
+  const host = parsed?.hostname.toLowerCase().replace(/\.$/, "") ?? null;
   const protocol = parsed?.protocol ?? "";
   const pathname = parsed?.pathname ?? "";
   const search = parsed?.search ?? "";
@@ -132,7 +137,7 @@ export function analyzeUrl(raw: string): PhishResult {
       description: "Legitimate services use domain names, not bare IP addresses.",
       descriptionAr: "الخدمات الشرعية تستخدم أسماء النطاقات، لا عناوين IP مباشرة.",
       points: 25,
-      triggered: !!host && /^(\d{1,3}\.){3}\d{1,3}$/.test(host),
+      triggered: !!host && (/^(\d{1,3}\.){3}\d{1,3}$/.test(host) || host.startsWith("[")),
     },
 
     // Rule 4: Too many subdomains (+20)
@@ -165,7 +170,7 @@ export function analyzeUrl(raw: string): PhishResult {
       description: 'Everything before @ is ignored by browsers — used to fake a legitimate-looking prefix.',
       descriptionAr: 'كل ما قبل @ يُتجاهل من المتصفحات — يُستخدم لإيهام المستخدم بشرعية الرابط.',
       points: 25,
-      triggered: trimmed.includes("@") && !!parsed,
+      triggered: !!parsed && Boolean(parsed.username || parsed.password),
     },
 
     // Rule 7: Suspicious TLD (+10)
@@ -221,7 +226,11 @@ export function analyzeUrl(raw: string): PhishResult {
   let riskLabelEn: string;
   let riskLabelAr: string;
 
-  if (score < 20) {
+  if (!parsed) {
+    riskLevel = "invalid";
+    riskLabelEn = "Enter a valid web URL";
+    riskLabelAr = "أدخل رابط ويب صالحاً";
+  } else if (score < 20) {
     riskLevel = "safe";
     riskLabelEn = "LOW RISK";
     riskLabelAr = "خطر منخفض";
@@ -236,6 +245,7 @@ export function analyzeUrl(raw: string): PhishResult {
   }
 
   return {
+    valid: Boolean(parsed),
     score,
     riskLevel,
     riskLabelEn,

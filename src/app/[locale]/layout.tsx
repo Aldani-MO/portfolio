@@ -15,14 +15,21 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const isAr = locale === "ar";
+  const title = isAr ? "محمد الضاني | مهندس برمجيات" : "Mohamed Aldani | Software Engineer";
+  const description = isAr
+    ? "مهندس برمجيات مقيم في السالمية، الكويت. مشاريع في تطبيقات الويب والموبايل وأنظمة النقل وأدوات فحص الروابط."
+    : "Software engineer in Salmiya, Kuwait. Selected projects in web, mobile, transit and URL analysis.";
 
   return {
-    title: isAr
-      ? "محمد الضاني — مطوّر متكامل"
-      : "Mohamed Aldani — Full-Stack Developer",
-    description: isAr
-      ? "مطوّر متكامل في الكويت وعمّان. بانٍ لأنظمة النقل وأدوات الأمن والبرمجيات الواقعية."
-      : "Full-stack developer based in Kuwait & Amman. Builder of transit systems, security tools, and real-world software.",
+    title: { absolute: title },
+    description,
+    openGraph: {
+      title, description, url: `${SITE_URL}/${locale}`,
+      locale: isAr ? "ar_KW" : "en_US", alternateLocale: isAr ? "en_US" : "ar_KW",
+      type: "website", siteName: "Mohamed Aldani",
+      images: [{ url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630, alt: title }],
+    },
+    twitter: { title, description, card: "summary_large_image", images: [`${SITE_URL}/opengraph-image`] },
     alternates: {
       canonical: `${SITE_URL}/${locale}`,
       languages: {

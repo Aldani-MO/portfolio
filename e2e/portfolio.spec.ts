@@ -13,8 +13,10 @@ for (const locale of ["en", "ar"]) {
         await page.evaluate(() => document.fonts.ready);
         await expect(page.locator("html")).toHaveAttribute("dir", locale === "ar" ? "rtl" : "ltr");
         await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
+        await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /\/opengraph-image/);
+        await expect(page).toHaveTitle(locale === "ar" ? "محمد الضاني | مهندس برمجيات" : "Mohamed Aldani | Software Engineer");
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
-        for (const section of ["depot", "about", "projects", "experience", "skills", "contact"]) {
+        for (const section of ["depot", "about", "personal", "projects", "experience", "skills", "certificates", "contact"]) {
           await expect(page.locator(`#${section}`)).toBeVisible();
           await page.locator(`#${section}`).screenshot({ path: `artifacts/${locale}-${width}-${theme}-${section}.png` });
         }

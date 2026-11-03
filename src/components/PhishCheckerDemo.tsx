@@ -50,10 +50,13 @@ export function PhishCheckerDemo() {
           inputMode="url"
           dir="ltr"
           value={url}
-          onChange={(e) => setUrl(e.target.value)}
+          onChange={(e) => { setUrl(e.target.value); setResult(null); }}
           placeholder={t("inputPlaceholder")}
-          onKeyDown={(e) => e.key === "Enter" && analyse()}
-          aria-label="URL to analyse"
+          onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); analyse(); } }}
+          aria-label={isAr ? "الرابط المراد فحصه" : "URL to analyse"}
+          maxLength={4096}
+          aria-invalid={result?.valid === false}
+          aria-describedby={result?.valid === false ? "url-error" : undefined}
           autoComplete="off"
           spellCheck={false}
         />
@@ -73,7 +76,8 @@ export function PhishCheckerDemo() {
       </div>
       {!result && <p className="demo-note">{isAr ? "اختر مثالاً أو الصق رابطاً لعرض الفحوصات. انخفاض الدرجة لا يضمن سلامة الرابط." : "Choose an example or paste a URL to see each check. A low score does not guarantee a safe link."}</p>}
       {/* Results */}
-      {result && (
+      {result && !result.valid && <p id="url-error" role="alert" className="demo-note">{isAr ? "أدخل رابط HTTP أو HTTPS، مثل https://example.com. لا يمكن فحص هذا النص." : "Enter an HTTP or HTTPS URL, such as https://example.com. This input cannot be analysed."}</p>}
+      {result?.valid && (
         <div aria-live="polite" aria-label="Analysis results">
           {/* Score meter */}
           <div className="risk-meter" aria-hidden="true">

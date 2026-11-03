@@ -17,7 +17,7 @@ The CSS variables in src/app/globals.css are the implementation source of truth.
 | Ink | #161813 | #E8E3D8 |
 | Route amber | #885100 | #F5A623 |
 | Signal red | #B91C1C | #FF9385 |
-| Signal green | #15803D | #71CF9A |
+| Signal green | #116B33 | #71CF9A |
 | Secondary text | #575A51 | #ADB1A5 |
 
 Amber identifies the route and actions; green and red communicate decisions. Neutral rules separate content. No coloured border card system.
@@ -43,6 +43,8 @@ The bus marker follows native scrolling. No content fades, delayed reveals, curs
 Arabic uses RTL layout and logical CSS properties. Theme follows the device preference until explicitly chosen; the saved choice survives reload and language changes. Navigation uses real anchor links. The mobile menu exposes its expanded state; the native command dialog traps focus and supports Escape. All core content is server rendered and readable with JavaScript disabled. Demo explanations and outcomes also exist as text.
 
 ## Content and contact
+
+Use the public title Software Engineer / مهندس برمجيات. Personal details use a definition list from supplied information. Certificates use timetable-style rows; their empty state makes no credential claims. The site's own stack is explicitly identified in Skills. Keep historic employment titles as recorded.
 
 Keep copy specific to supplied experience and verified repositories. Do not invent employment status, metrics or graduate status. The bus and phishing project links are public. The pharmacy project is described from the supplied brief without a fabricated repository link. The contact section uses direct email until Resend and a verified sender are configured. Never report delivery success without provider acceptance.
 

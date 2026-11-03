@@ -6,14 +6,14 @@ import "../app/globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Mohamed Aldani — Full-Stack Developer",
+    default: "Mohamed Aldani | Software Engineer",
     template: "%s | Mohamed Aldani",
   },
   description:
-    "Full-stack developer based in Kuwait & Amman. Builder of transit systems, security tools, and real-world software. B.S. Computer Science, PSUT.",
+    "Software engineer in Salmiya, Kuwait. Web and mobile applications, transit systems and URL analysis tools.",
   keywords: [
     "Mohamed Aldani",
-    "Full Stack Developer",
+    "Software Engineer",
     "Flutter",
     "Firebase",
     "React",
@@ -28,15 +28,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     alternateLocale: "ar_KW",
     siteName: "Mohamed Aldani",
-    title: "Mohamed Aldani — Full-Stack Developer",
+    title: "Mohamed Aldani | Software Engineer",
     description:
-      "Full-stack developer based in Kuwait & Amman. Builder of transit systems, security tools, and real-world software.",
+      "Software engineer in Salmiya, Kuwait. Selected projects in web, mobile, transit and security.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mohamed Aldani — Full-Stack Developer",
+    title: "Mohamed Aldani | Software Engineer",
     description:
-      "Full-stack developer based in Kuwait & Amman. Builder of transit systems, security tools, and real-world software.",
+      "Software engineer in Salmiya, Kuwait. Selected projects in web, mobile, transit and security.",
   },
   robots: { index: true, follow: true },
   metadataBase: new URL(SITE_URL),
@@ -58,11 +58,10 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                try {
-                  var saved = localStorage.getItem('portfolio-theme');
-                  var theme = saved === 'light' || saved === 'dark' ? saved : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                  document.documentElement.setAttribute('data-theme', theme);
-                } catch(e) {}
+                var saved;
+                try { saved = localStorage.getItem('portfolio-theme'); } catch(e) {}
+                var theme = saved === 'light' || saved === 'dark' ? saved : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
               })();
             `,
           }}
@@ -75,7 +74,7 @@ export default async function RootLayout({
               "@type": "Person",
               name: "Mohamed Aldani",
               url: SITE_URL,
-              jobTitle: "Full-Stack Developer",
+              jobTitle: "Software Engineer",
               alumniOf: {
                 "@type": "CollegeOrUniversity",
                 name: "Princess Sumaya University of Technology",

@@ -61,6 +61,7 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
     { id: "goto-projects",   icon: "○", label: t("actions.projects"),   action: () => navigate("projects") },
     { id: "goto-experience", icon: "○", label: t("actions.experience"), action: () => navigate("experience") },
     { id: "goto-skills",     icon: "○", label: t("actions.skills"),     action: () => navigate("skills") },
+    { id: "goto-certificates", icon: "○", label: t("actions.certificates"), action: () => navigate("certificates") },
     { id: "goto-contact",    icon: "●", label: t("actions.contact"),    action: () => navigate("contact") },
     ...(locale === "en"
       ? [{ id: "switch-ar", icon: "AR", label: t("actions.switchAr"), action: () => switchLocale("ar") }]
@@ -75,6 +76,7 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
         const current = (document.documentElement.getAttribute("data-theme") as "dark" | "light") || "dark";
         const next = current === "dark" ? "light" : "dark";
         document.documentElement.setAttribute("data-theme", next);
+        document.documentElement.dataset.themePreference = next;
         try { localStorage.setItem("portfolio-theme", next); } catch {}
       },
     },
@@ -98,9 +100,9 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
       }
       if (!open) return;
       if (e.key === "Escape") { setOpen(false); setQuery(""); }
-      if (e.key === "ArrowDown") { e.preventDefault(); setSelected((s) => Math.min(s + 1, filtered.length - 1)); }
+      if (e.key === "ArrowDown") { e.preventDefault(); setSelected((s) => Math.max(0, Math.min(s + 1, filtered.length - 1))); }
       if (e.key === "ArrowUp")   { e.preventDefault(); setSelected((s) => Math.max(s - 1, 0)); }
-      if (e.key === "Enter") { e.preventDefault(); filtered[selected]?.action(); setQuery(""); }
+      if (e.key === "Enter" && document.activeElement === inputRef.current) { e.preventDefault(); filtered[selected]?.action(); setQuery(""); }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -115,6 +117,10 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
       setQuery("");
     }
   }, [open]);
+
+  useEffect(() => {
+    if (open) document.getElementById(filtered[selected]?.id)?.scrollIntoView({ block: "nearest" });
+  }, [open, selected, filtered]);
 
   if (!open) return null;
 

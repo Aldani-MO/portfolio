@@ -67,6 +67,8 @@ export function ContactForm({ enabled = false }: { enabled?: boolean }) {
           placeholder={t("emailPlaceholder")}
           required
           autoComplete="email"
+          dir="ltr"
+          maxLength={254}
         />
       </div>
 

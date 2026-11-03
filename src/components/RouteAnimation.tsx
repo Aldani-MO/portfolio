@@ -3,9 +3,8 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 
-gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+gsap.registerPlugin(ScrollTrigger);
 
 
 
@@ -15,12 +14,9 @@ export function RouteAnimation() {
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    // Respect reduced motion
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced || window.innerWidth <= 768 || document.documentElement.dataset.ride === "static") return;
-
-    // Wait for DOM to be ready
-    const init = () => {
+    const media = gsap.matchMedia();
+    media.add("(min-width: 769px) and (prefers-reduced-motion: no-preference)", () => {
+      if (document.documentElement.dataset.ride === "static") return;
       const line = lineRef.current;
       const bus = busRef.current;
       if (!line || !bus) return;
@@ -48,7 +44,7 @@ export function RouteAnimation() {
         end: "bottom bottom",
         scrub: 0.5,
         onUpdate: (self) => {
-          if (!bus || !line) return;
+          if (!bus || !line || document.documentElement.dataset.ride === "static") return;
           const progress = self.progress;
           const point = line.getPointAtLength(progress * length);
           gsap.set(bus, {
@@ -59,14 +55,8 @@ export function RouteAnimation() {
       });
 
 
-    };
-
-    // Small delay for DOM paint
-    const timer = setTimeout(init, 100);
-    return () => {
-      clearTimeout(timer);
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
+    });
+    return () => media.revert();
   }, []);
 
   return (

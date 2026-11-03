@@ -9,6 +9,7 @@ const STATIONS = [
   { id: "projects",   en: "STOP 02",  ar: "المحطة 02" },
   { id: "experience", en: "STOP 03",  ar: "المحطة 03" },
   { id: "skills",     en: "STOP 04",  ar: "المحطة 04" },
+  { id: "certificates", en: "STOP 05", ar: "المحطة 05" },
   { id: "contact",    en: "TERMINUS", ar: "المحطة النهائية" },
 ];
 

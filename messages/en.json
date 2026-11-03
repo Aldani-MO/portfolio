@@ -6,16 +6,17 @@
     "skills": "Skills",
     "contact": "Contact",
     "switchLang": "عربي",
-    "openCmd": "⌘K"
+    "openCmd": "⌘K",
+    "certificates": "Certificates"
   },
   "skipRide": "Skip The Ride →",
   "depot": {
     "stationId": "DEPOT",
-    "tag": "Full-Stack Developer · Kuwait · Amman",
+    "tag": "Salmiya, Kuwait",
     "name": "MOHAMED\nALDANI",
-    "bio": "I build web applications, security tools and systems that connect software to the real world. My work spans PHP and CodeIgniter, Flutter and Firebase, React, and Python.",
-    "cta": "Explore the work",
-    "cv": "Read my CV ↗",
+    "bio": "I work on web and mobile applications using PHP, React, Flutter and Python. My projects include a bus management system, a URL checker and a pharmacy management application.",
+    "cta": "View projects",
+    "cv": "CV (PDF)",
     "cmdHint": "Quick navigation: Ctrl / ⌘ K"
   },
   "about": {
@@ -39,8 +40,8 @@
   "projects": {
     "stationId": "STOP 02",
     "title": "Projects",
-    "flagship": "Flagship Project",
-    "viewRepo": "View On GitHub →",
+    "flagship": "Main project",
+    "viewRepo": "Source on GitHub →",
     "demo": "Live Demo Below",
     "simulation": "SIMULATION",
     "sdbs": {
@@ -74,8 +75,8 @@
       "title": "Phish Checker",
       "subtitle": "Python · Docker · Linux (WSL)",
       "description": "A CLI tool that analyses URLs and assigns an explainable phishing-risk score (0–100) from heuristics. Dockerized for consistent cross-platform execution. The live demo below is a browser port of the same heuristics: pure string analysis, no network requests.",
-      "demoLabel": "Live Browser Port: Heuristic Analyzer",
-      "demoNote": "Client-Side TypeScript Port of the Python CLI heuristics. Enter any URL. Zero network requests are made.",
+      "demoLabel": "Try the URL checker",
+      "demoNote": "A TypeScript version of the Python tool’s rules. Analysis runs locally without opening the URL.",
       "inputPlaceholder": "https://paypal-login.verify-account.xyz/signin",
       "analyseBtn": "Analyze URL",
       "score": "Phishing Risk Score",
@@ -101,7 +102,7 @@
     "cols": {
       "period": "Period",
       "role": "Role & Organization",
-      "details": "Key Achievements"
+      "details": "Work"
     },
     "roles": [
       {
@@ -158,7 +159,14 @@
           "React.js",
           "Tailwind CSS",
           "Docker",
-          "OpenCV"
+          "OpenCV",
+          "Next.js",
+          "TypeScript",
+          "GSAP",
+          "next-intl",
+          "Vitest",
+          "Playwright",
+          "Vercel"
         ]
       },
       {
@@ -178,6 +186,22 @@
           "Windows",
           "WSL"
         ]
+      },
+      {
+        "label": "This portfolio",
+        "lineColour": "muted",
+        "stops": [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS v4",
+          "GSAP",
+          "next-intl",
+          "Vitest",
+          "Playwright",
+          "Vercel",
+          "pnpm"
+        ]
       }
     ]
   },
@@ -185,9 +209,9 @@
     "stationId": "TERMINUS",
     "title": "Contact",
     "intro": "Send a message or find me at the links below.",
-    "namePlaceholder": "Your Full Name",
+    "namePlaceholder": "Your name",
     "emailPlaceholder": "your.email@example.com",
-    "messagePlaceholder": "Tell Me About Your Project Or Opportunity...",
+    "messagePlaceholder": "Your message",
     "nameLabel": "Your Name",
     "emailLabel": "Email Address",
     "messageLabel": "Your Message",
@@ -219,7 +243,8 @@
       "switchAr": "Switch To Arabic",
       "switchEn": "Switch To English",
       "downloadCv": "Download CV (PDF)",
-      "copyEmail": "Copy Email Address"
+      "copyEmail": "Copy Email Address",
+      "certificates": "Go to STOP 05: Certificates"
     }
   }
 }

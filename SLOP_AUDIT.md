@@ -1,6 +1,6 @@
 # Portfolio design and usability audit
 
-Reviewed 2026-11-03 against the supplied brief and continuation request.
+Reviewed 2026-11-03 against the supplied brief and continuation requests.
 
 ## Design decisions
 
@@ -27,8 +27,13 @@ Reviewed 2026-11-03 against the supplied brief and continuation request.
 ## Evidence
 
 - Production Next.js build passes, including TypeScript checking.
-- 16 Vitest tests cover phishing rules, transit decision priority and contact failure handling.
-- 14 Playwright tests cover EN/AR at 375, 768 and 1440px in light/dark themes; no horizontal overflow, real demo decisions, command search, mobile navigation and no runtime page errors.
+- 32 Vitest tests cover phishing rules and malformed input, transit decision priority and contact failure handling.
+- 86 Playwright checks passed in Chromium and WebKit with the contact-test server enabled. They cover EN/AR at 375, 768 and 1440px in light/dark themes, plus 320/360/428/820/1024/1280/1920px at normal and 200% text size; real demo decisions, command search, mobile navigation and runtime page errors.
+- Localized sharing metadata explicitly includes the PNG preview image; localized titles no longer repeat the name through the parent title template.
+- Automated axe WCAG A/AA audits cover EN/AR, light/dark, mobile/desktop. The light-theme signal green was darkened after detecting a 4.03:1 failure against the demo surface.
+- Fixed tablet experience-table overflow at 200% text, malformed URLs returning a low-risk label, brand-prefix false negatives, IPv6 handling, and incorrect credential detection for @ in a URL path.
+- Tested system theme changes, storage denial and cross-tab theme synchronization. Fixed preferences missed between first paint and listener setup; returning to a tab also resynchronizes the preference.
+- Enabled-form browser cases run against a separate local server with dummy email configuration and intercepted delivery. They verify validation, repeated synchronous submits, friendly network failures, and retained drafts without sending email.
 - Additional browser checks cover no-JavaScript reading, CV/credits availability, and theme persistence across reload and language navigation.
 - Reduced motion is enabled throughout the locale/size/theme browser matrix.
 - Screenshots of every section across that matrix are generated under ignored artifacts/. Desktop hero, dark projects and Arabic desktop/mobile layouts were visually inspected.
@@ -37,8 +42,9 @@ Reviewed 2026-11-03 against the supplied brief and continuation request.
 ## Limits and follow-up
 
 - No Lighthouse score or LCP number is claimed; a Lighthouse performance audit has not been run.
-- Browser QA uses Chromium. Real iOS/Android keyboard behavior, assistive technology and other browser engines have not been manually tested.
+- Browser QA uses Chromium and WebKit. Short viewport checks approximate reduced space around inputs; real iOS/Android keyboards and assistive technology have not been manually tested. Automated WCAG checks do not replace a manual accessibility audit.
 - No live email was sent. Add RESEND_API_KEY and CONTACT_FROM_EMAIL with a verified sender to enable the contact form; direct email works without them.
 - Custom domain ownership/DNS was not established. Use the verified Vercel production URL.
 - Production deployment: https://mohamed-aldani-portfolio.vercel.app. Anonymous English access returned HTTP 200 with the correct production canonical URL.
-- Confirm education wording and obtain a public pharmacy repository or approved screenshots if desired. Current copy avoids asserting graduate status.
+- Certificates are awaiting user-supplied names, issuers, dates and credential links. A plain empty state is shown. No birth date was inferred from age. Personal details were supplied explicitly for public display in this conversation.
+- Obtain a public pharmacy repository or approved screenshots if desired. Current copy avoids asserting graduate status.
