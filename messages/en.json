@@ -12,17 +12,16 @@
     "placeholder": "Jump to a section or run a command",
     "actions": {
       "depot": "Top of page",
-      "about": "04 Education",
-      "projects": "01 Selected work",
-      "experience": "02 Experience",
-      "skills": "03 Skills",
+      "about": "4 Education",
+      "projects": "1 Selected work",
+      "experience": "2 Experience",
+      "skills": "3 Skills",
       "contact": "Contact",
       "switchAr": "Switch to Arabic",
       "switchEn": "Switch to English",
       "downloadCv": "Download CV (PDF)",
       "copyEmail": "Copy email address",
-      "certificates": "05 Certificates",
-      "github": "06 GitHub activity"
+      "certificates": "5 Certificates"
     }
   },
   "contact": {

@@ -83,6 +83,10 @@ body {
   overflow-x: clip;
   overflow-wrap: break-word;
 }
+body {
+  background-image: radial-gradient(color-mix(in srgb, var(--ink) 9%, transparent) 1px, transparent 1.2px);
+  background-size: 22px 22px; background-attachment: fixed;
+}
 html[lang="ar"] body { font-family: var(--font-arabic); line-height: 1.85; }
 ::selection { background: var(--line); color: var(--line-ink); }
 img { max-inline-size: 100%; block-size: auto; display: block; }
@@ -278,9 +282,6 @@ html[data-theme="dark"] .board { border: 1px solid var(--rule); }
   font: 600 var(--fs-xs)/1.4 var(--font-mono); color: var(--board-2); border-block-end: 1px solid var(--board-rule);
 }
 html[lang="ar"] .board-head { font-family: var(--font-arabic); }
-.board-shot { padding: 16px 16px 4px; }
-.board-shot img { inline-size: 100%; border-radius: 6px; }
-.board-shot figcaption { color: var(--board-2); margin-block: 10px 6px; }
 .board-rows a {
   display: grid; grid-template-columns: 2rem minmax(0, 1fr) auto; align-items: center; gap: 4px 14px;
   min-block-size: 64px; padding: 12px 20px; text-decoration: none; border-block-start: 1px solid var(--board-rule);
@@ -319,7 +320,7 @@ html[dir="rtl"] .board-rows a:hover .board-title { transform: translateX(-4px); 
 .meta-list div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 12px; padding-block: 10px; border-block-start: 1px solid var(--rule); }
 .meta-list dd { font-size: var(--fs-sm); }
 
-.gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 16px; align-items: start; }
+.gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 16px; align-items: start; }
 .shot img { inline-size: 100%; border-radius: var(--radius); border: 1px solid var(--rule); background: var(--raised); }
 .shot-wide { grid-column: 1 / -1; }
 .shot-wide img { box-shadow: var(--shadow); }
@@ -341,7 +342,7 @@ figcaption { margin-block-start: 10px; font-size: var(--fs-xs); line-height: 1.5
   counter-increment: rule; display: grid; grid-template-columns: 2rem minmax(0, 1fr) auto; align-items: center; gap: 12px;
   padding-block: 14px; border-block-start: 1px solid var(--rule); font-size: var(--fs-sm);
 }
-.rules li::before { content: counter(rule, decimal-leading-zero); font: 600 var(--fs-xs)/1 var(--font-mono); color: var(--ink-2); }
+.rules li::before { content: counter(rule); font: 600 var(--fs-xs)/1 var(--font-mono); color: var(--ink-2); }
 .signal {
   display: inline-flex; align-items: center; white-space: nowrap;
   padding: 3px 10px; border: 1.5px solid currentColor; border-radius: 999px;
@@ -552,18 +553,6 @@ html[dir="rtl"] .cmd-input-wrap { padding: 8px 16px 8px 8px; }
 .tok-kind { font-size: 0.6875rem; color: var(--ink-2); padding-inline: 3px; }
 @keyframes tok-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
-/* GitHub departures */
-.departures { border-block-end: 1px solid var(--rule); margin-block-end: 20px; }
-.departures li { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 16rem) minmax(0, 1fr) auto; gap: 6px 28px; align-items: baseline; padding-block: 16px; border-block-start: 1px solid var(--rule); }
-.dep-name { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; text-decoration: none; overflow-wrap: anywhere; }
-.dep-name:hover { color: var(--line); }
-.dep-desc { font-size: var(--fs-sm); color: var(--ink-2); }
-.dep-lang { margin: 0; text-align: end; }
-@media (max-width: 1100px) {
-  .departures li { grid-template-columns: minmax(0, 1fr) auto; }
-  .dep-desc { grid-column: 1 / -1; }
-  .departures .tt-time { grid-column: 1 / -1; }
-}
 
 /* Hero entrance, once */
 @keyframes rise { from { opacity: 0; transform: translateY(0.35em); } to { opacity: 1; transform: none; } }
@@ -574,7 +563,7 @@ html[dir="rtl"] .cmd-input-wrap { padding: 8px 16px 8px 8px; }
 .hero-lede { animation: rise 800ms 280ms var(--ease) both; }
 .hero-actions { animation: rise 800ms 360ms var(--ease) both; }
 .hero-facts { animation: rise 800ms 440ms var(--ease) both; }
-.hero .board { animation: slide-in 1000ms 150ms var(--ease) both; }
+.hero .board { animation: slide-in 1000ms 150ms var(--ease) both; align-self: center; }
 .hero-photo { animation: slide-in 900ms var(--ease) both; }
 
 /* Theme toggle: icon turns in, page reveals as a growing circle */
@@ -587,9 +576,9 @@ html[dir="rtl"] .cmd-input-wrap { padding: 8px 16px 8px 8px; }
 .shot img { transition: transform 400ms var(--ease), box-shadow 400ms var(--ease); }
 .shot:hover img { transform: translateY(-6px); box-shadow: var(--shadow); }
 .cred-cert:hover { transform: translateY(-3px) rotate(-1.5deg) scale(1.04); }
-.skill-table > div, .timetable > li, .departures li, .cred { transition: background-color 240ms var(--ease); }
-.skill-table > div:hover, .timetable > li:hover, .departures li:hover, .cred:hover { background: linear-gradient(90deg, color-mix(in srgb, var(--line) 8%, transparent), transparent 70%); }
-html[dir="rtl"] :is(.skill-table > div, .timetable > li, .departures li, .cred):hover { background: linear-gradient(270deg, color-mix(in srgb, var(--line) 8%, transparent), transparent 70%); }
+.skill-table > div, .timetable > li, .cred { transition: background-color 240ms var(--ease); }
+.skill-table > div:hover, .timetable > li:hover, .cred:hover { background: linear-gradient(90deg, color-mix(in srgb, var(--line) 8%, transparent), transparent 70%); }
+html[dir="rtl"] :is(.skill-table > div, .timetable > li, .cred):hover { background: linear-gradient(270deg, color-mix(in srgb, var(--line) 8%, transparent), transparent 70%); }
 .skill-table dt, .tt-role { transition: color 200ms, transform 260ms var(--ease); }
 .skill-table > div:hover dt, .timetable > li:hover .tt-role { color: var(--line); transform: translateX(4px); }
 html[dir="rtl"] :is(.skill-table > div:hover dt, .timetable > li:hover .tt-role) { transform: translateX(-4px); }
@@ -598,7 +587,7 @@ html[dir="rtl"] :is(.skill-table > div:hover dt, .timetable > li:hover .tt-role)
 .contact-links a .icon { transition: transform 260ms var(--ease); }
 .contact-links a:hover .icon { transform: translate(3px, -3px); }
 .stop-plate { transition: transform 400ms var(--ease); }
-.station-head:hover .stop-plate { transform: rotate(-90deg); }
+.station-head:hover .stop-plate { transform: translateY(-3px) scale(1.06); }
 .pop { animation: pop 380ms var(--ease); }
 @keyframes pop { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.12); } 100% { transform: none; opacity: 1; } }
 .risk-label { animation: rise 500ms var(--ease) both; }
@@ -606,7 +595,7 @@ html[dir="rtl"] :is(.skill-table > div:hover dt, .timetable > li:hover .tt-role)
 /* Portrait beside the name */
 .hero-id { display: flex; align-items: center; gap: clamp(20px, 3vw, 36px); }
 .hero-photo {
-  flex: none; inline-size: clamp(96px, 11vw, 168px); block-size: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; object-position: 50% 22%;
+  flex: none; inline-size: clamp(96px, 11vw, 168px); block-size: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover;
   box-shadow: 0 0 0 5px var(--bg), 0 0 0 9px var(--line), var(--shadow);
   transition: transform 500ms var(--ease), box-shadow 300ms var(--ease);
 }

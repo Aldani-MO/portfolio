@@ -4,7 +4,6 @@ import { PhishCheckerDemo } from "@/components/PhishCheckerDemo";
 import { EdgeAIDemo } from "@/components/EdgeAIDemo";
 import { ContactForm } from "@/components/ContactForm";
 import { CommandPalette } from "@/components/CommandPalette";
-import { getRepos } from "@/lib/github";
 import {
   board, contact, credentials, credentialText, CV, decisionLabel, education, EMAIL, experience, fmtDate,
   GITHUB, hero, pharmacy, phish, sdbs, sections, skills, skillsNote, usedIn, type L, type Locale,
@@ -30,8 +29,7 @@ function StationHead({ code, id, title, lede }: { code: string; id: string; titl
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
 
-export async function PortfolioPage({ locale: raw, contactEnabled = false }: { locale: string; contactEnabled?: boolean }) {
-  const repos = await getRepos();
+export function PortfolioPage({ locale: raw, contactEnabled = false }: { locale: string; contactEnabled?: boolean }) {
   const locale: Locale = raw === "ar" ? "ar" : "en";
   const t = (v: L) => v[locale];
   const isAr = locale === "ar";
@@ -51,7 +49,7 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
           <section id="depot" className="station hero" aria-labelledby="hero-name">
             <div className="hero-copy">
               <div className="hero-id">
-                <Image className="hero-photo" src="/portrait.jpg" width={445} height={556} alt={isAr ? "صورة محمد الضاني" : "Portrait of Mohamed Aldani"} sizes="(max-width: 600px) 96px, 168px" loading="eager" fetchPriority="high" />
+                <Image className="hero-photo" src="/portrait.jpg" width={520} height={520} alt={isAr ? "صورة محمد الضاني" : "Portrait of Mohamed Aldani"} sizes="(max-width: 600px) 96px, 168px" loading="eager" fetchPriority="high" />
                 <h1 id="hero-name" className="hero-name">
                   {t(hero.name).split("\n").map(line => <span key={line}>{line}</span>)}
                 </h1>
@@ -70,10 +68,6 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
 
             <nav className="board" aria-labelledby="board-title">
               <div className="board-head"><span id="board-title">{t(hero.board)}</span><span>{board.length} {isAr ? "خطوط" : "lines"}</span></div>
-              <figure className="board-shot">
-                <Image src={sdbs.shots[0].src} width={sdbs.shots[0].w} height={sdbs.shots[0].h} alt={t(sdbs.shots[0].cap)} sizes="(max-width: 1000px) 92vw, 440px" loading="eager" />
-                <figcaption>{t(sdbs.shots[0].cap)}</figcaption>
-              </figure>
               <ol className="board-rows">
                 {board.map(row => (
                   <li key={row.id}>
@@ -90,11 +84,11 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
 
           {/* 01 Work */}
           <section id="projects" className="station" aria-labelledby="projects-heading">
-            <StationHead code="01" id="projects-heading" title={t(sections.work)} />
+            <StationHead code="1" id="projects-heading" title={t(sections.work)} />
 
             <article className="case" id="project-sdbs" aria-labelledby="sdbs-title">
               <div className="case-intro">
-                <h3 id="sdbs-title" className="project-title"><span className="line-no" dir="ltr">01</span>{t(sdbs.title)}</h3>
+                <h3 id="sdbs-title" className="project-title"><span className="line-no" dir="ltr">1</span>{t(sdbs.title)}</h3>
                 <p className="project-summary">{t(sdbs.summary)}</p>
                 <dl className="meta-list">
                   {sdbs.meta.map(m => <div key={m.k.en}><dt>{t(m.k)}</dt><dd>{t(m.v)}</dd></div>)}
@@ -103,7 +97,7 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
               </div>
 
               <div className="gallery" role="list" tabIndex={0} aria-label={isAr ? "لقطات من التطبيق" : "App screenshots"}>
-                {sdbs.shots.filter(s => !s.wide).map(s => (
+                {sdbs.shots.map(s => (
                   <figure key={s.src} role="listitem" className={s.wide ? "shot shot-wide" : "shot"}>
                     <Image src={s.src} width={s.w} height={s.h} alt={t(s.cap)} sizes={s.wide ? "(max-width: 768px) 88vw, 560px" : "(max-width: 768px) 46vw, 180px"} />
                     <figcaption>{t(s.cap)}</figcaption>
@@ -136,7 +130,7 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
 
             <article className="case case-split" id="project-phish" aria-labelledby="phish-title">
               <div className="case-intro">
-                <h3 id="phish-title" className="project-title"><span className="line-no" dir="ltr">02</span>{t(phish.title)}</h3>
+                <h3 id="phish-title" className="project-title"><span className="line-no" dir="ltr">2</span>{t(phish.title)}</h3>
                 <p className="project-summary">{t(phish.summary)}</p>
                 <p className="stack" dir="ltr">{phish.stack}</p>
                 <figure className="shot shot-terminal">
@@ -152,7 +146,7 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
             </article>
 
             <article className="case case-compact" id="project-pharmacy" aria-labelledby="pharmacy-title">
-              <h3 id="pharmacy-title" className="project-title"><span className="line-no" dir="ltr">03</span>{t(pharmacy.title)}</h3>
+              <h3 id="pharmacy-title" className="project-title"><span className="line-no" dir="ltr">3</span>{t(pharmacy.title)}</h3>
               <div>
                 <p className="project-summary">{t(pharmacy.summary)}</p>
                 <p className="stack" dir="ltr">{pharmacy.stack}</p>
@@ -166,7 +160,7 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
 
           {/* 02 Experience */}
           <section id="experience" className="station" aria-labelledby="experience-heading">
-            <StationHead code="02" id="experience-heading" title={t(sections.experience)} />
+            <StationHead code="2" id="experience-heading" title={t(sections.experience)} />
             <ol className="timetable">
               {experience.map(job => (
                 <li key={job.role.en}>
@@ -184,7 +178,7 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
 
           {/* 03 Skills */}
           <section id="skills" className="station" aria-labelledby="skills-heading">
-            <StationHead code="03" id="skills-heading" title={t(sections.skills)} />
+            <StationHead code="3" id="skills-heading" title={t(sections.skills)} />
             <dl className="skill-table">
               {skills.map(s => (
                 <div key={s.label.en}>
@@ -199,7 +193,7 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
 
           {/* 04 Education */}
           <section id="about" className="station" aria-labelledby="about-heading">
-            <StationHead code="04" id="about-heading" title={t(sections.education)} />
+            <StationHead code="4" id="about-heading" title={t(sections.education)} />
             <div className="edu">
               <div>
                 <h3 className="edu-degree">{t(education.degree)}</h3>
@@ -222,7 +216,7 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
 
           {/* 05 Certificates */}
           <section id="certificates" className="station" aria-labelledby="certificates-heading">
-            <StationHead code="05" id="certificates-heading" title={t(sections.certificates)} lede={t(credentialText.lede)} />
+            <StationHead code="5" id="certificates-heading" title={t(sections.certificates)} lede={t(credentialText.lede)} />
             <ul className="cred-list">
               {credentials.map(c => (
                 <li key={c.id} className="cred">
@@ -250,23 +244,6 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
             </ul>
           </section>
 
-          {/* 06 GitHub */}
-          {repos.length > 0 && (
-            <section id="github" className="station" aria-labelledby="github-heading">
-              <StationHead code="06" id="github-heading" title={t(sections.github)} lede={t(sections.githubLede)} />
-              <ol className="departures">
-                {repos.map(r => (
-                  <li key={r.name}>
-                    <time className="tt-time" dateTime={r.pushedAt}>{fmtDate(r.pushedAt, locale)}</time>
-                    <a className="dep-name" href={r.url} {...ext} dir="ltr">{r.name}<Arrow external /><span className="sr-only">{newTab}</span></a>
-                    <p className="dep-desc">{r.description ? t(r.description) : ""}</p>
-                    <span className="stack dep-lang" dir="ltr">{r.language ?? ""}</span>
-                  </li>
-                ))}
-              </ol>
-              <a className="text-link" href={GITHUB} {...ext}>{isAr ? "كل المستودعات على GitHub" : "All repositories on GitHub"}<span className="sr-only">{newTab}</span></a>
-            </section>
-          )}
 
           {/* Terminus */}
           <section id="contact" className="station terminus" aria-labelledby="contact-heading">

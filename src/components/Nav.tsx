@@ -71,7 +71,7 @@ export function Nav({ locale }: { locale: string }) {
   };
   return (
     <nav ref={navRef} className="site-nav" aria-label={isAr ? "التنقل الرئيسي" : "Main navigation"}>
-      <a className="nav-logo" href="#depot" aria-label={isAr ? "محمد الضاني، إلى الأعلى" : "Mohamed Aldani, back to top"}><Image className="nav-avatar" src="/portrait.jpg" width={445} height={556} alt="" sizes="36px" /><span className="nav-name">{isAr ? "محمد الضاني" : "Mohamed Aldani"}</span></a>
+      <a className="nav-logo" href="#depot" aria-label={isAr ? "محمد الضاني، إلى الأعلى" : "Mohamed Aldani, back to top"}><Image className="nav-avatar" src="/portrait.jpg" width={520} height={520} alt="" sizes="36px" /><span className="nav-name">{isAr ? "محمد الضاني" : "Mohamed Aldani"}</span></a>
       <button ref={menuRef} className="nav-menu nav-control" aria-expanded={menuOpen} aria-controls="station-links" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? (isAr ? "إغلاق" : "Close") : (isAr ? "القائمة" : "Menu")}
       </button>

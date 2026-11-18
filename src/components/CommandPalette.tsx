@@ -59,14 +59,13 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
 
   const isAr = locale === "ar";
   const items: CmdItem[] = [
-    { id: "goto-depot", icon: "00", label: t("actions.depot"), action: () => navigate("depot") },
-    { id: "goto-projects", icon: "01", label: t("actions.projects"), action: () => navigate("projects") },
-    { id: "goto-experience", icon: "02", label: t("actions.experience"), action: () => navigate("experience") },
-    { id: "goto-skills", icon: "03", label: t("actions.skills"), action: () => navigate("skills") },
-    { id: "goto-about", icon: "04", label: t("actions.about"), action: () => navigate("about") },
-    { id: "goto-certificates", icon: "05", label: t("actions.certificates"), action: () => navigate("certificates") },
-    { id: "goto-github", icon: "06", label: t("actions.github"), action: () => navigate("github") },
-    { id: "goto-contact", icon: "07", label: t("actions.contact"), action: () => navigate("contact") },
+    { id: "goto-depot", icon: "↑", label: t("actions.depot"), action: () => navigate("depot") },
+    { id: "goto-projects", icon: "1", label: t("actions.projects"), action: () => navigate("projects") },
+    { id: "goto-experience", icon: "2", label: t("actions.experience"), action: () => navigate("experience") },
+    { id: "goto-skills", icon: "3", label: t("actions.skills"), action: () => navigate("skills") },
+    { id: "goto-about", icon: "4", label: t("actions.about"), action: () => navigate("about") },
+    { id: "goto-certificates", icon: "5", label: t("actions.certificates"), action: () => navigate("certificates") },
+    { id: "goto-contact", icon: "@", label: t("actions.contact"), action: () => navigate("contact") },
     locale === "en"
       ? { id: "switch-ar", icon: "AR", label: t("actions.switchAr"), action: () => switchLocale("ar") }
       : { id: "switch-en", icon: "EN", label: t("actions.switchEn"), action: () => switchLocale("en") },

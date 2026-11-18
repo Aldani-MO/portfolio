@@ -28,9 +28,9 @@ export const hero = {
 };
 
 export const board = [
-  { id: "project-sdbs", n: "01", title: { en: "Smart Dynamic Bus System", ar: "نظام الحافلات الذكي" }, stack: "Flutter · Firebase · Python", status: { en: "Case study + simulation", ar: "دراسة حالة ومحاكاة" } },
-  { id: "project-phish", n: "02", title: { en: "Phish Checker", ar: "فاحص روابط التصيّد" }, stack: "Python · Docker", status: { en: "Try it in the browser", ar: "جرّبه في المتصفح" } },
-  { id: "project-pharmacy", n: "03", title: { en: "Pharmacy Management System", ar: "نظام إدارة الصيدلية" }, stack: "C++ · OOP", status: { en: "Academic project", ar: "مشروع جامعي" } },
+  { id: "project-sdbs", n: "1", title: { en: "Smart Dynamic Bus System", ar: "نظام الحافلات الذكي" }, stack: "Flutter · Firebase · Python", status: { en: "Case study + simulation", ar: "دراسة حالة ومحاكاة" } },
+  { id: "project-phish", n: "2", title: { en: "Phish Checker", ar: "فاحص روابط التصيّد" }, stack: "Python · Docker", status: { en: "Try it in the browser", ar: "جرّبه في المتصفح" } },
+  { id: "project-pharmacy", n: "3", title: { en: "Pharmacy Management System", ar: "نظام إدارة الصيدلية" }, stack: "C++ · OOP", status: { en: "Academic project", ar: "مشروع جامعي" } },
 ];
 
 export const sections = {
@@ -38,10 +38,7 @@ export const sections = {
   experience: { en: "Experience", ar: "الخبرة العملية" },
   skills: { en: "Skills", ar: "المهارات" },
   education: { en: "Education", ar: "التعليم" },
-  certificates: { en: "Certificates", ar: "الشهادات" },
-  github: { en: "Recent departures on GitHub", ar: "آخر التحديثات على GitHub" },
-  githubLede: { en: "Live from the GitHub API: my public repositories, most recently updated first.", ar: "مباشرة من واجهة GitHub: مستودعاتي العامة، الأحدث تحديثاً أولاً." },
-  contact: { en: "Contact", ar: "تواصل" },
+  certificates: { en: "Certificates", ar: "الشهادات" },  contact: { en: "Contact", ar: "تواصل" },
 };
 
 export const sdbs = {
@@ -61,7 +58,6 @@ export const sdbs = {
     { src: "/work/sdbs/passenger-home.png", w: 356, h: 791, cap: { en: "Passenger home with live occupancy", ar: "الصفحة الرئيسية للراكب مع الإشغال المباشر" } },
     { src: "/work/sdbs/qr-checkin.png", w: 359, h: 791, cap: { en: "QR check-in at a stop", ar: "تسجيل الوصول إلى المحطة برمز QR" } },
     { src: "/work/sdbs/fleet-dashboard.png", w: 335, h: 751, cap: { en: "Admin fleet view", ar: "لوحة الأسطول للمشرف" } },
-    { src: "/work/sdbs/analytics.png", w: 342, h: 760, cap: { en: "Decision analytics", ar: "تحليلات القرارات" } },
   ],
   flowTitle: { en: "How the pieces connect", ar: "كيف تترابط أجزاء النظام" },
   flow: [

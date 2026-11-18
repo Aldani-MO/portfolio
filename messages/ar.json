@@ -12,17 +12,16 @@
     "placeholder": "انتقل إلى قسم أو نفّذ أمراً",
     "actions": {
       "depot": "أعلى الصفحة",
-      "about": "04 التعليم",
-      "projects": "01 أعمال مختارة",
-      "experience": "02 الخبرة العملية",
-      "skills": "03 المهارات",
+      "about": "4 التعليم",
+      "projects": "1 أعمال مختارة",
+      "experience": "2 الخبرة العملية",
+      "skills": "3 المهارات",
       "contact": "تواصل",
       "switchAr": "التبديل إلى العربية",
       "switchEn": "Switch to English",
       "downloadCv": "تحميل السيرة الذاتية (PDF)",
       "copyEmail": "نسخ البريد الإلكتروني",
-      "certificates": "05 الشهادات",
-      "github": "06 نشاطي على GitHub"
+      "certificates": "5 الشهادات"
     }
   },
   "contact": {

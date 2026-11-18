@@ -22,7 +22,7 @@
 - Portrait in the nav and beside the name (`public/portrait.jpg`, cropped from the owner's photo).
 - Split-flap board text, Kuwait clock, scroll-filled route line, URL anatomy scanner, detection scan sweep.
 - Third pass: the hero simulation was removed at the owner's request; the board now shows the portrait as a transit pass. Added circular theme-switch reveal, hover animations, hero entrance and animated background map.
-- New "Recent departures on GitHub" section from the GitHub API (revalidated every 6 hours; hidden if the API fails).
+- GitHub section was added and later removed at the owner's request.
 - IBM certificate image published unedited at the owner's request (it shows the student ID).
 - LinkedIn updated to linkedin.com/in/mohamed-aldani-5b18992a1 on the site, CV and structured data.
 - Tests: 36 unit tests, 84 Playwright checks passing.
