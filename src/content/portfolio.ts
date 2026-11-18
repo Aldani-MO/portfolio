@@ -5,7 +5,7 @@ export type Locale = keyof L;
 
 export const EMAIL = "Mohammedaldani03@gmail.com";
 export const GITHUB = "https://github.com/Aldani-MO";
-export const LINKEDIN = "https://www.linkedin.com/in/Mohamed-Aldani";
+export const LINKEDIN = "https://www.linkedin.com/in/mohamed-aldani-5b18992a1";
 export const CV = "/cv.pdf";
 
 export const hero = {
@@ -25,7 +25,6 @@ export const hero = {
   cv: { en: "Download CV", ar: "تحميل السيرة الذاتية" },
   email: { en: "Email me", ar: "راسلني" },
   board: { en: "Selected work", ar: "أعمال مختارة" },
-  boardShot: { en: "Driver screen from the Smart Dynamic Bus System, recommending an early departure", ar: "شاشة السائق في نظام الحافلات الذكي وهي توصي بالانطلاق المبكر" },
 };
 
 export const board = [
@@ -40,6 +39,8 @@ export const sections = {
   skills: { en: "Skills", ar: "المهارات" },
   education: { en: "Education", ar: "التعليم" },
   certificates: { en: "Certificates", ar: "الشهادات" },
+  github: { en: "Recent departures on GitHub", ar: "آخر التحديثات على GitHub" },
+  githubLede: { en: "Live from the GitHub API: my public repositories, most recently updated first.", ar: "مباشرة من واجهة GitHub: مستودعاتي العامة، الأحدث تحديثاً أولاً." },
   contact: { en: "Contact", ar: "تواصل" },
 };
 
@@ -205,7 +206,7 @@ export const credentials: Credential[] = [
   },
   {
     id: "ibm-net", title: "Introduction to Networking and Storage", issuer: { en: "IBM, through Coursera", ar: "IBM عبر Coursera" }, kind: "course",
-    issued: "2026-04-03",
+    issued: "2026-04-03", image: "/credentials/ibm-networking-cert.webp", preview: true,
     context: { en: "Online course authorized by IBM: networking and storage fundamentals.", ar: "مقرر إلكتروني معتمد من IBM: أساسيات الشبكات والتخزين." },
     url: "https://coursera.org/verify/3E8EATG8Y8W8",
   },
@@ -233,7 +234,7 @@ export const contact = {
   },
   links: [
     { k: "GitHub", v: "github.com/Aldani-MO", href: GITHUB },
-    { k: "LinkedIn", v: "linkedin.com/in/Mohamed-Aldani", href: LINKEDIN },
+    { k: "LinkedIn", v: "linkedin.com/in/mohamed-aldani-5b18992a1", href: LINKEDIN },
     { k: "CV", v: { en: "PDF, 1 page", ar: "ملف PDF، صفحة واحدة" }, href: CV },
   ],
 };

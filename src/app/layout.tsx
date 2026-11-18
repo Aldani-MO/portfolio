@@ -61,7 +61,7 @@ export default async function RootLayout({
               knowsLanguage: ["Arabic", "English"],
               sameAs: [
                 "https://github.com/Aldani-MO",
-                "https://www.linkedin.com/in/Mohamed-Aldani",
+                "https://www.linkedin.com/in/mohamed-aldani-5b18992a1",
               ],
             }),
           }}

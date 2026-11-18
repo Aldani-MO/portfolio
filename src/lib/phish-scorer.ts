@@ -45,7 +45,7 @@ const SUSPICIOUS_TLDS = new Set([
 ]);
 
 // Common brands to check for impersonation
-const BRAND_KEYWORDS = [
+export const BRAND_KEYWORDS = [
   "paypal", "apple", "microsoft", "google", "amazon", "netflix", "facebook",
   "instagram", "twitter", "whatsapp", "ebay", "chase", "bankofamerica",
   "wellsfargo", "citibank", "hsbc", "barclays", "lloyds", "natwest",
@@ -59,7 +59,7 @@ const REDIRECT_PARAMS = new Set([
   "dest", "destination", "continue", "forward",
 ]);
 
-function tryParseUrl(raw: string): URL | null {
+export function tryParseUrl(raw: string): URL | null {
   if (!raw || raw.length > 4096 || /\s/.test(raw)) return null;
   try {
     const hasScheme = /^[a-z][a-z\d+.-]*:/i.test(raw) && !/^[^/?#]+:\d+(?:[/?#]|$)/.test(raw);

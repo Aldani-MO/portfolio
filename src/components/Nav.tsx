@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 export function Nav({ locale }: { locale: string }) {
   const t = useTranslations("nav");
   const pathname = usePathname();
@@ -58,7 +59,7 @@ export function Nav({ locale }: { locale: string }) {
   };
   return (
     <nav ref={navRef} className="site-nav" aria-label={isAr ? "التنقل الرئيسي" : "Main navigation"}>
-      <a className="nav-logo" href="#depot" aria-label={isAr ? "محمد الضاني، إلى الأعلى" : "Mohamed Aldani, back to top"}><span className="nav-mark" aria-hidden="true">MA</span><span className="nav-name">{isAr ? "محمد الضاني" : "Mohamed Aldani"}</span></a>
+      <a className="nav-logo" href="#depot" aria-label={isAr ? "محمد الضاني، إلى الأعلى" : "Mohamed Aldani, back to top"}><Image className="nav-avatar" src="/me.jpg" width={430} height={430} alt="" sizes="36px" /><span className="nav-name">{isAr ? "محمد الضاني" : "Mohamed Aldani"}</span></a>
       <button ref={menuRef} className="nav-menu nav-control" aria-expanded={menuOpen} aria-controls="station-links" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? (isAr ? "إغلاق" : "Close") : (isAr ? "القائمة" : "Menu")}
       </button>

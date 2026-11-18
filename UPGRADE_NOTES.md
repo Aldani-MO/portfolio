@@ -17,6 +17,15 @@
 - `pnpm lint`, `tsc --noEmit`, `pnpm test` (32 unit tests), `pnpm build` pass.
 - Playwright (Chromium and WebKit) against the production build: 82 passed, 4 skipped (enabled-contact-form cases need `CONTACT_TEST_URL`). Covers EN/AR at 320 to 1920px, 200% text, both themes, reduced motion, axe WCAG 2.2 AA, no-JS content, command palette, mobile menu, theme persistence and both demos.
 
+## Second pass (same day)
+
+- Portrait in the nav and beside the name (`public/me.jpg`, cropped from the owner's photo).
+- Live route simulation in the hero board, split-flap board text, Kuwait clock, scroll-filled route line, URL anatomy scanner, detection scan sweep.
+- New "Recent departures on GitHub" section from the GitHub API (revalidated every 6 hours; hidden if the API fails).
+- IBM certificate image published unedited at the owner's request (it shows the student ID).
+- LinkedIn updated to linkedin.com/in/mohamed-aldani-5b18992a1 on the site, CV and structured data.
+- Tests: 39 unit tests, 84 Playwright checks passing.
+
 ## Open items for the owner
 
 - Name spelling differs across documents: site/CV "Mohamed Aldani", Google certificates "Mohamad Aldani", Accredible badge page "Mohammed Al-Dani", IBM certificate "Mohamad Mulham Aldani". Nothing was changed; decide which to use on LinkedIn and future credentials.

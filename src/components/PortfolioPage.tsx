@@ -4,6 +4,9 @@ import { PhishCheckerDemo } from "@/components/PhishCheckerDemo";
 import { EdgeAIDemo } from "@/components/EdgeAIDemo";
 import { ContactForm } from "@/components/ContactForm";
 import { CommandPalette } from "@/components/CommandPalette";
+import { RouteSim } from "@/components/RouteSim";
+import { BoardClock, FlapText } from "@/components/FlapText";
+import { getRepos } from "@/lib/github";
 import {
   board, contact, credentials, credentialText, CV, decisionLabel, education, EMAIL, experience, fmtDate,
   GITHUB, hero, pharmacy, phish, sdbs, sections, skills, skillsNote, usedIn, type L, type Locale,
@@ -28,7 +31,8 @@ function StationHead({ code, id, title, lede }: { code: string; id: string; titl
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
-export function PortfolioPage({ locale: raw, contactEnabled = false }: { locale: string; contactEnabled?: boolean }) {
+export async function PortfolioPage({ locale: raw, contactEnabled = false }: { locale: string; contactEnabled?: boolean }) {
+  const repos = await getRepos();
   const locale: Locale = raw === "ar" ? "ar" : "en";
   const t = (v: L) => v[locale];
   const isAr = locale === "ar";
@@ -47,9 +51,12 @@ export function PortfolioPage({ locale: raw, contactEnabled = false }: { locale:
           {/* Hero */}
           <section id="depot" className="station hero" aria-labelledby="hero-name">
             <div className="hero-copy">
-              <h1 id="hero-name" className="hero-name">
-                {t(hero.name).split("\n").map(line => <span key={line}>{line}</span>)}
-              </h1>
+              <div className="hero-id">
+                <Image className="hero-photo" src="/me.jpg" width={430} height={430} alt={isAr ? "صورة محمد الضاني" : "Portrait of Mohamed Aldani"} sizes="(max-width: 600px) 96px, 168px" loading="eager" fetchPriority="high" />
+                <h1 id="hero-name" className="hero-name">
+                  {t(hero.name).split("\n").map(line => <span key={line}>{line}</span>)}
+                </h1>
+              </div>
               <p className="hero-role">{t(hero.role)}</p>
               <p className="hero-lede">{t(hero.lede)}</p>
               <div className="hero-actions">
@@ -62,24 +69,24 @@ export function PortfolioPage({ locale: raw, contactEnabled = false }: { locale:
               </dl>
             </div>
 
-            <nav className="board" aria-labelledby="board-title">
-              <div className="board-head"><span id="board-title">{t(hero.board)}</span><span>{board.length} {isAr ? "خطوط" : "lines"}</span></div>
-              <figure className="board-shot">
-                <Image src={sdbs.shots[0].src} width={sdbs.shots[0].w} height={sdbs.shots[0].h} alt={t(hero.boardShot)} sizes="(max-width: 1000px) 92vw, 440px" loading="eager" fetchPriority="high" />
-                <figcaption>{t(sdbs.shots[0].cap)}</figcaption>
-              </figure>
-              <ol className="board-rows">
-                {board.map(row => (
+            <div className="board" role="region" aria-labelledby="board-title">
+              <div className="board-head">
+                <span id="board-title">{isAr ? t(hero.board) : <FlapText text={t(hero.board).toUpperCase()} />}</span>
+                <BoardClock label={isAr ? "الوقت في الكويت" : "Kuwait time"} />
+              </div>
+              <RouteSim locale={locale} />
+              <ol className="board-rows" aria-label={isAr ? "المشاريع المختارة" : "Selected projects"}>
+                {board.map((row, i) => (
                   <li key={row.id}>
                     <a href={`#${row.id}`}>
                       <span className="line-no" dir="ltr">{row.n}</span>
-                      <span className="board-title">{t(row.title)}<small dir="ltr">{row.stack}</small></span>
+                      <span className="board-title">{t(row.title)}<small dir="ltr"><FlapText text={row.stack.toUpperCase()} delay={250 + i * 220} /></small></span>
                       <span className="board-status">{t(row.status)}</span>
                     </a>
                   </li>
                 ))}
               </ol>
-            </nav>
+            </div>
           </section>
 
           {/* 01 Work */}
@@ -97,7 +104,7 @@ export function PortfolioPage({ locale: raw, contactEnabled = false }: { locale:
               </div>
 
               <div className="gallery" role="list" tabIndex={0} aria-label={isAr ? "لقطات من التطبيق" : "App screenshots"}>
-                {sdbs.shots.filter(s => !s.wide).map(s => (
+                {sdbs.shots.map(s => (
                   <figure key={s.src} role="listitem" className={s.wide ? "shot shot-wide" : "shot"}>
                     <Image src={s.src} width={s.w} height={s.h} alt={t(s.cap)} sizes={s.wide ? "(max-width: 768px) 88vw, 560px" : "(max-width: 768px) 46vw, 180px"} />
                     <figcaption>{t(s.cap)}</figcaption>
@@ -243,6 +250,24 @@ export function PortfolioPage({ locale: raw, contactEnabled = false }: { locale:
               ))}
             </ul>
           </section>
+
+          {/* 06 GitHub */}
+          {repos.length > 0 && (
+            <section id="github" className="station" aria-labelledby="github-heading">
+              <StationHead code="06" id="github-heading" title={t(sections.github)} lede={t(sections.githubLede)} />
+              <ol className="departures">
+                {repos.map(r => (
+                  <li key={r.name}>
+                    <time className="tt-time" dateTime={r.pushedAt}>{fmtDate(r.pushedAt, locale)}</time>
+                    <a className="dep-name" href={r.url} {...ext} dir="ltr">{r.name}<Arrow external /><span className="sr-only">{newTab}</span></a>
+                    <p className="dep-desc">{r.description ? t(r.description) : ""}</p>
+                    <span className="stack dep-lang" dir="ltr">{r.language ?? ""}</span>
+                  </li>
+                ))}
+              </ol>
+              <a className="text-link" href={GITHUB} {...ext}>{isAr ? "كل المستودعات على GitHub" : "All repositories on GitHub"}<span className="sr-only">{newTab}</span></a>
+            </section>
+          )}
 
           {/* Terminus */}
           <section id="contact" className="station terminus" aria-labelledby="contact-heading">

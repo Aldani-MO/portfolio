@@ -1,8 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { analyzeUrl, type PhishResult } from "@/lib/phish-scorer";
+import { urlAnatomy, type TokenKind } from "@/lib/url-anatomy";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
+
+const KIND: Record<TokenKind, { en: string; ar: string }> = {
+  scheme: { en: "scheme", ar: "البروتوكول" }, user: { en: "login", ar: "بيانات دخول" }, sub: { en: "subdomain", ar: "نطاق فرعي" },
+  domain: { en: "domain", ar: "النطاق" }, tld: { en: "TLD", ar: "النطاق العلوي" }, ip: { en: "IP host", ar: "عنوان IP" },
+  port: { en: "port", ar: "المنفذ" }, path: { en: "path", ar: "المسار" }, query: { en: "query", ar: "الاستعلام" },
+};
+
+/** Counts up to the score so the number reads as a measurement being taken. */
+function useCountUp(target: number, run: boolean) {
+  const [value, setValue] = useState(target);
+  useEffect(() => {
+    if (!run) return;
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / 700);
+      setValue(Math.round(target * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [target, run]);
+  return run ? value : target;
+}
 
 const SAMPLES = { regular: "https://github.com/Aldani-MO", suspicious: "http://paypal-login.verify-account.xyz/signin" };
 
@@ -14,6 +40,9 @@ export function PhishCheckerDemo() {
 
   const run = (value: string) => { if (value.trim()) setResult(analyzeUrl(value)); };
   const sample = (value: string) => { setUrl(value); run(value); };
+  const reduced = useReducedMotion();
+  const score = useCountUp(result?.valid ? result.score : 0, !reduced && !!result?.valid);
+  const tokens = result?.valid ? urlAnatomy(result.url, result.rules.filter(r => r.triggered).map(r => r.id)) : [];
   const level = result?.riskLevel === "safe" ? "low" : result?.riskLevel === "suspicious" ? "mid" : "high";
 
   return (
@@ -40,10 +69,17 @@ export function PhishCheckerDemo() {
         <div className="phish-result" aria-live="polite">
           <div className="risk-head">
             <strong className={`risk-label risk-${level}`}>{isAr ? result.riskLabelAr : result.riskLabelEn}</strong>
-            <span className="risk-score" dir="ltr">{result.score}/100</span>
+            <span className="risk-score" dir="ltr"><span aria-hidden="true">{score}</span><span className="sr-only">{result.score}</span>/100</span>
           </div>
           <div className="risk-meter" aria-hidden="true"><div className={`risk-meter-fill risk-${level}`} style={{ inlineSize: `${result.score}%` }} /></div>
-          {result.parsedHost && <p className="risk-host">{isAr ? "المضيف: " : "Host: "}<span dir="ltr">{result.parsedHost}</span></p>}
+          <ol className="anatomy" dir="ltr" aria-label={isAr ? "أجزاء الرابط" : "Parts of the URL"} key={result.url}>
+            {tokens.map((tok, i) => (
+              <li key={i} className={tok.flags.length ? "tok tok-flag" : "tok"} style={{ animationDelay: `${i * 70}ms` }}>
+                <code>{tok.text}</code>
+                <span className="tok-kind" dir={isAr ? "rtl" : "ltr"}>{KIND[tok.kind][isAr ? "ar" : "en"]}{tok.flags.length ? <span className="sr-only">{isAr ? "، مشبوه" : ", flagged"}</span> : null}</span>
+              </li>
+            ))}
+          </ol>
           <ul className="rule-list" aria-label={t("checks")}>
             {result.rules.map(rule => (
               <li key={rule.id} className={`rule-item ${rule.triggered ? "rule-triggered" : "rule-clean"}`}>

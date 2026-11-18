@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { computeDecision } from "@/lib/transit-decision";
 import { decisionLabel } from "@/content/portfolio";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 
 // Preset confidence scores for drawn figures. Nothing here runs a model.
 const SCENES = [
@@ -34,6 +35,8 @@ export function EdgeAIDemo() {
   const locale = useLocale() === "ar" ? "ar" : "en";
   const c = copy[locale];
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const reduced = useReducedMotion();
+  const sweptScene = useRef(-1);
   const [confidence, setConfidence] = useState(60);
   const [waiting, setWaiting] = useState(6);
   const [scene, setScene] = useState(0);
@@ -44,36 +47,61 @@ export function EdgeAIDemo() {
   useEffect(() => {
     const ctx = canvasRef.current?.getContext("2d");
     if (!ctx) return;
-    ctx.fillStyle = "#11191b";
-    ctx.fillRect(0, 0, 640, 360);
-    ctx.strokeStyle = "#1f2c2f";
-    ctx.lineWidth = 1;
-    for (let x = 0; x <= 640; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 360); ctx.stroke(); }
-    for (let y = 0; y <= 360; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(640, y); ctx.stroke(); }
-    ctx.font = "13px monospace";
-    ctx.fillStyle = "#9fb3b0";
-    ctx.fillText(`SIMULATION · FRAME 0${scene + 1}`, 18, 28);
-    people.forEach((p, i) => {
-      const x = 22 + i * 76;
-      const y = 84 + (i % 3) * 24;
-      const accepted = p * 100 >= confidence;
-      ctx.fillStyle = "#6f8582";
-      ctx.beginPath(); ctx.arc(x + 25, y + 28, 13, 0, Math.PI * 2); ctx.fill();
-      ctx.fillRect(x + 12, y + 46, 26, 55);
-      ctx.fillRect(x + 12, y + 101, 10, 35); ctx.fillRect(x + 28, y + 101, 10, 35);
-      ctx.strokeStyle = accepted ? "#5cc2b3" : "#ff8a7a";
-      ctx.setLineDash(accepted ? [] : [4, 4]);
-      ctx.lineWidth = 2;
-      ctx.strokeRect(x, y, 50, 146);
-      ctx.setLineDash([]);
-      ctx.fillStyle = ctx.strokeStyle;
-      ctx.font = "12px monospace";
-      ctx.fillText(`${Math.round(p * 100)}%`, x, y - 8);
-    });
-    ctx.fillStyle = "#d9e2df";
-    ctx.font = "13px monospace";
-    ctx.fillText(`CONF >= ${confidence}%   PERSON x${onboard}`, 18, 338);
-  }, [confidence, onboard, people, scene]);
+    // sweep: 0..1 position of the scan line; boxes appear once the line has passed them.
+    const draw = (sweep: number) => {
+      const lineX = sweep * 660 - 10;
+      ctx.fillStyle = "#11191b";
+      ctx.fillRect(0, 0, 640, 360);
+      ctx.strokeStyle = "#1f2c2f";
+      ctx.lineWidth = 1;
+      for (let x = 0; x <= 640; x += 40) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 360); ctx.stroke(); }
+      for (let y = 0; y <= 360; y += 40) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(640, y); ctx.stroke(); }
+      ctx.font = "13px monospace";
+      ctx.fillStyle = "#9fb3b0";
+      ctx.fillText(`SIMULATION · FRAME 0${scene + 1}`, 18, 28);
+      let counted = 0;
+      people.forEach((p, i) => {
+        const x = 22 + i * 76;
+        const y = 84 + (i % 3) * 24;
+        ctx.fillStyle = "#6f8582";
+        ctx.beginPath(); ctx.arc(x + 25, y + 28, 13, 0, Math.PI * 2); ctx.fill();
+        ctx.fillRect(x + 12, y + 46, 26, 55);
+        ctx.fillRect(x + 12, y + 101, 10, 35); ctx.fillRect(x + 28, y + 101, 10, 35);
+        if (x + 50 > lineX) return;
+        const accepted = p * 100 >= confidence;
+        if (accepted) counted++;
+        ctx.strokeStyle = accepted ? "#5cc2b3" : "#ff8a7a";
+        ctx.setLineDash(accepted ? [] : [4, 4]);
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, 50, 146);
+        ctx.setLineDash([]);
+        ctx.fillStyle = ctx.strokeStyle;
+        ctx.font = "12px monospace";
+        ctx.fillText(`${Math.round(p * 100)}%`, x, y - 8);
+      });
+      if (sweep < 1) {
+        ctx.fillStyle = "rgba(92, 194, 179, 0.16)";
+        ctx.fillRect(lineX - 36, 40, 36, 280);
+        ctx.fillStyle = "#5cc2b3";
+        ctx.fillRect(lineX, 40, 2, 280);
+      }
+      ctx.fillStyle = "#d9e2df";
+      ctx.font = "13px monospace";
+      ctx.fillText(`CONF >= ${confidence}%   PERSON x${sweep < 1 ? counted : onboard}`, 18, 338);
+    };
+    const newFrame = sweptScene.current !== scene;
+    sweptScene.current = scene;
+    if (reduced || !newFrame) { draw(1); return; }
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / 520);
+      draw(t);
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [confidence, onboard, people, scene, reduced]);
 
   return (
     <div className="edge-demo">

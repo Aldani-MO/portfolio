@@ -65,7 +65,8 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
     { id: "goto-skills", icon: "03", label: t("actions.skills"), action: () => navigate("skills") },
     { id: "goto-about", icon: "04", label: t("actions.about"), action: () => navigate("about") },
     { id: "goto-certificates", icon: "05", label: t("actions.certificates"), action: () => navigate("certificates") },
-    { id: "goto-contact", icon: "06", label: t("actions.contact"), action: () => navigate("contact") },
+    { id: "goto-github", icon: "06", label: t("actions.github"), action: () => navigate("github") },
+    { id: "goto-contact", icon: "07", label: t("actions.contact"), action: () => navigate("contact") },
     locale === "en"
       ? { id: "switch-ar", icon: "AR", label: t("actions.switchAr"), action: () => switchLocale("ar") }
       : { id: "switch-en", icon: "EN", label: t("actions.switchEn"), action: () => switchLocale("en") },
