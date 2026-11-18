@@ -25,12 +25,13 @@ export const hero = {
   cv: { en: "Download CV", ar: "تحميل السيرة الذاتية" },
   email: { en: "Email me", ar: "راسلني" },
   board: { en: "Selected work", ar: "أعمال مختارة" },
+  status: { en: "Open to junior roles · Kuwait", ar: "متاح لوظائف المبتدئين · الكويت" },
 };
 
 export const board = [
-  { id: "project-sdbs", n: "1", title: { en: "Smart Dynamic Bus System", ar: "نظام الحافلات الذكي" }, stack: "Flutter · Firebase · Python", status: { en: "Case study + simulation", ar: "دراسة حالة ومحاكاة" } },
-  { id: "project-phish", n: "2", title: { en: "Phish Checker", ar: "فاحص روابط التصيّد" }, stack: "Python · Docker", status: { en: "Try it in the browser", ar: "جرّبه في المتصفح" } },
-  { id: "project-pharmacy", n: "3", title: { en: "Pharmacy Management System", ar: "نظام إدارة الصيدلية" }, stack: "C++ · OOP", status: { en: "Academic project", ar: "مشروع جامعي" } },
+  { id: "project-sdbs", n: "1", title: { en: "Smart Dynamic Bus System", ar: "نظام الحافلات الذكي" }, stack: "Flutter · Firebase · Python", status: { en: "Case study + simulation", ar: "دراسة حالة ومحاكاة" }, blurb: { en: "Stop, skip or leave early: live decisions from QR check-ins and an on-bus YOLOv8n count.", ar: "توقّف أو تخطَّ أو انطلق مبكراً: قرارات لحظية من تسجيل الركاب وعدّهم بـ YOLOv8n." } },
+  { id: "project-phish", n: "2", title: { en: "Phish Checker", ar: "فاحص روابط التصيّد" }, stack: "Python · Docker", status: { en: "Try it in the browser", ar: "جرّبه في المتصفح" }, blurb: { en: "Scores a URL from 0 to 100 for phishing risk and explains every point.", ar: "يعطي الرابط درجة خطورة من 0 إلى 100 ويشرح سبب كل نقطة." } },
+  { id: "project-pharmacy", n: "3", title: { en: "Pharmacy Management System", ar: "نظام إدارة الصيدلية" }, stack: "C++ · OOP", status: { en: "Academic project", ar: "مشروع جامعي" }, blurb: { en: "Medicines, stock, sales and customer records, built on classes and custom data structures.", ar: "الأدوية والمخزون والمبيعات وسجلات العملاء، مبني على الأصناف وهياكل بيانات مخصصة." } },
 ];
 
 export const sections = {
@@ -58,6 +59,7 @@ export const sdbs = {
     { src: "/work/sdbs/passenger-home.png", w: 356, h: 791, cap: { en: "Passenger home with live occupancy", ar: "الصفحة الرئيسية للراكب مع الإشغال المباشر" } },
     { src: "/work/sdbs/qr-checkin.png", w: 359, h: 791, cap: { en: "QR check-in at a stop", ar: "تسجيل الوصول إلى المحطة برمز QR" } },
     { src: "/work/sdbs/fleet-dashboard.png", w: 335, h: 751, cap: { en: "Admin fleet view", ar: "لوحة الأسطول للمشرف" } },
+    { src: "/work/sdbs/analytics.png", w: 342, h: 760, cap: { en: "Decision analytics", ar: "تحليلات القرارات" } },
   ],
   flowTitle: { en: "How the pieces connect", ar: "كيف تترابط أجزاء النظام" },
   flow: [

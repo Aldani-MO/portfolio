@@ -49,7 +49,7 @@ export function PortfolioPage({ locale: raw, contactEnabled = false }: { locale:
           <section id="depot" className="station hero" aria-labelledby="hero-name">
             <div className="hero-copy">
               <div className="hero-id">
-                <Image className="hero-photo" src="/portrait.jpg" width={520} height={520} alt={isAr ? "صورة محمد الضاني" : "Portrait of Mohamed Aldani"} sizes="(max-width: 600px) 96px, 168px" loading="eager" fetchPriority="high" />
+                <Image className="hero-photo" src="/mypic.jpeg" width={598} height={691} alt={isAr ? "صورة محمد الضاني" : "Portrait of Mohamed Aldani"} sizes="(max-width: 600px) 96px, 168px" loading="eager" fetchPriority="high" />
                 <h1 id="hero-name" className="hero-name">
                   {t(hero.name).split("\n").map(line => <span key={line}>{line}</span>)}
                 </h1>
@@ -73,12 +73,17 @@ export function PortfolioPage({ locale: raw, contactEnabled = false }: { locale:
                   <li key={row.id}>
                     <a href={`#${row.id}`}>
                       <span className="line-no" dir="ltr">{row.n}</span>
-                      <span className="board-title">{t(row.title)}<small dir="ltr">{row.stack}</small></span>
+                      <span className="board-title">{t(row.title)}<small dir="ltr">{row.stack}</small><span className="board-blurb">{t(row.blurb)}</span></span>
                       <span className="board-status">{t(row.status)}</span>
                     </a>
                   </li>
                 ))}
               </ol>
+              <div className="board-foot">
+                <span className="live-dot" aria-hidden="true" />
+                <span>{t(hero.status)}</span>
+                <a href={`mailto:${EMAIL}`}>{t(hero.email)}<Arrow /></a>
+              </div>
             </nav>
           </section>
 
