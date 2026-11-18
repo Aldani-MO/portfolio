@@ -650,3 +650,11 @@ html[lang="ar"] .board-blurb { font-family: var(--font-arabic); }
 @media (prefers-reduced-motion: reduce) {
   .hero-name span, .hero-role, .hero-lede, .hero-actions, .hero-facts, .hero .board, .hero-photo, .risk-label, .tok, .pop { animation: none !important; }
 }
+
+/* Wide screens: the four phone shots span the full project width in one row */
+@media (min-width: 1101px) {
+  #project-sdbs .gallery { display: contents; }
+  #project-sdbs .case-intro { grid-row: 1; }
+  #project-sdbs .shot-wide { grid-column: 6 / -1; grid-row: 1; }
+  #project-sdbs .gallery .shot:not(.shot-wide) { grid-column: span 3; }
+}
