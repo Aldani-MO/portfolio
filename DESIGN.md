@@ -39,9 +39,8 @@ Theme follows the OS until the visitor chooses; the choice persists across reloa
 
 Every animation has a reduced-motion fallback.
 
-- Hero: name and content rise in once; the board slides in. A faint transit map sits behind the hero with small trains running its lines (SVG animateMotion, hidden for reduced motion).
-- Portrait pass: split-flap name strip, hover zoom and a light sweep; Kuwait clock digits flip each minute.
-- Theme switch: the new theme grows as a circle from the toggle (View Transitions API), the sun/moon icon turns in. Falls back to an instant switch.
+- Hero: portrait beside the name (tilts on hover), name and content rise in once, the departure board with the real SDBS driver screen slides in.
+- Theme switch: the new theme grows as a circle from the toggle (View Transitions API). Hovering the toggle spins and warms the sun in dark mode, or rocks the moon with twinkling stars in light mode.
 - Hover: buttons fill with a sweep and their arrows nudge; nav links grow an underline; board rows tilt their line plate; screenshots and certificates lift; table rows tint; stop plates turn.
 - Route column: the sticky amber marker trails a teal travelled line; stop markers fill as you reach them where scroll-driven animations are supported.
 - Demos: the decision badge pops when it changes; the detection canvas sweeps each new frame; the URL checker splits the link into labelled parts with a scan, and the score counts up.

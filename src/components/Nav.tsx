@@ -84,8 +84,8 @@ export function Nav({ locale }: { locale: string }) {
         <button className="nav-control theme-toggle" onClick={toggleTheme} aria-label={isAr ? "تبديل المظهر" : "Switch color theme"}>
           <svg className="theme-icon" key={theme} viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
             {theme === "dark"
-              ? <><circle cx="12" cy="12" r="4.5" /><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" /></>
-              : <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" />}
+              ? <g className="sun"><circle cx="12" cy="12" r="4.5" /><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" /></g>
+              : <><path className="moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" /><path className="star" d="M18 2.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6Z" /><path className="star" d="M21.5 8l.4.9.9.4-.9.4-.4.9-.4-.9-.9-.4.9-.4Z" /></>}
           </svg>
           <span>{theme === "dark" ? (isAr ? "فاتح" : "Light") : (isAr ? "داكن" : "Dark")}</span>
         </button>

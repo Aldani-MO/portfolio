@@ -538,13 +538,6 @@ html[dir="rtl"] .cmd-input-wrap { padding: 8px 16px 8px 8px; }
 /* Nav avatar and hero portrait */
 .nav-avatar { inline-size: 36px; block-size: 36px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--line); }
 
-/* Board clock and split-flap text */
-.board-clock { display: inline-flex; gap: 1px; color: var(--board-ink); }
-.board-clock > span:last-child { margin-inline-start: 0.4em; }
-.flip-digit { display: inline-block; min-inline-size: 0.62em; text-align: center; background: var(--board-hover); border-radius: 2px; animation: flip 420ms var(--ease); transform-origin: 50% 50%; }
-.board-clock .flip-digit:nth-child(4) { background: transparent; }
-@keyframes flip { from { transform: rotateX(90deg); opacity: 0.2; } to { transform: rotateX(0); opacity: 1; } }
-
 /* URL anatomy */
 .anatomy { display: flex; flex-wrap: wrap; gap: 6px 2px; margin-block: 14px 4px; padding: 12px; background: var(--bg); border: 1px solid var(--rule); border-radius: 8px; position: relative; overflow: hidden; }
 .anatomy::after {
@@ -572,32 +565,6 @@ html[dir="rtl"] .cmd-input-wrap { padding: 8px 16px 8px 8px; }
   .departures .tt-time { grid-column: 1 / -1; }
 }
 
-/* Portrait pass in the hero board */
-.pass { margin: 16px 16px 4px; border-radius: 10px; overflow: hidden; position: relative; background: #0e1315; }
-.pass-photo { inline-size: 100%; aspect-ratio: 4 / 5; max-block-size: 440px; object-fit: cover; object-position: 50% 28%; transition: transform 700ms var(--ease); }
-.pass:hover .pass-photo { transform: scale(1.04); }
-.pass-strip {
-  position: absolute; inset-inline: 0; inset-block-end: 0; display: flex; justify-content: space-between; align-items: end; gap: 8px;
-  padding: 48px 16px 14px; background: linear-gradient(to top, rgb(14 19 21 / 0.92), transparent);
-  font: 600 0.8125rem/1.3 var(--font-mono); color: #ece7dc; letter-spacing: 0.04em;
-}
-html[lang="ar"] .pass-name { font-family: var(--font-arabic); letter-spacing: 0; font-size: var(--fs-sm); }
-.pass-meta { color: #5cc2b3; }
-.pass::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(115deg, transparent 40%, rgb(255 255 255 / 0.14) 50%, transparent 60%);
-  transform: translateX(-100%); transition: transform 900ms var(--ease);
-}
-.pass:hover::after { transform: translateX(100%); }
-
-/* Hero background map */
-.hero { isolation: isolate; }
-.hero-lines { position: absolute; inset-block: 0; inset-inline-start: calc(-1 * var(--gutter)); inline-size: calc(100% + 2 * var(--gutter)); block-size: 100%; z-index: -1; pointer-events: none; }
-.hero-lines path { fill: none; stroke: var(--rule); stroke-width: 3; stroke-linejoin: round; opacity: 0.5; }
-.hero-lines .hl-stop { fill: var(--bg); stroke: var(--rule); stroke-width: 3; opacity: 0.7; }
-.hero-lines .hl-train { fill: var(--line); opacity: 0.45; }
-@media (prefers-reduced-motion: reduce) { .hero-lines .hl-train { display: none; } }
-
 /* Hero entrance, once */
 @keyframes rise { from { opacity: 0; transform: translateY(0.35em); } to { opacity: 1; transform: none; } }
 @keyframes slide-in { from { opacity: 0; transform: translateY(24px) scale(0.98); } to { opacity: 1; transform: none; } }
@@ -608,6 +575,7 @@ html[lang="ar"] .pass-name { font-family: var(--font-arabic); letter-spacing: 0;
 .hero-actions { animation: rise 800ms 360ms var(--ease) both; }
 .hero-facts { animation: rise 800ms 440ms var(--ease) both; }
 .hero .board { animation: slide-in 1000ms 150ms var(--ease) both; }
+.hero-photo { animation: slide-in 900ms var(--ease) both; }
 
 /* Theme toggle: icon turns in, page reveals as a growing circle */
 .theme-toggle { gap: 8px; }
@@ -634,3 +602,31 @@ html[dir="rtl"] :is(.skill-table > div:hover dt, .timetable > li:hover .tt-role)
 .pop { animation: pop 380ms var(--ease); }
 @keyframes pop { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.12); } 100% { transform: none; opacity: 1; } }
 .risk-label { animation: rise 500ms var(--ease) both; }
+
+/* Portrait beside the name */
+.hero-id { display: flex; align-items: center; gap: clamp(20px, 3vw, 36px); }
+.hero-photo {
+  flex: none; inline-size: clamp(96px, 11vw, 168px); block-size: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; object-position: 50% 22%;
+  box-shadow: 0 0 0 5px var(--bg), 0 0 0 9px var(--line), var(--shadow);
+  transition: transform 500ms var(--ease), box-shadow 300ms var(--ease);
+}
+.hero-photo:hover { transform: rotate(-4deg) scale(1.04); box-shadow: 0 0 0 5px var(--bg), 0 0 0 9px var(--accent), var(--shadow); }
+@media (max-width: 600px) { .hero-id { flex-direction: column; align-items: flex-start; } }
+
+/* Theme toggle: sun spins and glows, moon rocks and its stars twinkle */
+.theme-toggle { position: relative; overflow: hidden; transition: border-color 220ms, background-color 300ms var(--ease), color 220ms; }
+.theme-icon { overflow: visible; transition: transform 500ms var(--ease); }
+.theme-icon .star { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(0); transition: opacity 200ms, transform 300ms var(--ease); }
+.theme-toggle:hover .star { opacity: 1; transform: scale(1); animation: twinkle 1.1s ease-in-out infinite; }
+.theme-toggle:hover .star + .star { animation-delay: 0.45s; }
+.theme-toggle:hover .moon { animation: rock 1.4s ease-in-out infinite; transform-origin: 50% 50%; }
+.theme-toggle:hover .sun { animation: sun-spin 3s linear infinite; }
+.theme-toggle:hover .sun circle { fill: currentColor; fill-opacity: 0.25; }
+.theme-icon .sun, .theme-icon .moon { transform-box: fill-box; transform-origin: center; }
+html[data-theme="dark"] .theme-toggle:hover { border-color: #f0a63a; color: #f0a63a; background-color: rgb(240 166 58 / 0.1); }
+html:not([data-theme="dark"]) .theme-toggle:hover { border-color: #3d4a8a; color: #3d4a8a; background-color: rgb(61 74 138 / 0.08); }
+.theme-toggle:active .theme-icon { transform: scale(0.8) rotate(-20deg); }
+@keyframes sun-spin { to { transform: rotate(360deg); } }
+@keyframes rock { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-14deg); } 65% { transform: rotate(10deg); } }
+@keyframes twinkle { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.4); opacity: 0.4; } }
+@media (prefers-reduced-motion: reduce) { .theme-toggle:hover :is(.sun, .moon, .star) { animation: none; } }

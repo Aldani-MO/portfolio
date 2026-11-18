@@ -4,7 +4,6 @@ import { PhishCheckerDemo } from "@/components/PhishCheckerDemo";
 import { EdgeAIDemo } from "@/components/EdgeAIDemo";
 import { ContactForm } from "@/components/ContactForm";
 import { CommandPalette } from "@/components/CommandPalette";
-import { BoardClock, FlapText } from "@/components/FlapText";
 import { getRepos } from "@/lib/github";
 import {
   board, contact, credentials, credentialText, CV, decisionLabel, education, EMAIL, experience, fmtDate,
@@ -30,25 +29,6 @@ function StationHead({ code, id, title, lede }: { code: string; id: string; titl
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
-// Faint transit map behind the hero; small trains run the lines (SVG animateMotion, hidden for reduced motion).
-const LINES = [
-  "M -40 400 H 200 L 300 300 H 560 L 660 200 H 860",
-  "M -40 110 H 120 L 240 230 H 470 L 590 350 H 860",
-  "M 400 -40 V 110 L 480 190 V 540",
-];
-function HeroLines() {
-  return (
-    <svg className="hero-lines" viewBox="0 0 820 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-      {LINES.map(d => <path key={d} d={d} />)}
-      {LINES.map((d, i) => (
-        <circle key={`t${i}`} className="hl-train" r="5">
-          <animateMotion dur={`${14 + i * 5}s`} repeatCount="indefinite" path={d} begin={`${-i * 4}s`} />
-        </circle>
-      ))}
-      {[[300, 300], [560, 300], [240, 230], [470, 230], [480, 190], [400, 110]].map(([x, y]) => <circle key={`${x}-${y}`} className="hl-stop" cx={x} cy={y} r="6" />)}
-    </svg>
-  );
-}
 
 export async function PortfolioPage({ locale: raw, contactEnabled = false }: { locale: string; contactEnabled?: boolean }) {
   const repos = await getRepos();
@@ -69,11 +49,13 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
         <main className="content-col" id="main-content" tabIndex={-1}>
           {/* Hero */}
           <section id="depot" className="station hero" aria-labelledby="hero-name">
-            <HeroLines />
             <div className="hero-copy">
-              <h1 id="hero-name" className="hero-name">
-                {t(hero.name).split("\n").map(line => <span key={line}>{line}</span>)}
-              </h1>
+              <div className="hero-id">
+                <Image className="hero-photo" src="/portrait.jpg" width={445} height={556} alt={isAr ? "صورة محمد الضاني" : "Portrait of Mohamed Aldani"} sizes="(max-width: 600px) 96px, 168px" loading="eager" fetchPriority="high" />
+                <h1 id="hero-name" className="hero-name">
+                  {t(hero.name).split("\n").map(line => <span key={line}>{line}</span>)}
+                </h1>
+              </div>
               <p className="hero-role">{t(hero.role)}</p>
               <p className="hero-lede">{t(hero.lede)}</p>
               <div className="hero-actions">
@@ -86,30 +68,24 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
               </dl>
             </div>
 
-            <div className="board" role="region" aria-labelledby="board-title">
-              <div className="board-head">
-                <span id="board-title">{isAr ? t(hero.board) : <FlapText text={t(hero.board).toUpperCase()} />}</span>
-                <BoardClock label={isAr ? "الوقت في الكويت" : "Kuwait time"} />
-              </div>
-              <figure className="pass">
-                <Image className="pass-photo" src="/portrait.jpg" width={445} height={556} alt={isAr ? "صورة محمد الضاني" : "Portrait of Mohamed Aldani"} sizes="(max-width: 1000px) 80vw, 440px" loading="eager" fetchPriority="high" />
-                <figcaption className="pass-strip">
-                  <span className="pass-name"><FlapText text={isAr ? "محمد الضاني" : "MOHAMED ALDANI"} delay={150} /></span>
-                  <span className="pass-meta" dir="ltr"><FlapText text="FULL-STACK · KWT" delay={500} /></span>
-                </figcaption>
+            <nav className="board" aria-labelledby="board-title">
+              <div className="board-head"><span id="board-title">{t(hero.board)}</span><span>{board.length} {isAr ? "خطوط" : "lines"}</span></div>
+              <figure className="board-shot">
+                <Image src={sdbs.shots[0].src} width={sdbs.shots[0].w} height={sdbs.shots[0].h} alt={t(sdbs.shots[0].cap)} sizes="(max-width: 1000px) 92vw, 440px" loading="eager" />
+                <figcaption>{t(sdbs.shots[0].cap)}</figcaption>
               </figure>
-              <ol className="board-rows" aria-label={isAr ? "المشاريع المختارة" : "Selected projects"}>
-                {board.map((row, i) => (
+              <ol className="board-rows">
+                {board.map(row => (
                   <li key={row.id}>
                     <a href={`#${row.id}`}>
                       <span className="line-no" dir="ltr">{row.n}</span>
-                      <span className="board-title">{t(row.title)}<small dir="ltr"><FlapText text={row.stack.toUpperCase()} delay={250 + i * 220} /></small></span>
+                      <span className="board-title">{t(row.title)}<small dir="ltr">{row.stack}</small></span>
                       <span className="board-status">{t(row.status)}</span>
                     </a>
                   </li>
                 ))}
               </ol>
-            </div>
+            </nav>
           </section>
 
           {/* 01 Work */}
@@ -127,7 +103,7 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
               </div>
 
               <div className="gallery" role="list" tabIndex={0} aria-label={isAr ? "لقطات من التطبيق" : "App screenshots"}>
-                {sdbs.shots.map(s => (
+                {sdbs.shots.filter(s => !s.wide).map(s => (
                   <figure key={s.src} role="listitem" className={s.wide ? "shot shot-wide" : "shot"}>
                     <Image src={s.src} width={s.w} height={s.h} alt={t(s.cap)} sizes={s.wide ? "(max-width: 768px) 88vw, 560px" : "(max-width: 768px) 46vw, 180px"} />
                     <figcaption>{t(s.cap)}</figcaption>

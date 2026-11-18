@@ -101,7 +101,10 @@ test("theme synchronizes across two tabs", async ({ context }) => {
   const first = await context.newPage();
   const second = await context.newPage();
   await first.goto("/en"); await second.goto("/ar");
+  const before = await first.locator("html").getAttribute("data-theme");
+  const theme = before === "dark" ? "light" : "dark";
   await first.getByRole("button", { name: "Switch color theme" }).click();
-  const theme = await first.locator("html").getAttribute("data-theme");
-  await expect(second.locator("html")).toHaveAttribute("data-theme", theme!);
+  // The switch is applied inside a view transition, so wait for it rather than reading immediately.
+  await expect(first.locator("html")).toHaveAttribute("data-theme", theme);
+  await expect(second.locator("html")).toHaveAttribute("data-theme", theme);
 });

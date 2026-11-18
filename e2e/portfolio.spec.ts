@@ -37,7 +37,7 @@ for (const locale of ["en", "ar"]) {
         await expect(page.locator(".rule-list")).toBeVisible();
         await expect(page.locator(".rule-triggered")).not.toHaveCount(0);
         await expect(page.locator(".anatomy .tok-flag")).not.toHaveCount(0);
-        expect(await page.locator(".pass-photo").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+        expect(await page.locator(".hero-photo").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
         expect(await page.locator(".nav-avatar").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
         await page.keyboard.press("Control+k");
         await expect(page.getByRole("dialog")).toBeVisible();
@@ -83,11 +83,12 @@ test("content is available without JavaScript; CV and credits exist", async ({ b
 
 test("theme persists after reload and Arabic language switch", async ({ page }) => {
   await page.goto("/en");
+  const theme = (await page.locator("html").getAttribute("data-theme")) === "dark" ? "light" : "dark";
   await page.getByRole("button", { name: "Switch color theme" }).click();
-  const theme = await page.locator("html").getAttribute("data-theme");
+  await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
   await page.reload();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", theme!);
+  await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
   await page.locator('a[hreflang="ar"]').click();
   await expect(page.locator("html")).toHaveAttribute("lang", "ar");
-  await expect(page.locator("html")).toHaveAttribute("data-theme", theme!);
+  await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
 });
