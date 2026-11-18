@@ -15,10 +15,10 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const isAr = locale === "ar";
-  const title = isAr ? "محمد الضاني | مهندس برمجيات" : "Mohamed Aldani | Software Engineer";
+  const title = isAr ? "محمد الضاني | مطوّر Full-Stack" : "Mohamed Aldani | Full-Stack Developer";
   const description = isAr
-    ? "مهندس برمجيات مقيم في السالمية، الكويت. مشاريع في تطبيقات الويب والموبايل وأنظمة النقل وأدوات فحص الروابط."
-    : "Software engineer in Salmiya, Kuwait. Selected projects in web, mobile, transit and URL analysis.";
+    ? "مطوّر Full-Stack حديث التخرّج مقيم في الكويت. مشاريع مختارة مع تجارب تفاعلية، والمهارات التقنية، والخبرة العملية، والشهادات."
+    : "Junior full-stack developer based in Kuwait. Selected software projects with interactive demos, technical skills, experience and certificates.";
 
   return {
     title: { absolute: title },
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title, description, url: `${SITE_URL}/${locale}`,
       locale: isAr ? "ar_KW" : "en_US", alternateLocale: isAr ? "en_US" : "ar_KW",
       type: "website", siteName: "Mohamed Aldani",
-      images: [{ url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630, alt: title }],
+      images: [{ url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630, alt: isAr ? "محمد الضاني، مطوّر Full-Stack" : "Mohamed Aldani, junior full-stack developer" }],
     },
     twitter: { title, description, card: "summary_large_image", images: [`${SITE_URL}/opengraph-image`] },
     alternates: {
@@ -35,6 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       languages: {
         en: `${SITE_URL}/en`,
         ar: `${SITE_URL}/ar`,
+        "x-default": `${SITE_URL}/en`,
       },
     },
   };

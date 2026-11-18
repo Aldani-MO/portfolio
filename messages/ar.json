@@ -1,209 +1,28 @@
 {
   "nav": {
-    "about": "نبذة",
+    "about": "التعليم",
     "projects": "المشاريع",
     "experience": "الخبرة",
     "skills": "المهارات",
     "contact": "تواصل",
     "switchLang": "English",
-    "openCmd": "⌘K",
     "certificates": "الشهادات"
   },
-  "skipRide": "← تخطّ الرحلة",
-  "depot": {
-    "stationId": "المحطة الرئيسية",
-    "tag": "السالمية، الكويت",
-    "name": "محمد\nالضاني",
-    "bio": "أعمل على تطبيقات الويب والموبايل باستخدام PHP وReact وFlutter وPython. تشمل مشاريعي نظاماً لإدارة الحافلات، وأداة لفحص الروابط، ونظاماً لإدارة الصيدلية.",
-    "cta": "عرض المشاريع",
-    "cv": "السيرة الذاتية (PDF)",
-    "cmdHint": "للتنقل السريع: Ctrl / ⌘ K"
-  },
-  "about": {
-    "stationId": "المحطة 01",
-    "title": "نبذة",
-    "education": {
-      "label": "التعليم",
-      "degree": "بكالوريوس علوم حاسوب",
-      "school": "جامعة الأميرة سمية للتكنولوجيا",
-      "location": "عمّان، الأردن",
-      "period": "أكتوبر 2022 – أغسطس 2026",
-      "note": "الشهادة معترف بها من وزارة التعليم العالي في الكويت",
-      "coursework": "هياكل البيانات والخوارزميات · قواعد البيانات · برمجة الويب · الشبكات · تنظيم الحاسوب · البرمجة الكائنية"
-    },
-    "activities": {
-      "label": "الأنشطة",
-      "ieee": "مشارك في مسابقة IEEE Xtreme للبرمجة (نوفمبر 2024)",
-      "sec": "عضو في لجنة نادي هندسة البرمجيات بجامعة الأميرة سمية (نوفمبر 2024 – فبراير 2025)؛ أنتجت وحررت محتوى مرئياً للترويج للفعاليات وورش العمل"
+  "cmd": {
+    "placeholder": "انتقل إلى قسم أو نفّذ أمراً",
+    "actions": {
+      "depot": "أعلى الصفحة",
+      "about": "04 التعليم",
+      "projects": "01 أعمال مختارة",
+      "experience": "02 الخبرة العملية",
+      "skills": "03 المهارات",
+      "contact": "تواصل",
+      "switchAr": "التبديل إلى العربية",
+      "switchEn": "Switch to English",
+      "downloadCv": "تحميل السيرة الذاتية (PDF)",
+      "copyEmail": "نسخ البريد الإلكتروني",
+      "certificates": "05 الشهادات"
     }
-  },
-  "projects": {
-    "stationId": "المحطة 02",
-    "title": "المشاريع",
-    "flagship": "المشروع الرئيسي",
-    "viewRepo": "الكود على GitHub ←",
-    "demo": "عرض حي أدناه",
-    "simulation": "محاكاة",
-    "sdbs": {
-      "number": "01",
-      "title": "نظام الحافلات الذكي الديناميكي",
-      "subtitle": "Flutter · Firebase · Python · YOLOv8 · OpenCV",
-      "description": "نظام لإدارة النقل يجمع الركاب والسائقين والمشرفين في تطبيق Flutter متصل بـ Firestore. يختار محرك القرار بين التوقف والتخطي والانطلاق المبكر بحسب عدد المنتظرين والمقاعد المتاحة. ويستخدم جزء مكتوب بـ Python نموذج YOLOv8n لعدّ الركاب على Raspberry Pi، مع حفظ القراءات في SQLite عند انقطاع الاتصال وإعادة إرسالها لاحقاً.",
-      "demoLabel": "محاكاة الكشف عن الركاب بالذكاء الاصطناعي",
-      "demoNote": "محاكاة داخل المتصفح لعدّ الركاب واتخاذ القرار. نموذج YOLOv8n الفعلي يعمل في مشروع Python الأصلي.",
-      "confidenceLabel": "الحد الأدنى للثقة",
-      "passengersLabel": "الركاب المرصودون",
-      "capacityLabel": "سعة الحافلة",
-      "occupancyLabel": "الإشغال",
-      "decisionLabel": "القرار",
-      "roles": [
-        "تطبيق الراكب",
-        "لوحة السائق",
-        "مركز تحكم المشرف"
-      ],
-      "highlights": [
-        "مزامنة لحظية بين الراكب والسائق والمشرف عبر Firestore",
-        "تسجيل الوصول إلى المحطة بمسح رمز QR",
-        "قرارات التوقف والتخطي والانطلاق المبكر بحسب السعة",
-        "عدّ الركاب بـ YOLOv8n وحفظ القراءات محلياً عند انقطاع الاتصال",
-        "سجل لقرارات المحطات لا يقبل التعديل",
-        "محفظة نقل رقمية مع سجل معاملات دائم"
-      ]
-    },
-    "phish": {
-      "number": "02",
-      "title": "كاشف روابط التصيّد",
-      "subtitle": "Python · Docker · Linux (WSL)",
-      "description": "أداة Python تفحص علامات الاشتباه في الروابط وتعرض درجة للمخاطرة من 0 إلى 100 مع تفسير كل علامة. يمكن تشغيلها داخل Docker. النسخة أدناه مكتوبة بـ TypeScript وتعمل محلياً في المتصفح، دون فتح الرابط أو إرسال أي طلب إليه.",
-      "demoLabel": "جرّب فحص الروابط",
-      "demoNote": "نسخة TypeScript من قواعد أداة Python. الفحص محلي ولا يفتح الرابط.",
-      "inputPlaceholder": "https://paypal-login.verify-account.xyz/signin",
-      "analyseBtn": "تحليل",
-      "score": "درجة المخاطرة",
-      "checks": "الفحوصات",
-      "repoLink": "أداة Python CLI على GitHub"
-    },
-    "pharmacy": {
-      "number": "03",
-      "title": "نظام إدارة الصيدلية",
-      "subtitle": "C++ · OOP · هياكل البيانات والخوارزميات",
-      "description": "تطبيق C++ لإدارة الأدوية والمخزون والمبيعات وسجلات العملاء. يستخدم البرمجة كائنية التوجه وهياكل البيانات لتنظيم تتبع المخزون والفواتير.",
-      "highlights": [
-        "إدارة الأدوية والمخزون",
-        "متابعة المبيعات والفواتير",
-        "سجلات العملاء",
-        "هيكل OOP معياري"
-      ]
-    }
-  },
-  "experience": {
-    "stationId": "المحطة 03",
-    "title": "الخبرة",
-    "cols": {
-      "period": "الفترة",
-      "role": "الدور",
-      "details": "المهام"
-    },
-    "roles": [
-      {
-        "period": "مايو – أغسطس 2026",
-        "role": "متدرب في تطوير البرمجيات",
-        "company": "DigiTecHouse · عمّان، الأردن",
-        "bullets": [
-          "بناء وصيانة ميزات الويب المتكاملة بـ PHP مع إطار CodeIgniter 4",
-          "بناء واجهات متجاوبة مع الموبايل باستخدام Bootstrap 5 وJavaScript",
-          "دمج ContentBox.js لتحرير المحتوى بالسحب والإفلات",
-          "العمل ضمن فريق مع تسليم منظّم بالتحكم بالإصدارات"
-        ]
-      },
-      {
-        "period": "يونيو – أكتوبر 2023",
-        "role": "مساعد تقنية معلومات",
-        "company": "Royal Pharmacy Group · الكويت",
-        "bullets": [
-          "إدارة الخوادم وضبط جدار الحماية عملياً",
-          "إعداد وتهيئة أجهزة Windows للموظفين",
-          "إدارة البيانات واحتراف Excel"
-        ]
-      }
-    ]
-  },
-  "skills": {
-    "stationId": "المحطة 04",
-    "title": "المهارات",
-    "groups": [
-      {
-        "label": "لغات البرمجة",
-        "lineColour": "amber",
-        "stops": [
-          "Python",
-          "C",
-          "C++",
-          "C#",
-          "SQL",
-          "JavaScript",
-          "PHP",
-          "HTML",
-          "Dart"
-        ]
-      },
-      {
-        "label": "الأطر والأدوات",
-        "lineColour": "green",
-        "stops": [
-          "Flutter",
-          "Firebase",
-          "CodeIgniter 4",
-          "Bootstrap 5",
-          "ContentBox.js",
-          "React.js",
-          "Tailwind CSS",
-          "Docker",
-          "OpenCV",
-          "Next.js",
-          "TypeScript",
-          "GSAP",
-          "next-intl",
-          "Vitest",
-          "Playwright",
-          "Vercel"
-        ]
-      },
-      {
-        "label": "أدوات الذكاء الاصطناعي",
-        "lineColour": "amber",
-        "stops": [
-          "GPT Codex",
-          "Claude Code",
-          "AntiGravity"
-        ]
-      },
-      {
-        "label": "البيئات",
-        "lineColour": "muted",
-        "stops": [
-          "Linux (Ubuntu)",
-          "Windows",
-          "WSL"
-        ]
-      },
-      {
-        "label": "تقنيات هذا الموقع",
-        "lineColour": "muted",
-        "stops": [
-          "Next.js 16",
-          "React 19",
-          "TypeScript",
-          "Tailwind CSS v4",
-          "GSAP",
-          "next-intl",
-          "Vitest",
-          "Playwright",
-          "Vercel",
-          "pnpm"
-        ]
-      }
-    ]
   },
   "contact": {
     "stationId": "المحطة النهائية",
@@ -218,33 +37,14 @@
     "sendBtn": "إرسال الرسالة",
     "sending": "جارٍ الإرسال...",
     "success": "تم إرسال الرسالة. سأردّ قريباً.",
-    "error": "حدث خطأ. راسلني مباشرةً على Mohammedaldani03@gmail.com",
-    "links": {
-      "email": "Mohammedaldani03@gmail.com",
-      "github": "github.com/Aldani-MO",
-      "linkedin": "linkedin.com/in/Mohamed-Aldani"
-    }
+    "error": "حدث خطأ. راسلني مباشرةً على Mohammedaldani03@gmail.com"
   },
-  "hud": {
-    "now": "الآن",
-    "next": "التالي",
-    "state": "الحالة",
-    "skipRide": "تخطّ الرحلة"
-  },
-  "cmd": {
-    "placeholder": "انتقل إلى محطة، بدّل اللغة...",
-    "actions": {
-      "depot": "انتقل إلى المحطة الرئيسية",
-      "about": "انتقل إلى المحطة 01: نبذة",
-      "projects": "انتقل إلى المحطة 02: المشاريع",
-      "experience": "انتقل إلى المحطة 03: الخبرة",
-      "skills": "انتقل إلى المحطة 04: المهارات",
-      "contact": "انتقل إلى المحطة النهائية: تواصل",
-      "switchAr": "التبديل إلى العربية",
-      "switchEn": "Switch to English",
-      "downloadCv": "تحميل السيرة الذاتية",
-      "copyEmail": "نسخ عنوان البريد الإلكتروني",
-      "certificates": "انتقل إلى المحطة 05: الشهادات"
+  "projects": {
+    "phish": {
+      "demoNote": "نسخة TypeScript من قواعد أداة Python. الفحص محلي ولا يفتح الرابط.",
+      "inputPlaceholder": "https://paypal-login.verify-account.xyz/signin",
+      "analyseBtn": "تحليل",
+      "checks": "الفحوصات"
     }
   }
 }

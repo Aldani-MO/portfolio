@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <title>Mohamed Aldani — Resume</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+  @font-face { font-family: 'Bricolage Grotesque'; font-weight: 200 800; src: url(fonts/type-5f754c3adb80.woff2) format('woff2'); }
+  @font-face { font-family: 'Martian Mono'; font-weight: 400; src: url(fonts/type-c2f442b7b604.woff2) format('woff2'); }
+  @font-face { font-family: 'Martian Mono'; font-weight: 600; src: url(fonts/type-c2f442b7b604.woff2) format('woff2'); }
 
   @page {
     size: A4;
@@ -18,7 +20,7 @@
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Bricolage Grotesque', -apple-system, BlinkMacSystemFont, sans-serif;
     color: #1a1c17;
     background: #ffffff;
     font-size: 9.5pt;
@@ -56,7 +58,7 @@
     text-align: right;
     font-size: 8.5pt;
     color: #4b5563;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Martian Mono', monospace;
     line-height: 1.5;
   }
 
@@ -120,7 +122,7 @@
   }
 
   .item-date {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Martian Mono', monospace;
     font-size: 8pt;
     color: #6b7280;
     font-weight: 500;
@@ -165,7 +167,7 @@
   .skills-category {
     font-weight: 700;
     color: #111827;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Martian Mono', monospace;
     font-size: 8pt;
   }
 
@@ -179,7 +181,7 @@
     color: #92400e;
     font-size: 7pt;
     font-weight: 700;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Martian Mono', monospace;
     padding: 1px 4px;
     border-radius: 2px;
     margin-left: 4px;
@@ -191,13 +193,14 @@
 <div class="header">
   <div class="name-block">
     <h1>Mohamed Aldani</h1>
-    <div class="title">Full-Stack Developer & Software Engineer</div>
+    <div class="title">Junior Full-Stack Developer</div>
   </div>
   <div class="contact-block">
-    <div>Kuwait · Amman</div>
+    <div>Kuwait · valid residency</div>
+    <div><a href="https://mohamed-aldani-portfolio.vercel.app/en">mohamed-aldani-portfolio.vercel.app</a></div>
     <div><a href="mailto:Mohammedaldani03@gmail.com">Mohammedaldani03@gmail.com</a></div>
     <div><a href="https://github.com/Aldani-MO">github.com/Aldani-MO</a></div>
-    <div><a href="https://linkedin.com/in/Mohamed-Aldani">linkedin.com/in/Mohamed-Aldani</a></div>
+    <div><a href="https://www.linkedin.com/in/Mohamed-Aldani">linkedin.com/in/Mohamed-Aldani</a></div>
   </div>
 </div>
 
@@ -206,7 +209,7 @@
   <div class="item">
     <div class="item-header">
       <div>
-        <span class="item-title">Princess Sumaya University of Technology (PSUT)</span>
+        <span class="item-title">Princess Sumaya University for Technology (PSUT)</span>
         <span class="item-subtitle"> — B.S. in Computer Science</span>
       </div>
       <span class="item-date">Oct 2022 – Aug 2026</span>
@@ -227,16 +230,16 @@
     <div class="item-header">
       <div>
         <span class="item-title">Smart Dynamic Bus System (SDBS)</span>
-        <span class="badge">FLAGSHIP</span>
+        <span class="badge">GRADUATION PROJECT · A+</span>
         <span class="item-subtitle"> | Flutter, Firebase, Python, YOLOv8n, OpenCV, Raspberry Pi</span>
       </div>
       <span class="item-date">github.com/Aldani-MO/smart-dynamic-bus-system</span>
     </div>
     <ul class="bullets">
-      <li>Architected an end-to-end municipal transit optimization platform featuring real-time synchronized Flutter mobile apps across Passenger, Driver, and Admin roles via Google Cloud Firestore.</li>
-      <li>Engineered an on-bus edge-AI vision pipeline running on Raspberry Pi using YOLOv8n & OpenCV to count waiting passenger queues in real-time, utilizing an offline SQLite transaction queue for zero data loss during network dropouts.</li>
-      <li>Formulated and deployed autonomous route decision algorithm (STOP, SKIP, EARLY-DEPART) reducing unnecessary idling and transit delays based on bus capacity thresholds.</li>
-      <li>Integrated contactless QR boarding validation and an append-only digital ticketing wallet with irreversible audit logs.</li>
+      <li>Team of three. One Flutter app with passenger, driver and admin roles, synchronised in real time through Cloud Firestore and Firebase Auth.</li>
+      <li>Python edge module for Raspberry Pi: OpenCV reads the camera, YOLOv8n counts passengers on board, and an SQLite queue holds readings during connection drops until they can be uploaded.</li>
+      <li>Capacity-aware decision rules recommend STOP, SKIP or EARLY-DEPART for each stop from QR check-ins and bus occupancy; every decision is logged to an append-only collection.</li>
+      <li>QR check-in at stops, a transit wallet with a transaction history, and passenger alerts when a bus skips or leaves early.</li>
     </ul>
   </div>
 
@@ -249,8 +252,8 @@
       <span class="item-date">github.com/Aldani-MO/phish-Checker</span>
     </div>
     <ul class="bullets">
-      <li>Designed a high-throughput CLI URL risk scoring engine evaluating 9 heuristic threat indicators (homoglyphs, URL shorteners, bare IP hostnames, suspicious TLDs, and brand impersonation).</li>
-      <li>Containerized with Docker for standardized CI/CD automated analysis pipelines and zero-dependency cloud deployments.</li>
+      <li>Command-line tool that scores a URL from 0 to 100 and explains each heuristic: missing HTTPS, IP hosts, URL shorteners, suspicious TLDs, look-alike characters and brand impersonation.</li>
+      <li>Runs the same way on Windows, WSL or in Docker. A TypeScript port runs as a live demo on my portfolio.</li>
     </ul>
   </div>
 
@@ -260,10 +263,10 @@
         <span class="item-title">Pharmacy Management System</span>
         <span class="item-subtitle"> | C++, Object-Oriented Programming, Data Structures</span>
       </div>
-      <span class="item-date">Academic Portfolio</span>
+      <span class="item-date">Academic project</span>
     </div>
     <ul class="bullets">
-      <li>Developed a modular desktop system implementing custom data structures to manage medical inventories, dynamic customer ledger tracking, automated billing, and low-stock alerts.</li>
+      <li>C++ console application for medicines, stock, sales, billing and customer records, built around classes and custom data structures.</li>
     </ul>
   </div>
 </div>
@@ -281,10 +284,10 @@
     </div>
     <div class="item-desc" style="font-size: 8pt; color: #4b5563; margin-bottom: 2px;">Amman, Jordan</div>
     <ul class="bullets">
-      <li>Developed and maintained production web applications utilizing PHP and the CodeIgniter 4 MVC framework.</li>
-      <li>Built responsive, mobile-optimized UI interfaces using modern JavaScript, HTML5/CSS3, and Bootstrap 5.</li>
-      <li>Implemented dynamic visual content creation by integrating ContentBox.js drag-and-drop page authoring tools.</li>
-      <li>Practiced Agile engineering with structured Git version control, branch peer-reviews, and test deploys.</li>
+      <li>Built and maintained features in PHP with CodeIgniter 4, across controllers, models and views.</li>
+      <li>Built responsive pages with Bootstrap 5 and JavaScript for phones and desktops.</li>
+      <li>Integrated ContentBox.js so page content can be edited by drag and drop.</li>
+      <li>Worked in a shared codebase with Git branches and peer review.</li>
     </ul>
   </div>
 
@@ -292,15 +295,15 @@
     <div class="item-header">
       <div>
         <span class="item-title">Royal Pharmacy Group</span>
-        <span class="item-subtitle"> — IT Support Specialist</span>
+        <span class="item-subtitle"> — IT Assistant Intern</span>
       </div>
       <span class="item-date">Jun 2023 – Oct 2023</span>
     </div>
     <div class="item-desc" style="font-size: 8pt; color: #4b5563; margin-bottom: 2px;">Kuwait</div>
     <ul class="bullets">
-      <li>Managed network server infrastructure, local DNS, and hardware firewall rule enforcement.</li>
-      <li>Configured, deployed, and secured Windows desktop environments and POS terminals across retail branches.</li>
-      <li>Executed high-volume database inventory reconciliations utilizing advanced Excel macros and queries.</li>
+      <li>Helped with server administration, local DNS and firewall configuration.</li>
+      <li>Set up and configured Windows computers and point-of-sale terminals for staff.</li>
+      <li>Kept inventory data accurate in Excel.</li>
     </ul>
   </div>
 </div>
@@ -323,10 +326,19 @@
 </div>
 
 <div class="section">
-  <div class="section-title">Extracurricular & Leadership</div>
+  <div class="section-title">Certificates</div>
   <ul class="bullets">
-    <li><strong>IEEE Xtreme 18.0 Programming Competition</strong> (Nov 2024): 24-hour virtual competitive programming marathon solving algorithmic challenges.</li>
-    <li><strong>Software Engineering Club (SEC) Committee</strong>, PSUT (Nov 2024 – Feb 2025): Spearheaded digital media production, visual promotional assets, and workshop planning for tech events.</li>
+    <li><strong>Google Certified Educator Level 2</strong> and <strong>Level 1</strong>, Google for Education (Nov 2026, valid to Nov 2029)</li>
+    <li><strong>Gemini Certified Educator</strong>, Google for Education (Nov 2026); <strong>Introduction to Gemini Notebook</strong> badge (Nov 2026)</li>
+    <li><strong>Introduction to Networking and Storage</strong>, IBM through Coursera, course certificate (Apr 2026)</li>
+  </ul>
+</div>
+
+<div class="section">
+  <div class="section-title">Activities</div>
+  <ul class="bullets">
+    <li><strong>IEEE Xtreme 18.0 Programming Competition</strong> (Nov 2024): Took part in the 24-hour online programming competition.</li>
+    <li><strong>Software Engineering Club (SEC) Committee</strong>, PSUT (Nov 2024 – Feb 2025): Committee member; produced and edited video and visual media for events and workshops.</li>
   </ul>
 </div>
 

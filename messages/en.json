@@ -1,209 +1,28 @@
 {
   "nav": {
-    "about": "About",
+    "about": "Education",
     "projects": "Projects",
     "experience": "Experience",
     "skills": "Skills",
     "contact": "Contact",
     "switchLang": "عربي",
-    "openCmd": "⌘K",
     "certificates": "Certificates"
   },
-  "skipRide": "Skip The Ride →",
-  "depot": {
-    "stationId": "DEPOT",
-    "tag": "Salmiya, Kuwait",
-    "name": "MOHAMED\nALDANI",
-    "bio": "I work on web and mobile applications using PHP, React, Flutter and Python. My projects include a bus management system, a URL checker and a pharmacy management application.",
-    "cta": "View projects",
-    "cv": "CV (PDF)",
-    "cmdHint": "Quick navigation: Ctrl / ⌘ K"
-  },
-  "about": {
-    "stationId": "STOP 01",
-    "title": "About",
-    "education": {
-      "label": "Education",
-      "degree": "B.S. Computer Science",
-      "school": "Princess Sumaya University of Technology",
-      "location": "Amman, Jordan",
-      "period": "Oct 2022 – Aug 2026",
-      "note": "Degree recognised by Kuwait's Ministry of Higher Education",
-      "coursework": "Data Structures & Algorithms · Database Systems · Web Design & Internet Programming · Computer Networks · Computer Organization · OOP"
-    },
-    "activities": {
-      "label": "Activities & Leadership",
-      "ieee": "IEEE Xtreme Coding Competition Participant (Nov 2024)",
-      "sec": "Software Engineering Club at PSUT: Committee Member (Nov 2024 – Feb 2025); Created and edited technical video media for events and workshops"
+  "cmd": {
+    "placeholder": "Jump to a section or run a command",
+    "actions": {
+      "depot": "Top of page",
+      "about": "04 Education",
+      "projects": "01 Selected work",
+      "experience": "02 Experience",
+      "skills": "03 Skills",
+      "contact": "Contact",
+      "switchAr": "Switch to Arabic",
+      "switchEn": "Switch to English",
+      "downloadCv": "Download CV (PDF)",
+      "copyEmail": "Copy email address",
+      "certificates": "05 Certificates"
     }
-  },
-  "projects": {
-    "stationId": "STOP 02",
-    "title": "Projects",
-    "flagship": "Main project",
-    "viewRepo": "Source on GitHub →",
-    "demo": "Live Demo Below",
-    "simulation": "SIMULATION",
-    "sdbs": {
-      "number": "01",
-      "title": "Smart Dynamic Bus System",
-      "subtitle": "Flutter · Firebase · Python · YOLOv8 · OpenCV",
-      "description": "A transit management project connecting passengers, drivers and administrators. A 3-role Flutter app (Passenger, Driver, Admin) on a real-time Firestore backend makes STOP / SKIP / EARLY-DEPART decisions using a capacity-aware algorithm. A Python edge-AI pipeline running YOLOv8n on Raspberry Pi counts passengers in real time; an SQLite retry queue handles cellular dropouts.",
-      "demoLabel": "Edge-AI Occupancy Simulation",
-      "demoNote": "Browser simulation of passenger detection and route decisions. The YOLOv8n model runs in the original Python project.",
-      "confidenceLabel": "Confidence Gate",
-      "passengersLabel": "Detected Passengers",
-      "capacityLabel": "Bus Capacity",
-      "occupancyLabel": "Occupancy Rate",
-      "decisionLabel": "Route Decision",
-      "roles": [
-        "Passenger App",
-        "Driver Cockpit",
-        "Admin Control Center"
-      ],
-      "highlights": [
-        "Real-time Firestore sync across 3 user roles",
-        "QR check-in with mobile_scanner + qr_flutter",
-        "Decision engine: STOP / SKIP / EARLY-DEPART algorithm",
-        "YOLOv8n edge pipeline with offline SQLite queue",
-        "Immutable stopDecisions audit trail in Firestore",
-        "Digital transit wallet with append-only ledger"
-      ]
-    },
-    "phish": {
-      "number": "02",
-      "title": "Phish Checker",
-      "subtitle": "Python · Docker · Linux (WSL)",
-      "description": "A CLI tool that analyses URLs and assigns an explainable phishing-risk score (0–100) from heuristics. Dockerized for consistent cross-platform execution. The live demo below is a browser port of the same heuristics: pure string analysis, no network requests.",
-      "demoLabel": "Try the URL checker",
-      "demoNote": "A TypeScript version of the Python tool’s rules. Analysis runs locally without opening the URL.",
-      "inputPlaceholder": "https://paypal-login.verify-account.xyz/signin",
-      "analyseBtn": "Analyze URL",
-      "score": "Phishing Risk Score",
-      "checks": "Heuristic Checks",
-      "repoLink": "View Python CLI On GitHub →"
-    },
-    "pharmacy": {
-      "number": "03",
-      "title": "Pharmacy Management System",
-      "subtitle": "C++ · OOP · Data Structures & Algorithms",
-      "description": "A modular C++ application managing medicines, inventory, sales and customer records. Built on core OOP principles and DSA for efficient stock tracking, billing and data management.",
-      "highlights": [
-        "Medicine & Inventory Management",
-        "Sales Tracking & POS Billing",
-        "Customer Ledger & Records",
-        "Modular OOP Architecture"
-      ]
-    }
-  },
-  "experience": {
-    "stationId": "STOP 03",
-    "title": "Experience",
-    "cols": {
-      "period": "Period",
-      "role": "Role & Organization",
-      "details": "Work"
-    },
-    "roles": [
-      {
-        "period": "May – Aug 2026",
-        "role": "Full Stack Developer Intern",
-        "company": "DigiTecHouse · Amman, Jordan",
-        "bullets": [
-          "Built and maintained full-stack web features in PHP with the CodeIgniter 4 MVC framework across controllers, models and views",
-          "Built responsive mobile-first interfaces with Bootstrap 5 and JavaScript, consistent across browsers and devices",
-          "Integrated ContentBox.js for drag-and-drop, editorial-style content editing",
-          "Worked in a team with version-controlled feature delivery"
-        ]
-      },
-      {
-        "period": "Jun – Oct 2023",
-        "role": "IT Assistant",
-        "company": "Royal Pharmacy Group · Kuwait",
-        "bullets": [
-          "Hands-on server management and firewall configuration",
-          "Set up and configured new Windows devices for staff",
-          "Data management with strong Excel proficiency"
-        ]
-      }
-    ]
-  },
-  "skills": {
-    "stationId": "STOP 04",
-    "title": "Skills",
-    "groups": [
-      {
-        "label": "Languages",
-        "lineColour": "amber",
-        "stops": [
-          "Python",
-          "C",
-          "C++",
-          "C#",
-          "SQL",
-          "JavaScript",
-          "PHP",
-          "HTML",
-          "Dart"
-        ]
-      },
-      {
-        "label": "Frameworks & Tools",
-        "lineColour": "green",
-        "stops": [
-          "Flutter",
-          "Firebase",
-          "CodeIgniter 4",
-          "Bootstrap 5",
-          "ContentBox.js",
-          "React.js",
-          "Tailwind CSS",
-          "Docker",
-          "OpenCV",
-          "Next.js",
-          "TypeScript",
-          "GSAP",
-          "next-intl",
-          "Vitest",
-          "Playwright",
-          "Vercel"
-        ]
-      },
-      {
-        "label": "AI Tools",
-        "lineColour": "amber",
-        "stops": [
-          "GPT Codex",
-          "Claude Code",
-          "AntiGravity"
-        ]
-      },
-      {
-        "label": "Environments",
-        "lineColour": "muted",
-        "stops": [
-          "Linux (Ubuntu)",
-          "Windows",
-          "WSL"
-        ]
-      },
-      {
-        "label": "This portfolio",
-        "lineColour": "muted",
-        "stops": [
-          "Next.js 16",
-          "React 19",
-          "TypeScript",
-          "Tailwind CSS v4",
-          "GSAP",
-          "next-intl",
-          "Vitest",
-          "Playwright",
-          "Vercel",
-          "pnpm"
-        ]
-      }
-    ]
   },
   "contact": {
     "stationId": "TERMINUS",
@@ -218,33 +37,14 @@
     "sendBtn": "Send Message",
     "sending": "Sending Message...",
     "success": "Message sent. Thank you for getting in touch.",
-    "error": "Something went wrong. Email me directly at Mohammedaldani03@gmail.com",
-    "links": {
-      "email": "Mohammedaldani03@gmail.com",
-      "github": "github.com/Aldani-MO",
-      "linkedin": "linkedin.com/in/Mohamed-Aldani"
-    }
+    "error": "The message could not be sent. Please email me directly at Mohammedaldani03@gmail.com."
   },
-  "hud": {
-    "now": "NOW",
-    "next": "NEXT",
-    "state": "STATE",
-    "skipRide": "Skip The Ride"
-  },
-  "cmd": {
-    "placeholder": "Type a command or jump to station...",
-    "actions": {
-      "depot": "Go to DEPOT",
-      "about": "Go to STOP 01: About",
-      "projects": "Go to STOP 02: Projects",
-      "experience": "Go to STOP 03: Experience",
-      "skills": "Go to STOP 04: Skills",
-      "contact": "Go to TERMINUS: Contact",
-      "switchAr": "Switch To Arabic",
-      "switchEn": "Switch To English",
-      "downloadCv": "Download CV (PDF)",
-      "copyEmail": "Copy Email Address",
-      "certificates": "Go to STOP 05: Certificates"
+  "projects": {
+    "phish": {
+      "demoNote": "A TypeScript version of the Python tool’s rules. Analysis runs locally without opening the URL.",
+      "inputPlaceholder": "https://paypal-login.verify-account.xyz/signin",
+      "analyseBtn": "Analyze URL",
+      "checks": "Heuristic Checks"
     }
   }
 }

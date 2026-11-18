@@ -1,45 +1,22 @@
 import { SITE_URL } from "@/lib/site-url";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getLocale } from "next-intl/server";
 import "../app/globals.css";
 
 export const metadata: Metadata = {
-  title: {
-    default: "Mohamed Aldani | Software Engineer",
-    template: "%s | Mohamed Aldani",
-  },
-  description:
-    "Software engineer in Salmiya, Kuwait. Web and mobile applications, transit systems and URL analysis tools.",
-  keywords: [
-    "Mohamed Aldani",
-    "Software Engineer",
-    "Flutter",
-    "Firebase",
-    "React",
-    "Python",
-    "Kuwait",
-    "Amman",
-    "PSUT",
-  ],
+  title: { default: "Mohamed Aldani | Full-Stack Developer", template: "%s | Mohamed Aldani" },
+  description: "Junior full-stack developer based in Kuwait. Selected software projects, interactive demos, technical skills and professional experience.",
   authors: [{ name: "Mohamed Aldani", url: "https://github.com/Aldani-MO" }],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    alternateLocale: "ar_KW",
-    siteName: "Mohamed Aldani",
-    title: "Mohamed Aldani | Software Engineer",
-    description:
-      "Software engineer in Salmiya, Kuwait. Selected projects in web, mobile, transit and security.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Mohamed Aldani | Software Engineer",
-    description:
-      "Software engineer in Salmiya, Kuwait. Selected projects in web, mobile, transit and security.",
-  },
   robots: { index: true, follow: true },
   metadataBase: new URL(SITE_URL),
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f3efe6" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e1315" },
+  ],
 };
 
 export default async function RootLayout({
@@ -74,7 +51,9 @@ export default async function RootLayout({
               "@type": "Person",
               name: "Mohamed Aldani",
               url: SITE_URL,
-              jobTitle: "Software Engineer",
+              jobTitle: "Full-Stack Developer",
+              email: "mailto:Mohammedaldani03@gmail.com",
+              address: { "@type": "PostalAddress", addressCountry: "KW" },
               alumniOf: {
                 "@type": "CollegeOrUniversity",
                 name: "Princess Sumaya University of Technology",
@@ -82,7 +61,7 @@ export default async function RootLayout({
               knowsLanguage: ["Arabic", "English"],
               sameAs: [
                 "https://github.com/Aldani-MO",
-                "https://linkedin.com/in/Mohamed-Aldani",
+                "https://www.linkedin.com/in/Mohamed-Aldani",
               ],
             }),
           }}

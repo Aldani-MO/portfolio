@@ -58,12 +58,12 @@ export function Nav({ locale }: { locale: string }) {
   };
   return (
     <nav ref={navRef} className="site-nav" aria-label={isAr ? "التنقل الرئيسي" : "Main navigation"}>
-      <a className="nav-logo" href="#depot" aria-label="Mohamed Aldani">MA<span>/01</span></a>
+      <a className="nav-logo" href="#depot" aria-label={isAr ? "محمد الضاني، إلى الأعلى" : "Mohamed Aldani, back to top"}><span className="nav-mark" aria-hidden="true">MA</span><span className="nav-name">{isAr ? "محمد الضاني" : "Mohamed Aldani"}</span></a>
       <button ref={menuRef} className="nav-menu nav-control" aria-expanded={menuOpen} aria-controls="station-links" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? (isAr ? "إغلاق" : "Close") : (isAr ? "القائمة" : "Menu")}
       </button>
       <ul id="station-links" className={"nav-links" + (menuOpen ? " is-open" : "")}>
-        {(["about", "projects", "experience", "skills", "certificates", "contact"] as const).map((id) => (
+        {(["projects", "experience", "skills", "about", "certificates", "contact"] as const).map((id) => (
           <li key={id}><a className="nav-link" href={"#" + id} onClick={() => setMenuOpen(false)}>{t(id)}</a></li>
         ))}
       </ul>

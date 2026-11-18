@@ -1,13 +1,12 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { sendContact } from "@/app/actions/contact";
 
 export function ContactForm({ enabled = false }: { enabled?: boolean }) {
   const t = useTranslations("contact");
-  const isAr = useLocale() === "ar";
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+    const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const formRef = useRef<HTMLFormElement>(null);
   const submitting = useRef(false);
 
@@ -28,15 +27,11 @@ export function ContactForm({ enabled = false }: { enabled?: boolean }) {
     }
   };
 
-  if (!enabled) return (
-    <div className="contact-direct">
-      <p>{isAr ? "لديك فرصة عمل أو فكرة مشروع؟ يسعدني أن أسمع منك عبر البريد الإلكتروني." : "Have a role or a project in mind? Send me an email."}</p>
-      <a className="btn" href="mailto:Mohammedaldani03@gmail.com">{isAr ? "راسلني بالبريد" : "Write me an email"} ↗</a>
-    </div>
-  );
+  // Without a configured provider the page shows the direct email link instead.
+  if (!enabled) return null;
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} aria-label={t("title")} aria-busy={status === "sending"}>
+    <form className="contact-form" ref={formRef} onSubmit={handleSubmit} aria-label={t("title")} aria-busy={status === "sending"}>
       {/* Honeypot — hidden from humans */}
       <div hidden aria-hidden="true">
         <label htmlFor="website">Website</label>
@@ -87,7 +82,7 @@ export function ContactForm({ enabled = false }: { enabled?: boolean }) {
 
       <button
         type="submit"
-        className="btn"
+        className="btn btn-primary"
         disabled={status === "sending" || status === "success"}
         aria-disabled={status === "sending" || status === "success"}
       >
@@ -99,29 +94,13 @@ export function ContactForm({ enabled = false }: { enabled?: boolean }) {
       </button>
 
       {status === "success" && (
-        <p
-          role="status"
-          style={{
-            marginBlockStart: "var(--space-3)",
-            fontFamily: "var(--font-mono)",
-            fontSize: "var(--text-sm)",
-            color: "var(--color-line-green)",
-          }}
-        >
+        <p role="status" className="form-note form-ok">
           {t("success")}
         </p>
       )}
 
       {status === "error" && (
-        <p
-          role="alert"
-          style={{
-            marginBlockStart: "var(--space-3)",
-            fontFamily: "var(--font-mono)",
-            fontSize: "var(--text-sm)",
-            color: "var(--color-line-red)",
-          }}
-        >
+        <p role="alert" className="form-note form-err">
           {t("error")}
         </p>
       )}

@@ -1,620 +1,275 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { Nav } from "@/components/Nav";
-import { HUD } from "@/components/HUD";
-import { RouteAnimation } from "@/components/RouteAnimation";
 import { PhishCheckerDemo } from "@/components/PhishCheckerDemo";
 import { EdgeAIDemo } from "@/components/EdgeAIDemo";
 import { ContactForm } from "@/components/ContactForm";
 import { CommandPalette } from "@/components/CommandPalette";
-import { Certificates, PersonalDetails } from "@/components/ProfileDetails";
-import { useEffect } from "react";
+import {
+  board, contact, credentials, credentialText, CV, decisionLabel, education, EMAIL, experience, fmtDate,
+  GITHUB, hero, pharmacy, phish, sdbs, sections, skills, skillsNote, usedIn, type L, type Locale,
+} from "@/content/portfolio";
 
-interface PortfolioPageProps {
-  locale: string;
-  contactEnabled?: boolean;
+export function Arrow({ external = false }: { external?: boolean }) {
+  return (
+    <svg className={external ? "icon icon-ext" : "icon icon-arrow"} viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+      {external ? <path d="M5 11 11 5M6 5h5v5" /> : <path d="M3 8h10M9 4l4 4-4 4" />}
+    </svg>
+  );
 }
 
-export function PortfolioPage({ locale, contactEnabled = false }: PortfolioPageProps) {
+function StationHead({ code, id, title, lede }: { code: string; id: string; title: string; lede?: string }) {
+  return (
+    <header className="station-head">
+      <h2 id={id}><span className="stop-plate" aria-hidden="true">{code}</span>{title}</h2>
+      {lede && <p className="station-lede">{lede}</p>}
+    </header>
+  );
+}
+
+const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
+
+export function PortfolioPage({ locale: raw, contactEnabled = false }: { locale: string; contactEnabled?: boolean }) {
+  const locale: Locale = raw === "ar" ? "ar" : "en";
+  const t = (v: L) => v[locale];
   const isAr = locale === "ar";
-  const depot = useTranslations("depot");
-  const about = useTranslations("about");
-  const projects = useTranslations("projects");
-  const experience = useTranslations("experience");
-  const skills = useTranslations("skills");
-  const contact = useTranslations("contact");
-  const skipRide = useTranslations();
-
-  // Console greeting
-  useEffect(() => {
-    console.log(
-      isAr ? "%c MA_ — محمد الضاني" : "%c MA_ — Mohamed Aldani",
-      "font-family: monospace; font-size: 16px; color: #F5A623; font-weight: bold;"
-    );
-    console.log(
-      isAr
-        ? "%c مهندس برمجيات · الكويت · عمّان\n%c github.com/Aldani-MO"
-        : "%c Software Engineer · Kuwait · Amman\n%c github.com/Aldani-MO",
-      "font-family: monospace; color: #E8E3D8;",
-      "font-family: monospace; color: #6B6E63;"
-    );
-  }, [isAr]);
-
-  // Mobile scroll progress bar
-  useEffect(() => {
-    const fill = document.querySelector(".mobile-route-fill") as HTMLElement;
-    if (!fill) return;
-    const update = () => {
-      const scrollable = document.body.scrollHeight - window.innerHeight;
-      fill.style.width = `${scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0}%`;
-    };
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, []);
+  const newTab = isAr ? " (يفتح في نافذة جديدة)" : " (opens in a new tab)";
 
   return (
     <>
-      {/* Skip link */}
-      <a
-        href="#projects" onClick={() => document.documentElement.dataset.ride = "static"}
-        className="skip-link"
-        style={{ position: "fixed", top: "var(--space-2)", insetInlineStart: "var(--route-col-width)", zIndex: 9999 }}
-      >
-        {skipRide("skipRide")}
-      </a>
-
-      {/* Mobile route progress bar */}
-      <div className="mobile-route-bar" aria-hidden="true">
-        <div className="mobile-route-fill" />
-      </div>
-
-      {/* Command Palette */}
+      <a href="#main-content" className="skip-link">{isAr ? "انتقل إلى المحتوى" : "Skip to content"}</a>
       <CommandPalette locale={locale} />
-
-      {/* Navigation */}
       <Nav locale={locale} />
 
-      {/* Page grid */}
-      <div className="page-grid" id="static">
+      <div className="page-grid">
+        <div className="route-col" aria-hidden="true"><span className="route-bus" /></div>
 
-        {/* Route column with animated SVG */}
-        <div className="route-col" aria-hidden="true">
-          <RouteAnimation />
-        </div>
-
-        {/* Content */}
         <main className="content-col" id="main-content" tabIndex={-1}>
-
-          {/* ── DEPOT — Hero ──────────────────────────────────────────── */}
+          {/* Hero */}
           <section id="depot" className="station hero" aria-labelledby="hero-name">
-
-
-            <div className="hero-layout"><div className="hero-copy">
-              <p className="hero-tag">{depot("tag")}</p>
-
+            <div className="hero-copy">
               <h1 id="hero-name" className="hero-name">
-                {depot("name").split("\n").map((line, i) => (
-                  <span key={i} style={{ display: "block" }}>
-                    {line}
-                  </span>
-                ))}
+                {t(hero.name).split("\n").map(line => <span key={line}>{line}</span>)}
               </h1>
-
-              <p className="hero-title">
-                {isAr ? "مهندس برمجيات" : "Software Engineer"}
-              </p>
-
-              <p className="hero-bio">{depot("bio")}</p>
-
+              <p className="hero-role">{t(hero.role)}</p>
+              <p className="hero-lede">{t(hero.lede)}</p>
               <div className="hero-actions">
-                <a className="btn" href="#projects">{depot("cta")}</a>
-                <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="text-link">
-                  {depot("cv")}
-                </a>
+                <a className="btn btn-primary" href="#projects">{t(hero.primary)}<Arrow /></a>
+                <a className="btn" href={CV} download="Mohamed-Aldani-CV.pdf">{t(hero.cv)}</a>
+                <a className="text-link" href={`mailto:${EMAIL}`}>{t(hero.email)}</a>
               </div>
+              <dl className="hero-facts">
+                {hero.facts.map(f => <div key={f.k.en}><dt>{t(f.k)}</dt><dd>{t(f.v)}</dd></div>)}
+              </dl>
+            </div>
 
-              <p
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "var(--text-xs)",
-                  color: "var(--color-muted)",
-                  marginBlockStart: "var(--space-4)",
-                }}
-              >
-                {depot("cmdHint")}
-              </p>
-            </div>
-              <aside className="route-index" aria-label={isAr ? "دليل الأعمال" : "Selected work index"}>
-                <div className="index-heading"><span>{isAr ? "أعمال مختارة" : "SELECTED WORK"}</span><span dir="ltr">01 / 03</span></div>
-                <p className="index-intro">{isAr ? "تطبيقات ويب، نقل، وأدوات أمنية." : "Web applications, transit and security."}</p>
-                <a href="#project-sdbs"><span className="index-number">01</span><span><strong>{isAr ? "نظام الحافلات الذكي" : "Smart Dynamic Bus System"}</strong><small dir="ltr">Flutter / Firebase / Python</small></span><span aria-hidden="true">↗</span></a>
-                <a href="#project-phish"><span className="index-number">02</span><span><strong>{isAr ? "كاشف روابط التصيّد" : "Phish Checker"}</strong><small dir="ltr">Python / TypeScript / Docker</small></span><span aria-hidden="true">↗</span></a>
-                <a href="#project-pharmacy"><span className="index-number">03</span><span><strong>{isAr ? "نظام إدارة الصيدلية" : "Pharmacy Management System"}</strong><small dir="ltr">C++ / OOP</small></span><span aria-hidden="true">↗</span></a>
-                <p className="index-foot">{isAr ? "تجارب تفاعلية وروابط الكود أدناه." : "Interactive demos and source code below."}</p>
-              </aside>
-            </div>
+            <nav className="board" aria-labelledby="board-title">
+              <div className="board-head"><span id="board-title">{t(hero.board)}</span><span>{board.length} {isAr ? "خطوط" : "lines"}</span></div>
+              <figure className="board-shot">
+                <Image src={sdbs.shots[0].src} width={sdbs.shots[0].w} height={sdbs.shots[0].h} alt={t(hero.boardShot)} sizes="(max-width: 1000px) 92vw, 440px" loading="eager" fetchPriority="high" />
+                <figcaption>{t(sdbs.shots[0].cap)}</figcaption>
+              </figure>
+              <ol className="board-rows">
+                {board.map(row => (
+                  <li key={row.id}>
+                    <a href={`#${row.id}`}>
+                      <span className="line-no" dir="ltr">{row.n}</span>
+                      <span className="board-title">{t(row.title)}<small dir="ltr">{row.stack}</small></span>
+                      <span className="board-status">{t(row.status)}</span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
           </section>
 
-          {/* ── STOP 01 — About ───────────────────────────────────────── */}
-          <section id="about" className="station" aria-labelledby="about-heading">
-            <div className="station-header">
-              <span className="station-id">{about("stationId")}</span>
-              <h2 id="about-heading" className="station-name">{about("title")}</h2>
-            </div>
-
-            <div className="station-content">
-              <div className="split-layout">
-
-                {/* Education */}
-                <div>
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "var(--text-xs)",
-                      color: "var(--color-muted)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.12em",
-                      marginBlockEnd: "var(--space-3)",
-                    }}
-                  >
-                    {about("education.label")}
-                  </h3>
-
-                  <div
-                    style={{
-                      borderInlineStart: "2px solid var(--color-line-amber)",
-                      paddingInlineStart: "var(--space-3)",
-                    }}
-                  >
-                    <p
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: "var(--text-xs)",
-                        color: "var(--color-line-amber)",
-                        marginBlockEnd: "0.25em",
-                      }}
-                    >
-                      {about("education.period")}
-                    </p>
-                    <p style={{ fontSize: "var(--text-md)", fontWeight: 700, marginBlockEnd: "0.15em" }}>
-                      {about("education.degree")}
-                    </p>
-                    <p style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-sm)", color: "var(--color-muted)", marginBlockEnd: "0.15em" }}>
-                      {about("education.school")}
-                    </p>
-                    <p style={{ fontFamily: "var(--font-mono)", fontSize: "var(--text-xs)", color: "var(--color-muted)", marginBlockEnd: "var(--space-2)" }}>
-                      {about("education.location")}
-                    </p>
-                    <p style={{ fontSize: "var(--text-sm)", color: "var(--color-muted)" }}>
-                      {about("education.note")}
-                    </p>
-                    <p
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: "var(--text-xs)",
-                        color: "var(--color-muted)",
-                        marginBlockStart: "var(--space-2)",
-                        lineHeight: 1.8,
-                      }}
-                    >
-                      {about("education.coursework")}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Activities */}
-                <div>
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "var(--text-xs)",
-                      color: "var(--color-muted)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.12em",
-                      marginBlockEnd: "var(--space-3)",
-                    }}
-                  >
-                    {about("activities.label")}
-                  </h3>
-
-                  <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
-                    {(["ieee", "sec"] as const).map((key) => (
-                      <div
-                        key={key}
-                        style={{
-                          borderInlineStart: "2px solid var(--color-rule)",
-                          paddingInlineStart: "var(--space-3)",
-                          fontSize: "var(--text-sm)",
-                          color: "var(--color-muted)",
-                        }}
-                      >
-                        {about(`activities.${key}`)}
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Location info */}
-                  <div style={{ marginBlockStart: "var(--space-6)" }}>
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: "var(--text-xs)",
-                        color: "var(--color-muted)",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.12em",
-                        marginBlockEnd: "var(--space-2)",
-                      }}
-                    >
-                      {isAr ? "اللغات" : "Languages"}
-                    </h3>
-                    <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
-                      {[
-                        { lang: isAr ? "العربية" : "Arabic", level: isAr ? "اللغة الأم" : "Native" },
-                        { lang: isAr ? "الإنجليزية" : "English", level: isAr ? "طلاقة" : "Fluent" },
-                      ].map(({ lang, level }) => (
-                        <div
-                          key={lang}
-                          style={{
-                            border: "1px solid var(--color-rule)",
-                            padding: "0.4em 0.8em",
-                            fontFamily: "var(--font-mono)",
-                            fontSize: "var(--text-xs)",
-                          }}
-                        >
-                          <span style={{ color: "var(--color-ink)" }}>{lang}</span>
-                          <span style={{ color: "var(--color-muted)", marginInlineStart: "0.5em" }}>· {level}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <PersonalDetails locale={isAr ? "ar" : "en"} />
-
-          {/* ── STOP 02 — Projects ────────────────────────────────────── */}
+          {/* 01 Work */}
           <section id="projects" className="station" aria-labelledby="projects-heading">
-            <div className="station-header">
-              <span className="station-id">{projects("stationId")}</span>
-              <h2 id="projects-heading" className="station-name">{projects("title")}</h2>
-            </div>
+            <StationHead code="01" id="projects-heading" title={t(sections.work)} />
 
-            <div className="station-content">
+            <article className="case" id="project-sdbs" aria-labelledby="sdbs-title">
+              <div className="case-intro">
+                <h3 id="sdbs-title" className="project-title"><span className="line-no" dir="ltr">01</span>{t(sdbs.title)}</h3>
+                <p className="project-summary">{t(sdbs.summary)}</p>
+                <dl className="meta-list">
+                  {sdbs.meta.map(m => <div key={m.k.en}><dt>{t(m.k)}</dt><dd>{t(m.v)}</dd></div>)}
+                </dl>
+                <a className="btn" href={sdbs.repo} {...ext}>{isAr ? "الكود على GitHub" : "Source on GitHub"}<Arrow external /><span className="sr-only">{newTab}</span></a>
+              </div>
 
-              {/* PROJECT 01 — SDBS (Flagship) */}
-              <article className="project-panel" id="project-sdbs">
-                <div className="project-info">
-                  <div style={{ display: "flex", gap: "var(--space-2)", alignItems: "center", marginBlockEnd: "var(--space-1)" }}>
-                    <span className="route-badge">LINE {projects("sdbs.number")}</span>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: "var(--text-xs)",
-                        color: "var(--color-line-amber)",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.1em",
-                      }}
-                    >
-                      {projects("flagship")}
-                    </span>
-                  </div>
-                  <div className="project-number" aria-hidden="true">
-                    {projects("sdbs.number")}
-                  </div>
-                  <h3 className="project-title">{projects("sdbs.title")}</h3>
-                  <p className="project-desc">{projects("sdbs.description")}</p>
+              <div className="gallery" role="list" tabIndex={0} aria-label={isAr ? "لقطات من التطبيق" : "App screenshots"}>
+                {sdbs.shots.filter(s => !s.wide).map(s => (
+                  <figure key={s.src} role="listitem" className={s.wide ? "shot shot-wide" : "shot"}>
+                    <Image src={s.src} width={s.w} height={s.h} alt={t(s.cap)} sizes={s.wide ? "(max-width: 768px) 88vw, 560px" : "(max-width: 768px) 46vw, 180px"} />
+                    <figcaption>{t(s.cap)}</figcaption>
+                  </figure>
+                ))}
+              </div>
 
-                  <div className="tech-tags">
-                    {projects("sdbs.subtitle").split(" · ").map((tech) => (
-                      <span key={tech} className="tech-tag">{tech}</span>
+              <div className="flow">
+                <h4>{t(sdbs.flowTitle)}</h4>
+                <ol className="flow-line">
+                  {sdbs.flow.map(f => <li key={f.t.en}><strong>{t(f.t)}</strong><p>{t(f.d)}</p></li>)}
+                </ol>
+              </div>
+
+              <div className="case-logic">
+                <div>
+                  <h4>{t(sdbs.rulesTitle)}</h4>
+                  <ol className="rules">
+                    {sdbs.rules.map(r => (
+                      <li key={r.if.en}><span>{t(r.if)}</span><span className={`signal signal-${r.then.toLowerCase()}`}>{t(decisionLabel[r.then])}</span></li>
                     ))}
-                  </div>
-
-                  {/* Decision engine highlights */}
-                  <ul
-                    style={{
-                      listStyle: "none",
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "0.4em",
-                      marginBlockEnd: "var(--space-4)",
-                    }}
-                  >
-                    {((projects.raw("sdbs.highlights") as string[]) || []).map((highlight, i) => (
-                      <li
-                        key={i}
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: "var(--text-xs)",
-                          color: "var(--color-muted)",
-                          paddingInlineStart: "var(--space-2)",
-                          borderInlineStart: "1px solid var(--color-rule)",
-                        }}
-                      >
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href="https://github.com/Aldani-MO/smart-dynamic-bus-system"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn"
-                  >
-                    {projects("viewRepo")}
-                  </a>
+                  </ol>
                 </div>
-
-                <div className="project-demo">
-                  <div style={{ marginBlockEnd: "var(--space-2)" }}>
-                    <span className="station-id">{projects("sdbs.demoLabel")}</span>
-                  </div>
+                <div className="demo-panel">
+                  <h4>{t(sdbs.demoTitle)}</h4>
                   <EdgeAIDemo />
                 </div>
-              </article>
+              </div>
+            </article>
 
-              {/* PROJECT 02 — Phish Checker */}
-              <article className="project-panel" id="project-phish">
-                <div className="project-demo">
-                  <div style={{ marginBlockEnd: "var(--space-2)" }}>
-                    <span className="station-id">{projects("phish.demoLabel")}</span>
-                  </div>
-                  <PhishCheckerDemo />
-                </div>
+            <article className="case case-split" id="project-phish" aria-labelledby="phish-title">
+              <div className="case-intro">
+                <h3 id="phish-title" className="project-title"><span className="line-no" dir="ltr">02</span>{t(phish.title)}</h3>
+                <p className="project-summary">{t(phish.summary)}</p>
+                <p className="stack" dir="ltr">{phish.stack}</p>
+                <figure className="shot shot-terminal">
+                  <Image src={phish.shot.src} width={phish.shot.w} height={phish.shot.h} alt={t(phish.shot.cap)} sizes="(max-width: 768px) 92vw, 520px" />
+                  <figcaption>{t(phish.shot.cap)}</figcaption>
+                </figure>
+                <a className="btn" href={phish.repo} {...ext}>{isAr ? "الكود على GitHub" : "Source on GitHub"}<Arrow external /><span className="sr-only">{newTab}</span></a>
+              </div>
+              <div className="demo-panel">
+                <h4>{t(phish.demoTitle)}</h4>
+                <PhishCheckerDemo />
+              </div>
+            </article>
 
-                <div className="project-info">
-                  <div className="route-badge" style={{ marginBlockEnd: "var(--space-1)" }}>LINE {projects("phish.number")}</div>
-                  <div className="project-number" aria-hidden="true">
-                    {projects("phish.number")}
-                  </div>
-                  <h3 className="project-title">{projects("phish.title")}</h3>
-                  <p className="project-desc">{projects("phish.description")}</p>
-
-                  <div className="tech-tags">
-                    {projects("phish.subtitle").split(" · ").map((tech) => (
-                      <span key={tech} className="tech-tag">{tech}</span>
-                    ))}
-                  </div>
-
-                  <a
-                    href="https://github.com/Aldani-MO/phish-Checker"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn"
-                  >
-                    {projects("viewRepo")}
-                  </a>
-                </div>
-              </article>
-
-              {/* PROJECT 03 — Pharmacy */}
-              <article className="project-panel project-compact" id="project-pharmacy">
-                <div className="project-info">
-                  <div className="route-badge" style={{ marginBlockEnd: "var(--space-1)" }}>LINE {projects("pharmacy.number")}</div>
-                  <div className="project-number" aria-hidden="true">
-                    {projects("pharmacy.number")}
-                  </div>
-                  <h3 className="project-title">{projects("pharmacy.title")}</h3>
-                  <p className="project-desc">{projects("pharmacy.description")}</p>
-
-                  <div className="tech-tags">
-                    {projects("pharmacy.subtitle").split(" · ").map((tech) => (
-                      <span key={tech} className="tech-tag">{tech}</span>
-                    ))}
-                  </div>
-
-                  <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.4em" }}>
-                    {((projects.raw("pharmacy.highlights") as string[]) || []).map((highlight, i) => (
-                      <li
-                        key={i}
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: "var(--text-xs)",
-                          color: "var(--color-muted)",
-                          paddingInlineStart: "var(--space-2)",
-                          borderInlineStart: "1px solid var(--color-rule)",
-                        }}
-                      >
-                        {highlight}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </article>
-
-            </div>
+            <article className="case case-compact" id="project-pharmacy" aria-labelledby="pharmacy-title">
+              <h3 id="pharmacy-title" className="project-title"><span className="line-no" dir="ltr">03</span>{t(pharmacy.title)}</h3>
+              <div>
+                <p className="project-summary">{t(pharmacy.summary)}</p>
+                <p className="stack" dir="ltr">{pharmacy.stack}</p>
+              </div>
+              <div>
+                <ul className="plain-list">{pharmacy.points.map(p => <li key={p.en}>{t(p)}</li>)}</ul>
+                <p className="muted">{t(pharmacy.note)}</p>
+              </div>
+            </article>
           </section>
 
-          {/* ── STOP 03 — Experience ──────────────────────────────────── */}
+          {/* 02 Experience */}
           <section id="experience" className="station" aria-labelledby="experience-heading">
-            <div className="station-header">
-              <span className="station-id">{experience("stationId")}</span>
-              <h2 id="experience-heading" className="station-name">{experience("title")}</h2>
-            </div>
-
-            <div className="station-content">
-              <table className="timetable" aria-label="Work experience">
-                <thead>
-                  <tr>
-                    <th scope="col">{experience("cols.period")}</th>
-                    <th scope="col">{experience("cols.role")}</th>
-                    <th scope="col">{experience("cols.details")}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[0, 1].map((i) => {
-                    const bullets = (experience.raw(`roles.${i}.bullets`) as string[]) || [];
-                    return (
-                      <tr key={i}>
-                        <td>
-                          <span className="exp-period">{experience(`roles.${i}.period` as "roles.0.period")}</span>
-                        </td>
-                        <td>
-                          <div className="exp-role">{experience(`roles.${i}.role` as "roles.0.role")}</div>
-                          <div className="exp-company">{experience(`roles.${i}.company` as "roles.0.company")}</div>
-                        </td>
-                        <td>
-                          <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "0.4em" }}>
-                            {bullets.map((text, j) => (
-                              <li
-                                key={j}
-                                style={{
-                                  fontSize: "var(--text-sm)",
-                                  color: "var(--color-muted)",
-                                  paddingInlineStart: "var(--space-2)",
-                                  borderInlineStart: "1px solid var(--color-rule)",
-                                }}
-                              >
-                                {text}
-                              </li>
-                            ))}
-                          </ul>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+            <StationHead code="02" id="experience-heading" title={t(sections.experience)} />
+            <ol className="timetable">
+              {experience.map(job => (
+                <li key={job.role.en}>
+                  <p className="tt-time">{t(job.period)}</p>
+                  <div>
+                    <h3 className="tt-role">{t(job.role)}</h3>
+                    <p className="tt-org">{t(job.org)}</p>
+                    <p className="stack" dir="ltr">{job.stack}</p>
+                  </div>
+                  <ul className="plain-list">{job.points.map(p => <li key={p.en}>{t(p)}</li>)}</ul>
+                </li>
+              ))}
+            </ol>
           </section>
 
-          {/* ── STOP 04 — Skills ──────────────────────────────────────── */}
+          {/* 03 Skills */}
           <section id="skills" className="station" aria-labelledby="skills-heading">
-            <div className="station-header">
-              <span className="station-id">{skills("stationId")}</span>
-              <h2 id="skills-heading" className="station-name">{skills("title")}</h2>
-            </div>
-
-            <div className="station-content">
-              {(skills.raw("groups") as { label: string; lineColour: string; stops: string[] }[]).map((_, i) => {
-                const groupKey = `groups.${i}` as "groups.0";
-                const stops = (skills.raw(`${groupKey}.stops`) as string[]) || [];
-                const lineColour = skills(`${groupKey}.lineColour` as "groups.0.lineColour");
-                return (
-                  <div key={i} className="skill-group">
-                    <div className="skill-group-label">
-                      {skills(`${groupKey}.label` as "groups.0.label")}
-                    </div>
-                    <div
-                      className="skill-stops"
-                      style={{
-                        borderInlineStartColor:
-                          lineColour === "green"
-                            ? "var(--color-line-green)"
-                            : lineColour === "muted"
-                            ? "var(--color-muted)"
-                            : "var(--color-line-amber)",
-                      }}
-                    >
-                      {stops.map((stop) => (
-                        <span key={stop} className="skill-stop">
-                          {stop.trim()}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <StationHead code="03" id="skills-heading" title={t(sections.skills)} />
+            <dl className="skill-table">
+              {skills.map(s => (
+                <div key={s.label.en}>
+                  <dt>{t(s.label)}</dt>
+                  <dd className="skill-items" dir="ltr">{s.items}</dd>
+                  <dd className="skill-used"><span className="sr-only">{t(usedIn)}: </span>{t(s.used)}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="muted skills-note">{t(skillsNote)}</p>
           </section>
 
-          <Certificates locale={isAr ? "ar" : "en"} />
-
-          {/* ── TERMINUS — Contact ────────────────────────────────────── */}
-          <section id="contact" className="station" aria-labelledby="contact-heading">
-            <div className="station-header">
-              <span className="station-id">{contact("stationId")}</span>
-              <h2 id="contact-heading" className="station-name">{contact("title")}</h2>
-            </div>
-
-            <div className="station-content">
-              <div className="split-layout">
-
-                {/* Form */}
-                <div>
-                  <p style={{ color: "var(--color-muted)", marginBlockEnd: "var(--space-4)" }}>
-                    {contact("intro")}
-                  </p>
-                  <ContactForm enabled={contactEnabled} />
-                </div>
-
-                {/* Links */}
-                <div>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
-                    {[
-                      { label: "Email", value: contact("links.email"), href: `mailto:${contact("links.email")}` },
-                      { label: "GitHub", value: contact("links.github"), href: "https://github.com/Aldani-MO" },
-                      { label: "LinkedIn", value: contact("links.linkedin"), href: "https://linkedin.com/in/Mohamed-Aldani" },
-                    ].map(({ label, value, href }) => (
-                      <a
-                        key={label}
-                        href={href}
-                        target={href.startsWith("mailto") ? undefined : "_blank"}
-                        rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                        style={{ display: "block", textDecoration: "none" }}
-                      >
-                        <div
-                          style={{
-                            borderBlockStart: "1px solid var(--color-rule)",
-                            paddingBlock: "var(--space-2)",
-                          }}
-                        >
-                          <div
-                            style={{
-                              fontFamily: "var(--font-mono)",
-                              fontSize: "var(--text-xs)",
-                              color: "var(--color-muted)",
-                              textTransform: "uppercase",
-                              letterSpacing: "0.1em",
-                            }}
-                          >
-                            {label}
-                          </div>
-                          <div
-                            style={{
-                              fontFamily: "var(--font-mono)",
-                              fontSize: "var(--text-sm)",
-                              color: "var(--color-ink)",
-                              marginBlockStart: "0.2em",
-                            }}
-                          >
-                            {value}
-                          </div>
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                </div>
+          {/* 04 Education */}
+          <section id="about" className="station" aria-labelledby="about-heading">
+            <StationHead code="04" id="about-heading" title={t(sections.education)} />
+            <div className="edu">
+              <div>
+                <h3 className="edu-degree">{t(education.degree)}</h3>
+                <p className="edu-school">{t(education.school)}</p>
+                <p className="tt-time">{t(education.where)}</p>
+                <p className="muted">{t(education.note)}</p>
+                <h4 className="minor-head">{t(education.courseLabel)}</h4>
+                <p>{t(education.courses)}</p>
+              </div>
+              <div>
+                <h4 className="minor-head">{t(education.actLabel)}</h4>
+                <ul className="activity-list">
+                  {education.activities.map(a => (
+                    <li key={a.t.en}><strong>{t(a.t)}</strong> <span className="tt-time">{t(a.when)}</span><p>{t(a.d)}</p></li>
+                  ))}
+                </ul>
               </div>
             </div>
           </section>
 
-          <HUD />
-          {/* ── Colophon ──────────────────────────────────────────────── */}
-          <footer className="colophon" role="contentinfo">
-            <div>
-              {isAr ? "تقنيات الموقع" : "Built with"}: Next.js 16 · React 19 · TypeScript · Tailwind v4 · GSAP · next-intl
-            </div>
-            <div>
-              {isAr ? "الخطوط" : "Type"}: Bricolage Grotesque · Martian Mono · IBM Plex Sans Arabic
-            </div>
-            <div style={{ marginBlockStart: "0.5em" }}>
-              <a
-                href="/humans.txt"
-                style={{ color: "var(--color-muted)", textDecoration: "underline", textUnderlineOffset: "3px" }}
-              >
-                humans.txt
-              </a>
-              {" · "}
-              <span>© {new Date().getFullYear()} Mohamed Aldani</span>
-            </div>
-          </footer>
+          {/* 05 Certificates */}
+          <section id="certificates" className="station" aria-labelledby="certificates-heading">
+            <StationHead code="05" id="certificates-heading" title={t(sections.certificates)} lede={t(credentialText.lede)} />
+            <ul className="cred-list">
+              {credentials.map(c => (
+                <li key={c.id} className="cred">
+                  {c.image && c.preview ? (
+                    <a className="cred-art cred-cert" href={c.image} {...ext} aria-label={`${t(credentialText.view)}: ${c.title}${newTab}`}>
+                      <Image src={c.image} width={720} height={556} alt="" sizes="128px" />
+                    </a>
+                  ) : (
+                    <div className="cred-art" aria-hidden="true">
+                      {c.image ? <Image src={c.image} width={400} height={400} alt="" sizes="96px" /> : <span className="cred-mono">{c.issuer.en.split(",")[0]}</span>}
+                    </div>
+                  )}
+                  <div className="cred-body">
+                    <h3 lang="en" dir="ltr">{c.title}</h3>
+                    <p className="cred-issuer">{t(c.issuer)} · {t(credentialText.kinds[c.kind])}</p>
+                    <p className="muted">{t(c.context)}</p>
+                  </div>
+                  <dl className="cred-dates">
+                    <div><dt>{t(credentialText.issued)}</dt><dd><time dateTime={c.issued}>{fmtDate(c.issued, locale)}</time></dd></div>
+                    {c.validUntil && <div><dt>{t(credentialText.valid)}</dt><dd><time dateTime={c.validUntil}>{fmtDate(c.validUntil, locale)}</time></dd></div>}
+                  </dl>
+                  <a className="btn btn-small" href={c.url} {...ext} aria-label={`${t(credentialText.verify)}: ${c.title}${newTab}`}>{t(credentialText.verify)}<Arrow external /></a>
+                </li>
+              ))}
+            </ul>
+          </section>
 
+          {/* Terminus */}
+          <section id="contact" className="station terminus" aria-labelledby="contact-heading">
+            <header className="station-head">
+              <h2 id="contact-heading"><span className="stop-plate stop-plate-end" aria-hidden="true" />{t(sections.contact)}</h2>
+              <p className="station-lede">{t(contact.lede)}</p>
+            </header>
+            <a className="contact-email" href={`mailto:${EMAIL}`} dir="ltr">{EMAIL}</a>
+            <ul className="contact-links">
+              {contact.links.map(l => (
+                <li key={l.k}>
+                  <a href={l.href} {...(l.href.startsWith("http") ? ext : { download: "Mohamed-Aldani-CV.pdf" })}>
+                    <span className="contact-k">{l.k}</span>
+                    <span className="contact-v" dir={typeof l.v === "string" ? "ltr" : undefined}>{typeof l.v === "string" ? l.v : t(l.v)}</span>
+                    <Arrow external={l.href.startsWith("http")} />
+                    {l.href.startsWith("http") && <span className="sr-only">{newTab}</span>}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <ContactForm enabled={contactEnabled} />
+          </section>
+
+          <footer className="colophon">
+            <p>{isAr ? "بُني هذا الموقع باستخدام Next.js وReact وTypeScript، ويُختبر بـ Vitest وPlaywright." : "Built with Next.js, React and TypeScript. Tested with Vitest and Playwright."}</p>
+            <p><a href={GITHUB} {...ext}>GitHub</a> · <a href="/humans.txt">humans.txt</a> · © {new Date().getFullYear()} Mohamed Aldani</p>
+          </footer>
         </main>
       </div>
     </>

@@ -1,53 +1,48 @@
 # The Line: Mohamed Aldani's portfolio
 
-A developer portfolio arranged as a transit route, with working examples of the software at each stop.
+A developer portfolio laid out like a transit line. Each section is a stop on one continuous route, and the projects carry real screenshots and working browser demos.
 
-## Visual direction
+## Direction
 
-Use a printed timetable and transit signage as the reference. The hero is an asymmetric nameplate beside a compact index of real projects. Project stories use open columns and rules rather than a collection of cards. The route marker supplies the single scroll-linked detail. Content is visible from the first render.
+Wayfinding, not novelty. One teal route line runs down the inline-start edge on wide screens; every section is a stop with a numbered plate beside its heading. An amber marker rides the line as you scroll (pure CSS `position: sticky`, no script). The hero pairs a large nameplate with a dark "departure board" that shows the flagship's real driver screen and the three selected projects. Everything else is open columns separated by rules: no card grids, no icon tiles.
 
-## Palette
+## Tokens
 
-The CSS variables in src/app/globals.css are the implementation source of truth.
+`src/app/globals.css` is the source of truth.
 
-| Role | Light | Dark |
-| --- | --- | --- |
-| Ground | #F7F4EE | #1A1C17 |
-| Surface | #ECE6DA | #232620 |
-| Ink | #161813 | #E8E3D8 |
-| Route amber | #885100 | #F5A623 |
-| Signal red | #B91C1C | #FF9385 |
-| Signal green | #116B33 | #71CF9A |
-| Secondary text | #575A51 | #ADB1A5 |
+| Role | Light | Dark | Use |
+| --- | --- | --- | --- |
+| `--bg` | #f3efe6 | #0e1315 | Page ground (paper / ink) |
+| `--raised` | #fbf9f4 | #151c1f | Demo panels, palette |
+| `--ink` | #13191b | #ece7dc | Text, outlines |
+| `--ink-2` | #4a5456 | #a3aeac | Secondary text (AA on bg and raised) |
+| `--rule` | #d3cbbb | #273235 | Dividers |
+| `--line` | #0b5c55 | #5cc2b3 | Route line, stop plates, primary action |
+| `--accent` | #9a5600 | #f0a63a | Only "you are here": route marker, focus ring, leave-early signal |
+| `--go` / `--skip` | #1b6b3a / #b3261e | #6fd39b / #ff8a7a | Decision and risk signals |
+| `--board*` | dark panel in both themes | | Hero departure board |
 
-Amber identifies the route and actions; green and red communicate decisions. Neutral rules separate content. No coloured border card system.
+Theme follows the OS until the visitor chooses; the choice persists across reloads, tabs and languages. Without JavaScript, `prefers-color-scheme` still applies.
 
-## Typography
+## Type
 
-- Bricolage Grotesque: Latin display and body, with a large nameplate and restrained negative tracking.
-- Martian Mono: compact technical annotations and navigation.
-- IBM Plex Sans Arabic: Arabic headings, body, navigation, annotations and controls. Its open forms and matched Latin characters suit mixed technical copy better than a decorative display face.
-- Fonts are bundled as WOFF2 subsets, loaded with font-display: swap, and cached for 30 days. Font licenses live in public/fonts. A local TTF is used for the social preview renderer.
-- English body starts at 16px. Arabic labels start at 14px, with longer line height and no artificial letter spacing. URL input stays LTR.
+- Bricolage Grotesque (variable 200 to 800): display and body.
+- Martian Mono: data only (dates, stack lists, line numbers, scores, key hints).
+- IBM Plex Sans Arabic: all Arabic text, including its own Latin glyphs for mixed technical terms. No uppercase or tracking in Arabic; line height 1.85.
+- Fluid scale from `--fs-xs` (13px) to `--fs-hero` (capped at 6rem and 16.5vw so the nameplate never overflows at 200% text).
 
-## Grid and spacing
+## Layout and spacing
 
-Use 8px spacing steps, a 72px route column above 768px and responsive outer margins. Section padding scales from 48px to 88px. Hero columns become one below 1000px. Project and contact columns become one below 768px. The experience timetable becomes stacked entries. Controls are at least 44px high; form fields are at least 16px to avoid mobile input zoom.
+72px route column above 900px; below that the route hides and stop plates carry orientation. Gutter `clamp(20px, 4vw, 56px)`. Section padding `clamp(64px, 8vw, 112px)`. Flagship case study uses a 12-column grid on desktop, one column below 1100px. Phone screenshots become a horizontal snap-scroller under 768px. Controls are at least 44px tall; inputs are 16px to avoid zoom on iOS.
 
-## Motion and interaction
+## Motion
 
-The bus marker follows native scrolling. No content fades, delayed reveals, cursor effects, smooth-scroll library or continuous demo loop. The passenger simulation redraws only when the visitor changes a control or selects another scene. Tap feedback is a 1px press. Reduced motion disables CSS animation and route travel. Skip the ride stops travel and jumps directly to work. The route status panel sits in document flow so it cannot cover content.
+One authored moment: the route marker. Hover feedback on buttons, board rows and certificate thumbnails is a colour change or 1 to 2px lift. No scroll fades or entrance animations. `prefers-reduced-motion` removes transitions and smooth scrolling.
 
-## Language, theme and accessibility
+## Content rules
 
-Arabic uses RTL layout and logical CSS properties. Theme follows the device preference until explicitly chosen; the saved choice survives reload and language changes. Navigation uses real anchor links. The mobile menu exposes its expanded state; the native command dialog traps focus and supports Escape. All core content is server rendered and readable with JavaScript disabled. Demo explanations and outcomes also exist as text.
+Every claim is in `src/content/portfolio.ts` and traceable to a repository, the CV, a credential page, or the owner. The occupancy demo is labelled as a browser simulation; the real YOLOv8n model runs in Python on a Raspberry Pi. The URL checker never fetches the URL and says a low score is not a guarantee. Certificates show the issuer's exact title, issue and expiry dates from the certificate, and link to the issuer's verification page.
 
-## Content and contact
+## Not used
 
-Use the public title Software Engineer / مهندس برمجيات. Personal details use a definition list from supplied information. Certificates use timetable-style rows; their empty state makes no credential claims. The site's own stack is explicitly identified in Skills. Keep historic employment titles as recorded.
-
-Keep copy specific to supplied experience and verified repositories. Do not invent employment status, metrics or graduate status. The bus and phishing project links are public. The pharmacy project is described from the supplied brief without a fabricated repository link. The contact section uses direct email until Resend and a verified sender are configured. Never report delivery success without provider acceptance.
-
-## Banned patterns
-
-No purple/blue gradients, gradient text, glass effects, grain overlays, emoji headings or controls, Inter, Space Grotesk/Instrument Serif pairing, decorative icon tiles, three matching feature cards, headline badges, low contrast captions, button opacity fades, scroll fades, invented statistics, buzzword claims or excessive em dashes. Keep useful structure, bilingual content and real demos.
+Purple/blue gradients, gradient text, glass, glow, grain, emoji or glyph icons (icons are two authored SVG strokes), eyebrow labels above headings, three-card feature rows, hero metrics, invented numbers, buzzword copy.

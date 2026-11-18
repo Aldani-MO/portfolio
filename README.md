@@ -1,6 +1,6 @@
-# Mohamed Aldani: Software Engineer
+# Mohamed Aldani: Full-Stack Developer portfolio
 
-Bilingual EN/AR developer portfolio inspired by a transit timetable. Next.js 16, React 19, TypeScript, Tailwind CSS, next-intl and GSAP. Arabic uses locally hosted IBM Plex Sans Arabic; Latin uses Bricolage Grotesque and Martian Mono.
+Bilingual EN/AR developer portfolio laid out as a transit line. Next.js 16, React 19, TypeScript, Tailwind CSS v4 and next-intl. The page is server-rendered; only the navigation, command palette and the two demos ship client JavaScript. Arabic uses locally hosted IBM Plex Sans Arabic; Latin uses Bricolage Grotesque and Martian Mono.
 
 ## Local development
 
@@ -23,11 +23,13 @@ To exercise the enabled contact form, start a second local server on port 3001 w
 
 ## Edit content
 
-Edit matching keys in messages/en.json and messages/ar.json. PortfolioPage.tsx supplies section structure and project links. To add a project, add matching locale data, a project article and its index link. This project currently uses locale JSON rather than MDX. Do not add unverified project claims.
+All page copy lives in `src/content/portfolio.ts` as typed `{ en, ar }` pairs: hero, projects, experience, skills, education, certificates and contact. `messages/*.json` only holds strings used by client components (navigation, command palette, URL checker, contact form). `PortfolioPage.tsx` renders the sections.
 
-Personal details and certificates live in src/content/profile.ts as typed bilingual data. Personal details come from Mohamed's explicit public-display instructions. No birth date was inferred from an earlier age. Add a certificate's bilingual name and issuer, optional ISO date, and HTTPS credential link to the certificates array. Until supplied, the section shows a plain empty-state note rather than invented credentials.
+- Projects: screenshots live in `public/work/`. Only use real screenshots from the project.
+- Certificates: add an entry to `credentials` with the exact title, issuer, ISO issue date (and expiry if printed), a one-line context and the issuer's verification URL. Certificate thumbnails in `public/credentials/` are rendered from the issuer PDFs. Do not publish a certificate image that shows an ID number.
+- CV: edit `public/resume.html`, then regenerate `public/cv.pdf` with Chromium print (A4, no header or footer) so no local file path is printed.
 
-DESIGN.md documents the visual rules. CSS tokens and responsive rules live in src/app/globals.css. Fonts and their licenses live in public/fonts; src/app/fonts.css declares the subsets. Replace public/cv.pdf with the current approved CV.
+`DESIGN.md` documents tokens, type, layout and motion rules.
 
 ## Environment variables
 
@@ -45,4 +47,4 @@ Share the public production URL on LinkedIn. A generated PNG social preview is e
 
 ## Remaining content
 
-The public bus and phishing repositories were checked on 2026-11-03. The pharmacy repository was not publicly listed. No user counts, performance scores, graduation status or employment availability are invented. Replace or supplement demos with approved screenshots of real projects when available. See SLOP_AUDIT.md for verification and limits.
+The public bus and phishing repositories were checked on 2026-11-03; certificate links were checked on 2026-11-18. The pharmacy repository was not publicly listed. No user counts, performance scores, graduation status or employment availability are invented. Replace or supplement demos with approved screenshots of real projects when available. See SLOP_AUDIT.md for verification and limits.

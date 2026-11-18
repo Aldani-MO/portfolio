@@ -14,20 +14,25 @@ for (const locale of ["en", "ar"]) {
         await expect(page.locator("html")).toHaveAttribute("dir", locale === "ar" ? "rtl" : "ltr");
         await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
         await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /\/opengraph-image/);
-        await expect(page).toHaveTitle(locale === "ar" ? "محمد الضاني | مهندس برمجيات" : "Mohamed Aldani | Software Engineer");
+        await expect(page).toHaveTitle(locale === "ar" ? "محمد الضاني | مطوّر Full-Stack" : "Mohamed Aldani | Full-Stack Developer");
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
-        for (const section of ["depot", "about", "personal", "projects", "experience", "skills", "certificates", "contact"]) {
+        for (const section of ["depot", "projects", "experience", "skills", "about", "certificates", "contact"]) {
           await expect(page.locator(`#${section}`)).toBeVisible();
           await page.locator(`#${section}`).screenshot({ path: `artifacts/${locale}-${width}-${theme}-${section}.png` });
         }
-        const confidence = page.locator("#confidence-gate");
-        await confidence.fill("100");
-        await expect(page.locator(".demo-result")).toContainText("SKIP");
-        await confidence.fill("0");
-        await page.locator("#occupancy").fill("18");
-        await expect(page.locator(".demo-result")).toContainText("EARLY-DEPART");
-        await page.locator("#occupancy").fill("48");
-        await expect(page.locator(".demo-result")).toContainText("STOP");
+        // Camera detections set on-board occupancy (8 seats); the slider sets check-ins at the stop.
+        const decision = page.locator(".demo-result [data-decision]");
+        await page.locator("#waiting").fill("0");
+        await expect(decision).toHaveAttribute("data-decision", "SKIP");
+        await page.locator("#confidence-gate").fill("0");
+        await page.locator("#waiting").fill("6");
+        await expect(decision).toHaveAttribute("data-decision", "STOP");
+        await page.locator("#confidence-gate").fill("100");
+        await expect(decision).toHaveAttribute("data-decision", "EARLY-DEPART");
+        await page.locator("#waiting").fill("2");
+        await expect(decision).toHaveAttribute("data-decision", "STOP");
+        const verify = page.locator("#certificates a[href^='https://']");
+        await expect(verify).toHaveCount(5);
         await page.locator(".phish-samples button").last().click();
         await expect(page.locator(".rule-list")).toBeVisible();
         await expect(page.locator(".rule-triggered")).not.toHaveCount(0);
@@ -37,7 +42,7 @@ for (const locale of ["en", "ar"]) {
         await expect(page.getByRole("option")).toHaveCount(0);
         await page.keyboard.press("Escape");
         await expect(page.getByRole("dialog")).toHaveCount(0);
-        if (width < 1000) {
+        if (width < 1100) {
           await page.locator(".nav-menu").click();
           await expect(page.locator(".nav-links")).toBeVisible();
           await page.locator('.nav-links a[href="#contact"]').click();
@@ -50,7 +55,7 @@ for (const locale of ["en", "ar"]) {
           await page.locator('button[type="submit"]').click();
           expect(await page.locator("#email").evaluate((el: HTMLInputElement) => el.validity.valid)).toBe(false);
         } else {
-          await expect(page.locator('.contact-direct a')).toHaveAttribute("href", "mailto:Mohammedaldani03@gmail.com");
+          await expect(page.locator(".contact-email")).toHaveAttribute("href", "mailto:Mohammedaldani03@gmail.com");
         }
         expect(errors).toEqual([]);
       });
@@ -65,6 +70,7 @@ test("content is available without JavaScript; CV and credits exist", async ({ b
   await expect(page.locator("h1")).toBeVisible();
   await expect(page.locator("#projects h2")).toBeVisible();
   expect((await request.get("/cv.pdf")).status()).toBe(200);
+  for (const img of ["/work/sdbs/passenger-home.png", "/credentials/gce-l2-cert.webp"]) expect((await request.get(img)).status()).toBe(200);
   expect((await request.get("/humans.txt")).status()).toBe(200);
   const socialImage = await request.get("/opengraph-image");
   expect(socialImage.status()).toBe(200);

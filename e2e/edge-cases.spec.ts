@@ -10,7 +10,8 @@ for (const locale of ["en", "ar"]) {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
       await page.evaluate(() => document.documentElement.style.fontSize = "200%");
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
-      await expect(page.locator("#personal")).toContainText(locale === "ar" ? "السالمية" : "Salmiya");
+      await expect(page.locator("#depot")).toContainText(locale === "ar" ? "الكويت" : "Kuwait");
+      await expect(page.locator("#depot")).not.toContainText(locale === "ar" ? "سوري" : "Syrian");
       await expect(page.locator("#certificates")).toBeVisible();
       await expect(page.locator("#skills")).toContainText("TypeScript");
       await page.screenshot({ path: `artifacts/edge-${locale}-${width}-text-200.png` });

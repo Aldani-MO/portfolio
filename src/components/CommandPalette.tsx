@@ -27,61 +27,56 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
   const pathname = usePathname();
   const t = useTranslations("cmd");
 
+  const close = useCallback(() => { setOpen(false); setQuery(""); setSelected(0); }, []);
+
   const navigate = useCallback(
     (id: string) => {
-      setOpen(false);
+      close();
       const el = document.getElementById(id);
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     },
-    []
+    [close]
   );
 
   const switchLocale = useCallback(
     (newLocale: string) => {
-      setOpen(false);
+      close();
       const newPath = pathname.replace(`/${locale}`, `/${newLocale}`);
       router.push(newPath);
     },
-    [locale, pathname, router]
+    [close, locale, pathname, router]
   );
 
   const copyEmail = useCallback(async () => {
     try { await navigator.clipboard.writeText("Mohammedaldani03@gmail.com"); }
     catch { window.location.href = "mailto:Mohammedaldani03@gmail.com"; return; }
     setCopied(true);
-    setOpen(false);
+    close();
     setTimeout(() => setCopied(false), 2000);
-  }, []);
+  }, [close]);
 
+  const isAr = locale === "ar";
   const items: CmdItem[] = [
-    { id: "goto-depot",      icon: "▶", label: t("actions.depot"),      action: () => navigate("depot") },
-    { id: "goto-about",      icon: "○", label: t("actions.about"),      action: () => navigate("about") },
-    { id: "goto-projects",   icon: "○", label: t("actions.projects"),   action: () => navigate("projects") },
-    { id: "goto-experience", icon: "○", label: t("actions.experience"), action: () => navigate("experience") },
-    { id: "goto-skills",     icon: "○", label: t("actions.skills"),     action: () => navigate("skills") },
-    { id: "goto-certificates", icon: "○", label: t("actions.certificates"), action: () => navigate("certificates") },
-    { id: "goto-contact",    icon: "●", label: t("actions.contact"),    action: () => navigate("contact") },
-    ...(locale === "en"
-      ? [{ id: "switch-ar", icon: "AR", label: t("actions.switchAr"), action: () => switchLocale("ar") }]
-      : [{ id: "switch-en", icon: "EN", label: t("actions.switchEn"), action: () => switchLocale("en") }]),
+    { id: "goto-depot", icon: "00", label: t("actions.depot"), action: () => navigate("depot") },
+    { id: "goto-projects", icon: "01", label: t("actions.projects"), action: () => navigate("projects") },
+    { id: "goto-experience", icon: "02", label: t("actions.experience"), action: () => navigate("experience") },
+    { id: "goto-skills", icon: "03", label: t("actions.skills"), action: () => navigate("skills") },
+    { id: "goto-about", icon: "04", label: t("actions.about"), action: () => navigate("about") },
+    { id: "goto-certificates", icon: "05", label: t("actions.certificates"), action: () => navigate("certificates") },
+    { id: "goto-contact", icon: "06", label: t("actions.contact"), action: () => navigate("contact") },
+    locale === "en"
+      ? { id: "switch-ar", icon: "AR", label: t("actions.switchAr"), action: () => switchLocale("ar") }
+      : { id: "switch-en", icon: "EN", label: t("actions.switchEn"), action: () => switchLocale("en") },
     {
       id: "toggle-theme",
-      icon: "◐",
-      label: locale === "ar" ? "تبديل المظهر (داكن / فاتح)" : "Toggle Theme (Dark / Light)",
-      hint: "THEME",
-      action: () => {
-        setOpen(false);
-        const current = (document.documentElement.getAttribute("data-theme") as "dark" | "light") || "dark";
-        const next = current === "dark" ? "light" : "dark";
-        document.documentElement.setAttribute("data-theme", next);
-        document.documentElement.dataset.themePreference = next;
-        try { localStorage.setItem("portfolio-theme", next); } catch {}
-      },
+      icon: "UI",
+      label: isAr ? "تبديل المظهر بين الداكن والفاتح" : "Switch between dark and light theme",
+      action: () => { close(); toggleTheme(); },
     },
-    { id: "download-cv",  icon: "↓", label: t("actions.downloadCv"),  hint: "PDF", action: () => { setOpen(false); window.open("/cv.pdf", "_blank"); } },
-    { id: "copy-email",   icon: "@", label: copied ? "Copied!" : t("actions.copyEmail"), action: copyEmail },
+    { id: "download-cv", icon: "CV", label: t("actions.downloadCv"), action: () => { close(); window.open("/cv.pdf", "_blank", "noopener"); } },
+    { id: "copy-email", icon: "@", label: copied ? (isAr ? "تم النسخ" : "Copied") : t("actions.copyEmail"), action: copyEmail },
   ];
 
   const filtered = query
@@ -89,24 +84,20 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
     : items;
 
   useEffect(() => {
-    setSelected(0);
-  }, [query]);
-
-  useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setOpen((o) => !o);
+        if (open) close(); else setOpen(true);
       }
       if (!open) return;
-      if (e.key === "Escape") { setOpen(false); setQuery(""); }
+      if (e.key === "Escape") close();
       if (e.key === "ArrowDown") { e.preventDefault(); setSelected((s) => Math.max(0, Math.min(s + 1, filtered.length - 1))); }
       if (e.key === "ArrowUp")   { e.preventDefault(); setSelected((s) => Math.max(s - 1, 0)); }
-      if (e.key === "Enter" && document.activeElement === inputRef.current) { e.preventDefault(); filtered[selected]?.action(); setQuery(""); }
+      if (e.key === "Enter" && document.activeElement === inputRef.current) { e.preventDefault(); filtered[selected]?.action(); }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [open, selected, filtered]);
+  }, [close, open, selected, filtered]);
 
   useEffect(() => {
     if (open) {
@@ -114,7 +105,6 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
       inputRef.current?.focus();
     } else {
       dialogRef.current?.close();
-      setQuery("");
     }
   }, [open]);
 
@@ -128,20 +118,19 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
     <dialog
       ref={dialogRef}
       className="cmd-overlay"
-      onCancel={() => setOpen(false)}
-      onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
+      onCancel={close}
+      onClick={(e) => { if (e.target === e.currentTarget) close(); }}
       role="dialog"
       aria-modal="true"
       aria-label={locale === "ar" ? "قائمة الأوامر" : "Command palette"}
     >
       <div className="cmd-panel">
         <div className="cmd-input-wrap">
-          <span className="cmd-prompt">{">"}</span>
-          <input
+                    <input
             ref={inputRef}
             className="cmd-input"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => { setQuery(e.target.value); setSelected(0); }}
             placeholder={t("placeholder")}
             aria-label={t("placeholder")}
             autoComplete="off"
@@ -151,7 +140,7 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
             aria-controls="command-options"
             aria-activedescendant={filtered[selected]?.id}
           />
-          <button className="nav-control" onClick={() => setOpen(false)} aria-label={locale === "ar" ? "إغلاق" : "Close"}>ESC</button>
+          <button className="nav-control" onClick={close} aria-label={locale === "ar" ? "إغلاق" : "Close"}>ESC</button>
         </div>
         <ul className="cmd-list" id="command-options" role="listbox" aria-label={t("placeholder")}>
           {filtered.map((item, i) => (
@@ -161,19 +150,27 @@ export function CommandPalette({ locale }: CommandPaletteProps) {
               role="option"
               aria-selected={i === selected}
               className="cmd-item"
-              onClick={() => { item.action(); setQuery(""); }}
+              onClick={item.action}
               onMouseEnter={() => setSelected(i)}
             >
-              <span className="cmd-item-icon">{item.icon}</span>
+              <span className="cmd-item-icon" aria-hidden="true">{item.icon}</span>
               <span className="cmd-item-label">{item.label}</span>
               {item.hint && <span className="cmd-item-hint">{item.hint}</span>}
             </li>
           ))}
         </ul>
-        {filtered.length === 0 && <p className="demo-note" style={{ padding: "1rem" }}>{locale === "ar" ? "لا توجد نتائج. جرّب اسم قسم آخر." : "No matching commands. Try a section name."}</p>}
+        {filtered.length === 0 && <p className="demo-note cmd-empty" role="status">{locale === "ar" ? "لا توجد نتائج. جرّب اسم قسم آخر." : "No matching commands. Try a section name."}</p>}
       </div>
     </dialog>
   );
+}
+
+function toggleTheme() {
+  const root = document.documentElement;
+  const next = root.dataset.theme === "dark" ? "light" : "dark";
+  root.dataset.theme = next;
+  root.dataset.themePreference = next;
+  try { localStorage.setItem("portfolio-theme", next); } catch {}
 }
 
 // Hook to trigger cmd palette from outside
