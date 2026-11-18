@@ -12,8 +12,8 @@ export const hero = {
   name: { en: "Mohamed\nAldani", ar: "محمد\nالضاني" },
   role: { en: "Junior full-stack developer", ar: "مطوّر Full-Stack حديث التخرّج" },
   lede: {
-    en: "I build web and mobile software end to end. Most recently: PHP and CodeIgniter features during my DigiTecHouse internship, and, with a team of three, a Flutter, Firebase and YOLOv8n bus system for our graduation project, graded A+.",
-    ar: "أبني تطبيقات الويب والموبايل من الواجهة حتى الخادم. عملت مؤخراً على ميزات بـ PHP وCodeIgniter خلال تدريبي في DigiTecHouse، وشاركت ضمن فريق من ثلاثة في بناء نظام حافلات بـ Flutter وFirebase وYOLOv8n كمشروع تخرّج حصل على تقدير A+.",
+    en: "I’m a Computer Science graduate and software developer with hands-on experience in web and mobile development through my projects and internships. I’m skilled in using AI tools and agents efficiently, with a focus on token efficiency, faster development, and improving code quality.",
+    ar: "خريج علوم حاسوب ومطوّر برمجيات، لدي خبرة عملية اكتسبتها من خلال مشاريعي وتدريبي في تطوير تطبيقات الويب والموبايل. أتميز باستخدام أدوات ووكلاء الذكاء الاصطناعي (AI Agents) بكفاءة، مع التركيز على ترشيد استهلاك التوكنز (Token Efficiency)، تسريع التطوير، وتحسين جودة الكود.",
   },
   facts: [
     { k: { en: "Degree", ar: "الشهادة" }, v: { en: "BSc Computer Science, PSUT, 2026", ar: "بكالوريوس علوم الحاسوب، PSUT، 2026" } },

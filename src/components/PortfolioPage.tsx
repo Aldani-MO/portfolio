@@ -82,7 +82,6 @@ export function PortfolioPage({ locale: raw, contactEnabled = false }: { locale:
               <div className="board-foot">
                 <span className="live-dot" aria-hidden="true" />
                 <span>{t(hero.status)}</span>
-                <a href={`mailto:${EMAIL}`}>{t(hero.email)}<Arrow /></a>
               </div>
             </nav>
           </section>
