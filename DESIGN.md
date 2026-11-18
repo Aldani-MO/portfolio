@@ -37,13 +37,14 @@ Theme follows the OS until the visitor chooses; the choice persists across reloa
 
 ## Motion
 
-Every animation demonstrates something real, runs only when visible, and has a reduced-motion fallback.
+Every animation has a reduced-motion fallback.
 
-- Hero simulation (`RouteSim`, engine in `src/lib/route-sim.ts`): a bus runs a six-stop line and the real `computeDecision` rules pick Stop, Skip or Leave early. Pause button (WCAG 2.2.2), pauses offscreen, deterministic seed so server and client markup match. Reduced motion: no autoplay, "Next stop" button.
-- Departure board: split-flap text settles once in view; Kuwait clock digits flip each minute.
-- Route column: the sticky amber marker trails a teal "travelled" line (CSS only); stop markers fill as you reach them where scroll-driven animations are supported.
-- URL checker: the URL splits into labelled parts with a scan sweep, flagged parts turn red, score counts up.
-- Detection canvas: a scan line sweeps each new camera frame and draws boxes as it passes.
+- Hero: name and content rise in once; the board slides in. A faint transit map sits behind the hero with small trains running its lines (SVG animateMotion, hidden for reduced motion).
+- Portrait pass: split-flap name strip, hover zoom and a light sweep; Kuwait clock digits flip each minute.
+- Theme switch: the new theme grows as a circle from the toggle (View Transitions API), the sun/moon icon turns in. Falls back to an instant switch.
+- Hover: buttons fill with a sweep and their arrows nudge; nav links grow an underline; board rows tilt their line plate; screenshots and certificates lift; table rows tint; stop plates turn.
+- Route column: the sticky amber marker trails a teal travelled line; stop markers fill as you reach them where scroll-driven animations are supported.
+- Demos: the decision badge pops when it changes; the detection canvas sweeps each new frame; the URL checker splits the link into labelled parts with a scan, and the score counts up.
 
 ## Content rules
 

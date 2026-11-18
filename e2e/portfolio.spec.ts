@@ -37,12 +37,7 @@ for (const locale of ["en", "ar"]) {
         await expect(page.locator(".rule-list")).toBeVisible();
         await expect(page.locator(".rule-triggered")).not.toHaveCount(0);
         await expect(page.locator(".anatomy .tok-flag")).not.toHaveCount(0);
-        // Hero simulation: reduced motion shows a step control that advances to a real decision.
-        await expect(page.locator(".sim-svg")).toBeVisible();
-        const simLog = page.locator(".sim-log");
-        const before = await simLog.textContent();
-        await page.locator(".sim-btn").first().click();
-        await expect(simLog).not.toHaveText(before ?? "");
+        expect(await page.locator(".pass-photo").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
         expect(await page.locator(".nav-avatar").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
         await page.keyboard.press("Control+k");
         await expect(page.getByRole("dialog")).toBeVisible();

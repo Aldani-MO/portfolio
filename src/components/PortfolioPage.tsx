@@ -4,7 +4,6 @@ import { PhishCheckerDemo } from "@/components/PhishCheckerDemo";
 import { EdgeAIDemo } from "@/components/EdgeAIDemo";
 import { ContactForm } from "@/components/ContactForm";
 import { CommandPalette } from "@/components/CommandPalette";
-import { RouteSim } from "@/components/RouteSim";
 import { BoardClock, FlapText } from "@/components/FlapText";
 import { getRepos } from "@/lib/github";
 import {
@@ -31,6 +30,26 @@ function StationHead({ code, id, title, lede }: { code: string; id: string; titl
 
 const ext = { target: "_blank", rel: "noopener noreferrer" } as const;
 
+// Faint transit map behind the hero; small trains run the lines (SVG animateMotion, hidden for reduced motion).
+const LINES = [
+  "M -40 400 H 200 L 300 300 H 560 L 660 200 H 860",
+  "M -40 110 H 120 L 240 230 H 470 L 590 350 H 860",
+  "M 400 -40 V 110 L 480 190 V 540",
+];
+function HeroLines() {
+  return (
+    <svg className="hero-lines" viewBox="0 0 820 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      {LINES.map(d => <path key={d} d={d} />)}
+      {LINES.map((d, i) => (
+        <circle key={`t${i}`} className="hl-train" r="5">
+          <animateMotion dur={`${14 + i * 5}s`} repeatCount="indefinite" path={d} begin={`${-i * 4}s`} />
+        </circle>
+      ))}
+      {[[300, 300], [560, 300], [240, 230], [470, 230], [480, 190], [400, 110]].map(([x, y]) => <circle key={`${x}-${y}`} className="hl-stop" cx={x} cy={y} r="6" />)}
+    </svg>
+  );
+}
+
 export async function PortfolioPage({ locale: raw, contactEnabled = false }: { locale: string; contactEnabled?: boolean }) {
   const repos = await getRepos();
   const locale: Locale = raw === "ar" ? "ar" : "en";
@@ -50,13 +69,11 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
         <main className="content-col" id="main-content" tabIndex={-1}>
           {/* Hero */}
           <section id="depot" className="station hero" aria-labelledby="hero-name">
+            <HeroLines />
             <div className="hero-copy">
-              <div className="hero-id">
-                <Image className="hero-photo" src="/me.jpg" width={430} height={430} alt={isAr ? "صورة محمد الضاني" : "Portrait of Mohamed Aldani"} sizes="(max-width: 600px) 96px, 168px" loading="eager" fetchPriority="high" />
-                <h1 id="hero-name" className="hero-name">
-                  {t(hero.name).split("\n").map(line => <span key={line}>{line}</span>)}
-                </h1>
-              </div>
+              <h1 id="hero-name" className="hero-name">
+                {t(hero.name).split("\n").map(line => <span key={line}>{line}</span>)}
+              </h1>
               <p className="hero-role">{t(hero.role)}</p>
               <p className="hero-lede">{t(hero.lede)}</p>
               <div className="hero-actions">
@@ -74,7 +91,13 @@ export async function PortfolioPage({ locale: raw, contactEnabled = false }: { l
                 <span id="board-title">{isAr ? t(hero.board) : <FlapText text={t(hero.board).toUpperCase()} />}</span>
                 <BoardClock label={isAr ? "الوقت في الكويت" : "Kuwait time"} />
               </div>
-              <RouteSim locale={locale} />
+              <figure className="pass">
+                <Image className="pass-photo" src="/portrait.jpg" width={445} height={556} alt={isAr ? "صورة محمد الضاني" : "Portrait of Mohamed Aldani"} sizes="(max-width: 1000px) 80vw, 440px" loading="eager" fetchPriority="high" />
+                <figcaption className="pass-strip">
+                  <span className="pass-name"><FlapText text={isAr ? "محمد الضاني" : "MOHAMED ALDANI"} delay={150} /></span>
+                  <span className="pass-meta" dir="ltr"><FlapText text="FULL-STACK · KWT" delay={500} /></span>
+                </figcaption>
+              </figure>
               <ol className="board-rows" aria-label={isAr ? "المشاريع المختارة" : "Selected projects"}>
                 {board.map((row, i) => (
                   <li key={row.id}>

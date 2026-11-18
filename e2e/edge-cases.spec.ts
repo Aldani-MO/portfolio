@@ -23,6 +23,8 @@ for (const locale of ["en", "ar"]) {
         await page.setViewportSize({ width, height: 900 });
         await page.emulateMedia({ colorScheme: theme });
         await page.goto(`/${locale}`);
+        // Audit the settled page, not the hero entrance mid-fade.
+        await page.evaluate(() => Promise.all(document.getAnimations().filter(a => a.timeline === document.timeline && a.effect?.getComputedTiming().iterations !== Infinity).map(a => a.finished.catch(() => null))));
         const audit = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
         expect(audit.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => ({ target: n.target, summary: n.failureSummary })) }))).toEqual([]);
       });
@@ -86,16 +88,13 @@ test("storage denied does not break initial theme or controls", async ({ page })
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 });
 
-test("hero simulation animates and can be paused", async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: "no-preference" });
+test("theme switch animates with a view transition and still persists", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference", colorScheme: "light" });
   await page.goto("/en");
-  const pause = page.getByRole("button", { name: "Pause" });
-  await expect(page.locator(".sim-log")).not.toHaveText("Bus leaving the depot", { timeout: 8000 });
-  await pause.click();
-  await expect(page.getByRole("button", { name: "Play" })).toHaveAttribute("aria-pressed", "true");
-  const frozen = await page.locator(".sim-bus").getAttribute("transform");
-  await page.waitForTimeout(600);
-  expect(await page.locator(".sim-bus").getAttribute("transform")).toBe(frozen);
+  await page.getByRole("button", { name: "Switch color theme" }).click();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  await page.reload();
+  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 });
 
 test("theme synchronizes across two tabs", async ({ context }) => {

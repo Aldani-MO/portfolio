@@ -120,7 +120,7 @@ export function EdgeAIDemo() {
         <dl>
           <div><dt>{c.onboard}</dt><dd dir="ltr">{onboard}/{SEATS}</dd></div>
           <div><dt>{c.free}</dt><dd dir="ltr">{SEATS - onboard}</dd></div>
-          <div><dt>{c.decision}</dt><dd><strong className={`signal signal-${decision.toLowerCase()}`} data-decision={decision}>{decisionLabel[decision][locale]}</strong></dd></div>
+          <div><dt>{c.decision}</dt><dd><strong key={decision} className={`signal signal-${decision.toLowerCase()} pop`} data-decision={decision}>{decisionLabel[decision][locale]}</strong></dd></div>
         </dl>
         <p className="demo-note">{c.legend}</p>
       </div>
